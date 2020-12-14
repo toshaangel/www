@@ -1,0 +1,256 @@
+﻿|
+Stove A|かまどA
+Stove B|かまどB
+Stump C|切り株C
+Stump D|切り株D
+Grave|墓
+Window A|窓A
+Window A (Shutter)|窓A（雨戸）
+Window A|窓A
+Window A (Shutter)|窓A（雨戸）
+Window A (Moss)|窓A（苔）
+Window A (Moss, Shutter)|窓A（苔・雨戸）
+Window B|窓B
+Window B (Shutter)|窓B（雨戸）
+Window B (Moss)|窓B（苔）
+Window B (Moss, Shutter)|窓B（苔・雨戸）
+Window A|窓A
+Window A (Shutter)|窓A（雨戸）
+Window A (Moss)|窓A（苔）
+Window A (Moss, Shutter)|窓A（苔・雨戸）
+Window B|窓B
+Window B (Shutter)|窓B（雨戸）
+Window B (Moss)|窓B（苔）
+Window B (Moss, Shutter)|窓B（苔・雨戸）
+Entrance|入口
+Entrance (Moss)|入口（苔）
+Bundle of Firewood A|薪の束A
+Bundle of Firewood A|薪の束A
+Bundle of Firewood B|薪の束B
+Bundle of Firewood B|薪の束B
+Chimney A|煙突A
+Chimney B|煙突B
+Entrance|入口
+Entrance (Moss)|入口（苔）
+Bundle of Firewood A|薪の束A
+Bundle of Firewood A|薪の束A
+Bundle of Firewood B|薪の束B
+Bundle of Firewood B|薪の束B
+Chimney A|煙突A
+Chimney B|煙突B
+|
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+|
+Chimney C|煙突C
+Chimney C|煙突C
+Chimney C|煙突C
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Chimney C|煙突C
+Chimney C|煙突C
+Chimney C|煙突C
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof Detail (Roof D, Left)|屋根飾り（屋根D・左）
+Roof Detail (Roof D, Left)|屋根飾り（屋根D・左）
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof Detail (Roof D, Left)|屋根飾り（屋根D・左）
+Roof Detail (Roof D, Left)|屋根飾り（屋根D・左）
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof Detail (Roof D, Right)|屋根飾り（屋根D・右）
+Roof Detail (Roof D, Right)|屋根飾り（屋根D・右）
+Roof D|屋根D
+Roof D|屋根D
+Shadow (Roof)|影（屋根）
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof Detail (Roof D, Right)|屋根飾り（屋根D・右）
+Roof Detail (Roof D, Right)|屋根飾り（屋根D・右）
+Roof D|屋根D
+Shadow (Roof)|影（屋根）
+|
+Shadow (Roof)|影（屋根）
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Window A (Under the Roof)|窓A（屋根の下）
+Window B (Under the Roof)|窓B（屋根の下）
+Window C (Under the Roof)|窓C（屋根の下）
+Roof D|屋根D
+Roof D|屋根D
+Roof D (Bottom)|屋根D（下端）
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof Detail (Roof D)|屋根飾り（屋根D）
+Roof Detail (Roof D)|屋根飾り（屋根D）
+Roof D (Bottom)|屋根D（下端）
+Roof D|屋根D
+Roof D|屋根D
+Roof D (Bottom)|屋根D（下端）
+Roof D (Bottom)|屋根D（下端）
+Roof D|屋根D
+Roof Detail (Roof D, Bottom Half A)|屋根飾り（屋根D・下半分A）
+Roof Detail (Roof D, Bottom Half A)|屋根飾り（屋根D・下半分A）
+Roof D (Left Side)|屋根D（左端）
+Roof D (Center)|屋根D（中央）
+Roof D (Right Side)|屋根D（右端）
+Roof D|屋根D
+Roof D|屋根D
+Roof D|屋根D
+Roof Detail (Roof D, Bottom Half B)|屋根飾り（屋根D・下半分B）
+Roof Detail (Roof D, Bottom Half B)|屋根飾り（屋根D・下半分B）
+Roof D (Damage)|屋根D（ダメージ）
+Roof D (Damage)|屋根D（ダメージ）
+Roof D (Damage)|屋根D（ダメージ）
+Roof D (Damage)|屋根D（ダメージ）
+Roof D (Damage)|屋根D（ダメージ）
+Roof D|屋根D
+Roof Detail (Roof D, Damage)|屋根飾り（屋根D・ダメージ）
+Roof Detail (Roof D, Damage)|屋根飾り（屋根D・ダメージ）
+Roof D (Glass)|屋根D（草）
+Roof D (Glass)|屋根D（草）
+Roof D (Glass)|屋根D（草）
+Roof D (Glass)|屋根D（草）
+Roof D (Glass)|屋根D（草）
+Roof D (Bottom, Damage)|屋根D（下端・ダメージ）
+Roof Detail (Roof D, Damage)|屋根飾り（屋根D・ダメージ）
+Roof Detail (Roof D, Damage)|屋根飾り（屋根D・ダメージ）
+Roof D (Damage)|屋根D（ダメージ）
+Roof D (Glass)|屋根D（草）
+Roof Detail (Roof D, Left, Damage)|屋根飾り（屋根D・左・ダメージ）
+Roof Detail (Roof D, Left, Damage)|屋根飾り（屋根D・左・ダメージ）
+Roof Detail (Roof D, Right, Damage)|屋根飾り（屋根D・右・ダメージ）
+Roof Detail (Roof D, Right, Damage)|屋根飾り（屋根D・右・ダメージ）
+Bridge (H)|橋（横）
+Bridge (V)|橋（縦）
+Roof D (Damage)|屋根D（ダメージ）
+Roof D (Glass)|屋根D（草）
+Roof Detail (Roof D, Left, Damage)|屋根飾り（屋根D・左・ダメージ）
+Roof Detail (Roof D, Left, Damage)|屋根飾り（屋根D・左・ダメージ）
+Roof Detail (Roof D, Right, Damage)|屋根飾り（屋根D・右・ダメージ）
+Roof Detail (Roof D, Right, Damage)|屋根飾り（屋根D・右・ダメージ）
+Bridge (H)|橋（横）
+Bridge (V)|橋（縦）
+Roof D (Damage)|屋根D（ダメージ）
+Roof D (Glass)|屋根D（草）
+Sign G|立て札G
+Sign H|立て札H
+Ivy Wall|壁のツタ
+Ivy Wall|壁のツタ
+Ivy Wall|壁のツタ
+Tray (Vegetables)|トレイ（野菜）
+Crate C|木箱C
+Crate D|木箱D
+Straw Bale|藁ブロック
+Stacked Straw Bales|積まれた藁ブロック
+Stacked Straw Bales|積まれた藁ブロック
+Cart (Center B)|荷車（中央B）
+Cart (Center C)|荷車（中央C）
+Cart (Center D)|荷車（中央D）
+Cart (Left, Front A)|荷車（左向き・前部A）
+Cart (Center A)|荷車（中央A）
+Cart (Left, Rear A)|荷車（左向き・後部A）
+Stacked Straw Bales|積まれた藁ブロック
+Stacked Straw Bales|積まれた藁ブロック
+Cart (Center B)|荷車（中央B）
+Cart (Center C)|荷車（中央C）
+Cart (Center D)|荷車（中央D）
+Cart (Left, Front A)|荷車（左向き・前部A）
+Cart (Center A)|荷車（中央A）
+Cart (Left, Rear A)|荷車（左向き・後部A）
+Cart (Left, Front B)|荷車（左向き・前部B）
+Cart (Left, Rear B)|荷車（左向き・後部B）
+Cart (Right, Rear B)|荷車（右向き・後部B）
+Cart (Right, Front B)|荷車（右向き・前部B）
+Scarecrow|かかし
+Cart (Right, Rear A)|荷車（右向き・後部A）
+Cart (Right, Front A)|荷車（右向き・前部A）
+Vegetables A|野菜A
+Cart (Left, Front B)|荷車（左向き・前部B）
+Cart (Left, Rear B)|荷車（左向き・後部B）
+Cart (Right, Rear B)|荷車（右向き・後部B）
+Cart (Right, Front B)|荷車（右向き・前部B）
+Scarecrow|かかし
+Cart (Right, Rear A)|荷車（右向き・後部A）
+Cart (Right, Front A)|荷車（右向き・前部A）
+Vegetables B|野菜B
+Vegetables C|野菜C
+Wheat|小麦
+Wheat|小麦
+Grain Sacks|穀物袋
+Harvest Baskets|収穫かご
+Crops A (V)|作物A（縦）
+Crops B|作物B
+Vegetables D|野菜D
+Fence (H)|柵（横）
+Wheat|小麦
+Wheat|小麦
+Wheat Sheaf|小麦の束
+Tray (Wheat Sheaf)|トレイ（小麦の束）
+Crops A (V)|作物A（縦）
+Crops A (V)|作物A（縦）
+Crops F|作物F
+Fence (V)|柵（縦）
+Wheat|小麦
+Grapevine Trellis A|ぶどう棚A
+Grapevine Trellis A|ぶどう棚A
+Grapevine Trellis A|ぶどう棚A
+Crops A (V)|作物A（縦）
+Crops A (H)|作物A（横）
+Crops A (H)|作物A（横）
+Crops A (H)|作物A（横）
+Crops A (H)|作物A（横）
+Grapevine Trellis B|ぶどう棚B
+Grapevine Trellis B|ぶどう棚B
+Grapevine Trellis B|ぶどう棚B
+Crops C|作物C
+Crops D|作物D
+Crops E|作物E
+Fruit Tree A1|果樹A1
+Fruit Tree A2|果樹A2
+Fruit Tree A3|果樹A3
+Fruit Tree A4|果樹A4
+Fruit Tree A5|果樹A5
+Fruit Tree B1|果樹B1
+Fruit Tree B1|果樹B1
+Fruit Tree B2|果樹B2
+Fruit Tree B2|果樹B2
+Fruit Tree B3|果樹B3
+Fruit Tree B3|果樹B3
+Fruit Tree B4|果樹B4
+Fruit Tree B4|果樹B4
+Fruit Tree B1|果樹B1
+Fruit Tree B1|果樹B1
+Fruit Tree B2|果樹B2
+Fruit Tree B2|果樹B2
+Fruit Tree B3|果樹B3
+Fruit Tree B3|果樹B3
+Fruit Tree B4|果樹B4
+Fruit Tree B4|果樹B4

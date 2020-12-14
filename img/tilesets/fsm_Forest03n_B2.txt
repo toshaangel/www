@@ -1,0 +1,256 @@
+﻿Transparent|透明
+Window A|窓A
+Window B|窓B
+Window Light A (Window A)|窓の光A（窓A）
+Window Light (Left)|窓の光（左）
+Window Light (Right)|窓の光（右）
+Barrel A|樽A
+Barrel B|樽B
+Entrance (Bottom Half A)|入口（下半分A）
+Window A|窓A
+Window B|窓B
+Window Light B (Window B)|窓の光B（窓B）
+Window Light (Left)|窓の光（左）
+Window Light (Right)|窓の光（右）
+Pot A|壺A
+Pot B|壺B
+Entrance Light|入口の光
+Shadow (Cannot Walk)|影（通行不可）
+Ropes & Bones|縄と骨
+Deer Bone|鹿の骨
+Wall Decoration|飾り草みの
+Ladder|はしご
+Ladder (Down)|はしご（下り）
+Stairs (Up)|上り階段
+Stool|椅子
+Saws|のこぎり
+Sack|袋
+Wall Weapons|壁掛け武器
+Wall Weapons|壁掛け武器
+Ladder|はしご
+Ladder (Down, Lid)|はしご（下り・蓋）
+Stairs (Up)|上り階段
+Cushion A|座布団A
+Simple Shelf|簡易棚
+Simple Shelf (Jars)|簡易棚（瓶）
+Hood Cloak|フードマント
+Fur Vest|毛皮のベスト
+Ladder|はしご
+Ladder (Down, Not Ladder)|はしご（下り・はしごなし）
+Stairs (Down)|下り階段
+Log Stool|丸太のイス
+Firewood|薪
+Bundle of Firewood|薪の束
+Hood Cloak|フードマント
+Fur Vest|毛皮のベスト
+Barrel C|樽C
+Bed A|ベッドA
+Desk|机
+Bookshelf|本棚
+Medicine Shelf|薬棚
+Sundries Shelf A|雑貨棚A
+Sundries Shelf B|雑貨棚B
+Sundries Shelf C|雑貨棚C
+Sundries Shelf C|雑貨棚C
+Bed A|ベッドA
+Duvet (Bed A)|掛け布団（ベッドA）
+Bookshelf|本棚
+Medicine Shelf|薬棚
+Sundries Shelf A|雑貨棚A
+Sundries Shelf B|雑貨棚B
+Sundries Shelf C|雑貨棚C
+Sundries Shelf C|雑貨棚C
+Bed A|ベッドA
+Duvet (Bed A)|掛け布団（ベッドA）
+Bookshelf|本棚
+Medicine Shelf|薬棚
+Sundries Shelf A|雑貨棚A
+Sundries Shelf B|雑貨棚B
+Sundries Shelf C|雑貨棚C
+Sundries Shelf C|雑貨棚C
+Fireplace|暖炉
+Fireplace|暖炉
+Slanting Stairs (Left)|斜め階段（左向き）
+|
+|
+Slanting Stairs (Right)|斜め階段（右向き）
+Stairs A|階段A
+Shadow (Stairs A)|階段の影
+Fireplace|暖炉
+Fireplace|暖炉
+Slanting Stairs (Left)|斜め階段（左向き）
+Slanting Stairs (Left)|斜め階段（左向き）
+Slanting Stairs (Right)|斜め階段（右向き）
+Slanting Stairs (Right)|斜め階段（右向き）
+Stairs A|階段A
+Shadow (Stairs A)|階段の影
+Fireplace|暖炉
+Fireplace|暖炉
+Slanting Stairs (Left)|斜め階段（左向き）
+Slanting Stairs (Left)|斜め階段（左向き）
+Slanting Stairs (Right)|斜め階段（右向き）
+Slanting Stairs (Right)|斜め階段（右向き）
+Stairs B|階段B
+Stairs B|階段B
+Stairs B|階段B
+Stairs B|階段B
+Slanting Stairs (Left)|斜め階段（左向き）
+Slanting Stairs (Left)|斜め階段（左向き）
+Slanting Stairs (Right)|斜め階段（右向き）
+Slanting Stairs (Right)|斜め階段（右向き）
+Slanting Stairs (Left, Shadow)|斜め階段（左向き・影）
+Stairs B|階段B
+Stairs B|階段B
+Stairs B|階段B
+Entrance|入口
+Window A (Ruins)|窓A（廃墟）
+Window B (Ruins)|窓B（廃墟）
+Bloodstain A|血痕A
+Spiderweb|クモの巣
+Spider Thread|クモの糸
+Barrel A (Ruins)|樽A（廃墟）
+Barrel B (Ruins)|樽B（廃墟）
+Entrance (Bottom Half B)|入口（下半分B）
+Window A (Ruins)|窓A（廃墟）
+Window B (Ruins)|窓B（廃墟）
+Bloodstain B|血痕B
+Wood Debris|木の残骸
+Wall Decoration|壁掛けの布きれ
+Pot A (Ruins)|壺A（廃墟）
+Pot B (Ruins)|壺B（廃墟）
+Whiteish Floor A|白みがかった床A
+Whiteish Floor B|白みがかった床B
+Bloodstain C|血痕C
+Bloodstain D|血痕D
+Simple Shelf (Ruins A)|簡易棚（廃墟A）
+Simple Shelf (Ruins B)|簡易棚（廃墟B）
+Cracked Pot A|割れた壺A
+Cracked Pot B|割れた壺B
+Stool (Ruins A)|椅子（廃墟A）
+Stool (Ruins B)|椅子（廃墟B）
+Broken Crate A|壊れた木箱A
+Broken Crate B|壊れた木箱B
+Ladder (Ruins)|はしご（廃墟）
+Ladder (Down, Ruins)|はしご（下り・廃墟）
+Stairs (Up, Ruins)|上り階段（廃墟）
+Moss|苔
+Cushion B|座布団B
+Cushion C|座布団C
+Stairs A (Up)|階段A（上り）
+Stairs A (Down)|階段A（下り）
+Ladder (Ruins)|はしご（廃墟）
+Ladder (Down, Lid, Ruins)|はしご（下り・蓋・廃墟）
+Stairs (Up, Ruins)|上り階段（廃墟）
+Ladder (Ruins)|はしご（廃墟）
+Storage Basket|収納カゴ
+Purse|巾着
+Wheel|車輪
+Stairs B (Ruins)|階段B（廃墟）
+Ladder (Ruins)|はしご（廃墟）
+Ladder (Down, Not Ladder, Ruins)|はしご（下り・はしごなし・廃墟）
+Stairs (Down, Ruins)|下り階段（廃墟）
+Ladder (Ruins)|はしご（廃墟）
+Tableware Shards A|食器の破片A
+Wreckage of the Ceiling|天井の残骸
+Wreckage of the Ceiling|天井の残骸
+Slanting Stairs (Left, Ruins)|斜め階段（左向き・廃墟）
+Slanting Stairs (Right, Ruins)|斜め階段（右向き・廃墟）
+Bed B (Ruins)|ベッドB（廃墟）
+Bed B|ベッドB
+Desk (Ruins)|机（廃墟）
+Tableware Shards B|食器の破片B
+Wreckage of the Ceiling|天井の残骸
+Wreckage of the Ceiling|天井の残骸
+Poor Bed|粗末な寝床
+Duvet (Poor Bed)|掛け布団（粗末な寝床）
+Bed B (Ruins)|ベッドB（廃墟）
+Bed B|ベッドB
+Duvet (Bed B)|掛け布団（ベッドB）
+Stove A|かまどA
+Stove B|かまどB
+Broken Stove|壊れたかまど
+Poor Bed|粗末な寝床
+Duvet (Poor Bed)|掛け布団（粗末な寝床）
+Bed B (Ruins)|ベッドB（廃墟）
+Bed B|ベッドB
+Duvet (Bed B)|掛け布団（ベッドB）
+Shelf (Ruins A)|廃墟の棚A
+Shelf (Ruins B)|廃墟の棚B
+Shelf (Ruins B)|廃墟の棚B
+Shelf (Back Side, Top Half A)|裏向きの棚（上半分A）
+Shelf (Right)|棚（右向き）
+Shelf (Left)|棚（左向き）
+Fireplace (Ruins)|暖炉（廃墟）
+Fireplace (Ruins)|暖炉（廃墟）
+Shelf (Ruins A)|廃墟の棚A
+Shelf (Ruins B)|廃墟の棚B
+Shelf (Ruins B)|廃墟の棚B
+Shelf (Back Side, Top Half B)|裏向きの棚（上半分B）
+Shelf (Right)|棚（右向き）
+Shelf (Left)|棚（左向き）
+Fireplace (Ruins)|暖炉（廃墟）
+Fireplace (Ruins)|暖炉（廃墟）
+Shelf (Ruins A)|廃墟の棚A
+Shelf (Ruins B)|廃墟の棚B
+Shelf (Ruins B)|廃墟の棚B
+Shelf (Back Side)|裏向きの棚
+Shelf (Right)|棚（右向き）
+Shelf (Left)|棚（左向き）
+Fireplace (Ruins)|暖炉（廃墟）
+Fireplace (Ruins)|暖炉（廃墟）
+Ledge|段差
+Ledge|段差
+Ledge|段差
+Ledge|段差
+Ledge|段差
+Ledge|段差
+Ledge|段差
+Ledge (Ruins)|段差（廃墟）
+Haystack A|干し草の山A
+Haystack A (Upper Right A)|干し草の山A（右上A）
+Hay|干し草
+Straw Bale|藁ブロック
+Tool Rack A|道具掛けA
+Tool Rack B|道具掛けB
+Tool Rack C|道具掛けC
+Dry Garlic|干しニンニク
+Haystack A|干し草の山A
+Haystack A|干し草の山A
+Haystack A (Upper Right B)|干し草の山A（右上B）
+Haystack B|干し草の山B
+Tool Rack A|道具掛けA
+Tool Rack B|道具掛けB
+Tool Rack C|道具掛けC
+Dried Radish|干しダイコン
+Stacked Sacks A|積まれた麻袋A
+Stacked Sacks A|積まれた麻袋A
+Stacked Sacks B|積まれた麻袋B
+Sack|麻袋
+Crate A|木箱A
+Crate B|木箱B
+Crate C|木箱C
+Crate D|木箱D
+Stacked Sacks A|積まれた麻袋A
+Stacked Sacks A|積まれた麻袋A
+Stacked Sacks B|積まれた麻袋B
+Mattress|マットレス
+Stacked Crates A|積まれた木箱A
+Stacked Baggages|積まれた荷物
+Vegetables A|野菜A
+Tray (Vegetables)|トレイ（野菜）
+Stacked Crates B|積まれた木箱B
+Stacked Crates C|積まれた木箱C
+Stacked Crates C|積まれた木箱C
+Mattress|マットレス
+Stacked Crates A|積まれた木箱A
+Stacked Baggages|積まれた荷物
+Vegetables B|野菜B
+Tray (Wheat Sheaf)|トレイ（小麦の束）
+Stacked Crates B|積まれた木箱B
+Stacked Crates C|積まれた木箱C
+Stacked Crates C|積まれた木箱C
+Crate E|木箱E
+Crate F|木箱F
+Baggage|荷物
+Harvest Baskets|収穫かご
+Grain Sacks|穀物袋

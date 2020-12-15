@@ -1,6 +1,6 @@
 [
 null,
-{"id":1,"expanded":true,"name":"Каменная пещера","order":2,"parentId":0,"scrollX":1061.142857142857,"scrollY":700.2857142857142},
+{"id":1,"expanded":true,"name":"Каменная пещера","order":2,"parentId":0,"scrollX":1074.857142857143,"scrollY":700.2857142857142},
 {"id":2,"expanded":true,"name":"Новая игра","order":1,"parentId":0,"scrollX":1061.142857142857,"scrollY":633.4285714285714},
 {"id":3,"expanded":true,"name":"Заброшенный город","order":3,"parentId":0,"scrollX":1070.5714285714284,"scrollY":1084.2857142857142},
 {"id":4,"expanded":true,"name":"Пещера","order":18,"parentId":20,"scrollX":1061.142857142857,"scrollY":2098.285714285714},

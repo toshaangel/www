@@ -13,7 +13,7 @@
  * Become a Patron to get access to beta/alpha plugins plus other goodies!
  * https://www.patreon.com/CasperGamingRPGM
  * ============================================================================
- * Version: 1.1.0
+ * Version: 1.1.1
  * ----------------------------------------------------------------------------
  * Compatibility: Only tested with my CGMZ plugins.
  * Made for RPG Maker MZ 1.0.0
@@ -74,6 +74,9 @@
  * Version 1.1.0:
  * - Fixed crash if there are no achievements
  * - Added support for CGMZ Professions
+ *
+ * Version 1.1.1:
+ * - Fixed bug with variable tracking when using the "=" operator
  *
  * @command Earn Achievement By Name
  * @text Earn Achievement By Name
@@ -650,7 +653,7 @@ Imported.CGMZ_Achievements = true;
 var CGMZ = CGMZ || {};
 CGMZ.Achievements = CGMZ.Achievements || {};
 CGMZ.Versions = CGMZ.Versions || {};
-CGMZ.Versions["Achievements"] = "1.1.0";
+CGMZ.Versions["Achievements"] = "1.1.1";
 CGMZ.Achievements.parameters = PluginManager.parameters('CGMZ_Achievements');
 CGMZ.Achievements.FileName = CGMZ.Achievements.parameters["File"] || "Achievements.txt";
 CGMZ.Achievements.FolderName = CGMZ.Achievements.parameters["Folder"] || "Data";
@@ -1847,37 +1850,37 @@ CGMZ_Achievement_Window_Display.prototype.refresh = function() {
 		}
 		if(req.steps > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $gameParty.steps(), req.steps,
-											  genericGaugeColor1, genericGaugeColor2, "Steps", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "Шаги", achievement);
 			x = 0;
 		}
 		if(req.saves > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $gameSystem.saveCount(), req.saves,
-											  genericGaugeColor1, genericGaugeColor2, "Saves", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "Сохранения", achievement);
 			x = 0;
 		}
 		if(req.battles > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $gameSystem.battleCount(), req.battles,
-											  genericGaugeColor1, genericGaugeColor2, "Battles", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "Бой", achievement);
 			x = 0;
 		}
 		if(req.wins > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $gameSystem.winCount(), req.wins,
-											  genericGaugeColor1, genericGaugeColor2, "Wins", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "Победы", achievement);
 			x = 0;
 		}
 		if(req.escapes > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $gameSystem.escapeCount(), req.escapes,
-											  genericGaugeColor1, genericGaugeColor2, "Escapes", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "Побег", achievement);
 			x = 0;
 		}
 		if(req.achievetotal > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.countEarnedAchievements(), req.achievetotal,
-											  genericGaugeColor1, genericGaugeColor2, "Achievements", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "Достижения", achievement);
 			x = 0;
 		}
 		if(req.achievepts > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.countEarnedAchievementPoints(), req.achievepts,
-											  genericGaugeColor1, genericGaugeColor2, "Points", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "Очки", achievement);
 			x = 0;
 		}
 		if(req.encyclopediatotal > 0) {
@@ -1887,39 +1890,39 @@ CGMZ_Achievement_Window_Display.prototype.refresh = function() {
 		}
 		if(req.encyclopediabestiary > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaBestiaryPercent(), req.encyclopediabestiary,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. Bestiary", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "% Познания Бестиария", achievement);
 			x = 0;
 		}
 		if(req.encyclopediaitems > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaItemsPercent(), req.encyclopediaitems,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. Items", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "% Enc. Предметы", achievement);
 			x = 0;
 		}
 		if(req.encyclopediaweapons > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaWeaponsPercent(), req.encyclopediaweapons,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. Weapons", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "% Enc. Оружие", achievement);
 			x = 0;
 		}
 		if(req.encyclopediaarmors > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaArmorsPercent(), req.encyclopediaarmors,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. Armors", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "% Enc. Броня", achievement);
 			x = 0;
 		}
 		if(req.encyclopediaskills > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaSkillsPercent(), req.encyclopediaskills,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. Skills", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "% Enc. Навык", achievement);
 			x = 0;
 		}
 		if(req.encyclopediastates > 0) {
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaStatesPercent(), req.encyclopediastates,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. States", achievement);
+											  genericGaugeColor1, genericGaugeColor2, "% Enc. Состояния", achievement);
 			x = 0;
 		}
 		for(var i = 0; i < req.professions.length; i++) {
 			var name = req.professions[i].name;
 			var profession = $cgmz.getProfession(name);
 			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, profession._level, req.professions[i].level,
-											  genericGaugeColor1, genericGaugeColor2, " " + name + " Level", achievement);
+											  genericGaugeColor1, genericGaugeColor2, " " + name + " Уровень", achievement);
 			x = 0;
 		}
 		if(req.playtime > 0) {
@@ -2054,9 +2057,10 @@ CGMZ_Achievement_Window_Display.prototype.drawCriteriaVariables = function(earne
 		var max = 0;
 		var denominator = 1;
 		var descriptor = "";
-		if(variableObj.operator != ">" && variableObj.operator != ">=") {
+		if(variableObj.operator !== ">" && variableObj.operator !== ">=") {
 			max = 0
-			if(earned || $gameVariables.value(variableObj.id) <= variableObj.value) {
+			if(earned || ($gameVariables.value(variableObj.id) <= variableObj.value && variableObj.operator !== "=") ||
+			   (variableObj.operator === "=" && $gameVariables.value(variableObj.id) === variableObj.value)) {
 				max = 1;
 			}
 			denominator = 1;

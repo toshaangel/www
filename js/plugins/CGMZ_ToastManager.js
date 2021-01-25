@@ -2,6 +2,8 @@
  * @author Casper Gaming
  * @url https://www.caspergaming.com/plugins/cgmz/toastmanager/
  * @target MZ
+ * @base CGMZ_Core
+ * @orderAfter CGMZ_Core
  * @plugindesc Manages CGMZ toast (or pop up) windows for your game
  * @help
  * ============================================================================
@@ -11,7 +13,7 @@
  * Become a Patron to get access to beta/alpha plugins plus other goodies!
  * https://www.patreon.com/CasperGamingRPGM
  * ============================================================================
- * Version: 1.0.1
+ * Version: 1.0.2
  * ----------------------------------------------------------------------------
  * Compatibility: Only tested with my CGMZ plugins.
  * Made for RPG Maker MZ 1.0.0
@@ -23,7 +25,6 @@
  * ----------------------------------------------------------------------------
  * Documentation:
  * This plugin supports Plugin commands:
- *
  * Create Text Toast: Creates a new text toast with options, adds it to queue
  * Create Image Toast: Creates a new image toast with options, adds it to
  *                     queue
@@ -32,10 +33,14 @@
  * subtract 24 from width value).
  *
  * Update History:
- * Version 1.0 - Initial Release
+ * Version 1.0.0 - Initial Release
  *
  * Version 1.0.1:
  * SE are no longer mandatory on toasts
+ *
+ * Version 1.0.2:
+ * Toast windows no longer update if they are not visible
+ * Fix crash with VS Debugger (hopefully)
  *
  * @command Create Text Toast
  * @text Create Text Toast
@@ -169,7 +174,7 @@ var Imported = Imported || {};
 Imported.CGMZ_ToastManager = true;
 var CGMZ = CGMZ || {};
 CGMZ.Versions = CGMZ.Versions || {};
-CGMZ.Versions["Toast Manager"] = "1.0.1";
+CGMZ.Versions["Toast Manager"] = "1.0.2";
 CGMZ.ToastManager = CGMZ.ToastManager || {};
 CGMZ.ToastManager.parameters = PluginManager.parameters('CGMZ_ToastManager');
 CGMZ.ToastManager.MaxWindowCount = Number(CGMZ.ToastManager.parameters["Max Window Count"]) || 1;
@@ -402,15 +407,17 @@ CGMZ_Window_Toast.prototype.windowHeight = function() {
 // Update for fade in/out
 //-----------------------------------------------------------------------------
 CGMZ_Window_Toast.prototype.update = function() {
-    Window_Base.prototype.update.call(this);
-    if (this._showCount > 0 && this.canDisplay()) {
-        this.updateFadeIn();
-        this._showCount--;
-    } else {
-		this.updateFadeOut();
-    }
-	if(this.contentsOpacity <= 0 && !this._bitmapLoading) {
-		this._isDisplaying = false;
+	if(this.isDisplaying()) {
+		Window_Base.prototype.update.call(this);
+		if (this._showCount > 0 && this.canDisplay()) {
+			this.updateFadeIn();
+			this._showCount--;
+		} else {
+			this.updateFadeOut();
+		}
+		if(this.contentsOpacity <= 0 && !this._bitmapLoading) {
+			this._isDisplaying = false;
+		}
 	}
 };
 //-----------------------------------------------------------------------------
@@ -484,6 +491,7 @@ CGMZ_Window_Toast.prototype.close = function() {
 // Refresh the window
 //-----------------------------------------------------------------------------
 CGMZ_Window_Toast.prototype.refresh = function(toastObject) {
+	if(!toastObject) return;
 	this._showBG = true;
 	this.doCommonEffects(toastObject);
 	this.contents.clear();

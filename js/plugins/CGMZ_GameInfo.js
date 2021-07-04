@@ -13,10 +13,10 @@
  * Become a Patron to get access to beta/alpha plugins plus other goodies!
  * https://www.patreon.com/CasperGamingRPGM
  * ============================================================================
- * Version: 1.1.1
+ * Version: 1.1.3
  * ----------------------------------------------------------------------------
  * Compatibility: Only tested with my CGMZ plugins.
- * Made for RPG Maker MZ 1.0.0
+ * Made for RPG Maker MZ 1.1.1
  * ----------------------------------------------------------------------------
  * Description: This plugin adds three text fields to the title screen, such as
  * as version info, a link to your website, copyright information, or anything
@@ -35,6 +35,12 @@
  * 1.1.1:
  * - Fixed bug with buttons disappearing in some cases
  * - Added cursor change to a pointer over the buttons
+ *
+ * 1.1.2:
+ * - Websites now open in user default browser (local mode only)
+ *
+ * 1.1.3:
+ * - Bugfix for pointer cursor staying if select with keyboard
  *
  * @param Text Options
  *
@@ -121,15 +127,15 @@ var Imported = Imported || {};
 Imported.CGMZ_GameInfo = true;
 var CGMZ = CGMZ || {};
 CGMZ.Versions = CGMZ.Versions || {};
-CGMZ.Versions["Game Info"] = "1.1.1";
+CGMZ.Versions["Game Info"] = "1.1.3";
 CGMZ.GameInfo = CGMZ.GameInfo || {};
 CGMZ.GameInfo.parameters = PluginManager.parameters('CGMZ_GameInfo');
-CGMZ.GameInfo.LeftText = CGMZ.GameInfo.parameters["Left Text"] || "";
-CGMZ.GameInfo.CenterText = CGMZ.GameInfo.parameters["Center Text"] || "";
-CGMZ.GameInfo.RightText = CGMZ.GameInfo.parameters["Right Text"] || "";
-CGMZ.GameInfo.FontOutlineColor = CGMZ.GameInfo.parameters["Font Outline Color"] || "black";
-CGMZ.GameInfo.FontSize = Number(CGMZ.GameInfo.parameters["Font Size"]) || 12;
-CGMZ.GameInfo.FontOutlineWidth = Number(CGMZ.GameInfo.parameters["Font Outline Width"]) || 2;
+CGMZ.GameInfo.LeftText = CGMZ.GameInfo.parameters["Left Text"];
+CGMZ.GameInfo.CenterText = CGMZ.GameInfo.parameters["Center Text"];
+CGMZ.GameInfo.RightText = CGMZ.GameInfo.parameters["Right Text"];
+CGMZ.GameInfo.FontOutlineColor = CGMZ.GameInfo.parameters["Font Outline Color"];
+CGMZ.GameInfo.FontSize = Number(CGMZ.GameInfo.parameters["Font Size"]);
+CGMZ.GameInfo.FontOutlineWidth = Number(CGMZ.GameInfo.parameters["Font Outline Width"]);
 CGMZ.GameInfo.Buttons = JSON.parse(CGMZ.GameInfo.parameters["Buttons"]);
 //=============================================================================
 // Scene_Title
@@ -204,6 +210,13 @@ Sprite_CGMZ_GameInfo_Button.prototype.initialize = function(url) {
 	this._cursor = document.body.style.cursor;
 };
 //-----------------------------------------------------------------------------
+// On destroy, turn cursor back to normal
+//-----------------------------------------------------------------------------
+Sprite_CGMZ_GameInfo_Button.prototype.destroy = function() {
+	document.body.style.cursor = this._cursor;
+	Sprite_Clickable.prototype.destroy.call(this);
+};
+//-----------------------------------------------------------------------------
 // Update
 //-----------------------------------------------------------------------------
 Sprite_CGMZ_GameInfo_Button.prototype.update = function() {
@@ -247,5 +260,9 @@ Sprite_CGMZ_GameInfo_Button.prototype.onMouseExit = function() {
 // Open URL when clicked
 //-----------------------------------------------------------------------------
 Sprite_CGMZ_GameInfo_Button.prototype.onClick = function() {
-    window.open(this._url);
+	if(Utils.isNwjs()) {
+		require('nw.gui').Shell.openExternal(this._url);
+	} else {
+		window.open(this._url);
+	}
 };

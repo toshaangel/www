@@ -1,5 +1,5 @@
 //=============================================================================
-// rmmz_sprites.js v1.1.1
+// rmmz_sprites.js v1.3.0
 //=============================================================================
 
 //-----------------------------------------------------------------------------
@@ -726,6 +726,7 @@ Sprite_Actor.prototype.setBattler = function(battler) {
             this.setActorHome(battler.index());
         } else {
             this._mainSprite.bitmap = null;
+            this._battlerName = "";
         }
         this.startEntryMotion();
         this._stateSprite.setup(battler);
@@ -1449,7 +1450,6 @@ Sprite_Animation.prototype.onBeforeRender = function(renderer) {
 };
 
 Sprite_Animation.prototype.onAfterRender = function(renderer) {
-    renderer.texture.contextChange();
     renderer.texture.reset();
     renderer.geometry.reset();
     renderer.state.reset();
@@ -2441,7 +2441,9 @@ Sprite_Gauge.prototype.setupLabelFont = function() {
 
 Sprite_Gauge.prototype.measureLabelWidth = function() {
     this.setupLabelFont();
-    return this.bitmap.measureTextWidth(this.label());
+    const labels = [TextManager.hpA, TextManager.mpA, TextManager.tpA];
+    const widths = labels.map(str => this.bitmap.measureTextWidth(str));
+    return Math.max(...widths);
 };
 
 Sprite_Gauge.prototype.labelOpacity = function() {

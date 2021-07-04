@@ -14,10 +14,10 @@
  * Become a Patron to get access to beta/alpha plugins plus other goodies!
  * https://www.patreon.com/CasperGamingRPGM
  * ============================================================================
- * Version: 1.0.2
+ * Version: 1.1.1
  * ----------------------------------------------------------------------------
  * Compatibility: Only tested with my CGMZ plugins.
- * Made for RPG Maker MZ 1.0.0
+ * Made for RPG Maker MZ 1.2.0
  * ----------------------------------------------------------------------------
  * Description: Creates a profession system for your game. Discover
  * professions, gain experience, and level up. Profession data is easily
@@ -26,23 +26,55 @@
  * uses.
  * ----------------------------------------------------------------------------
  * Documentation:
+ * The JS to call the scene is: SceneManager.push(CGMZ_Scene_Professions);
  *
  * Colors support either hex format (ex. #ffffff) or rgb format 
  * (ex. rgb(255, 255, 255))
+ *
+ * To make an item that grants temporary buffs for a profession, use the
+ * following notetag:
+ * <cgmzprofbuff:profName,buffAmount,frameCount,stackable>
+ * - profName should be the profession's name (case sensitive)
+ * - buffAmount should be a number that will be added to the profession's level
+ * - frameCount should be a number which is how many frames the buff will last
+ *   (60f = 1 sec)
+ * - stackable should be either "true" or "false" and determines if the buff
+ *   will stack with other buffs or not
+ * 
+ * An example notetag may be:
+ * <cgmzprofbuff:Mining,5,3600,true>
+ *
+ * You can also combine multiple buffs using the & character.
+ * An example combined notetag may look like this:
+ * <cgmzprofbuff:Mining,5,3600,true&Fishing,5,3600,true>
+ * This example would buff both Mining and Fishing by 5 for 3600 frames (1min)
  * 
  * This plugin supports the following plugin commands:
- * Call Scene: Calls the profession scene if true, no function if false.
+ * Call Scene: Calls the profession scene.
  *
  * Reinitialize: This will reinitialize all profession data as if you had
- * 				 started a new game. Use for saved game testing.
+ *               started a new game. Use for saved game testing.
  *
  * Discover Profession: This will discover (or undiscover) a given profession.
  *
+ * Change Description: Allows you to set a profession's description.
+ *
  * Change Exp: Allows you to set, add, or subtract experience from the
- *			   provided profession.
+ *             provided profession.
  *
  * Change Level: Allows you to set, add, or subtract levels from the provided
- *             profession.
+ *               profession.
+ *
+ * Get Profession Level: Allows you to store the profession's level in a
+ *                       variable.
+ * 
+ * Get Buffed Level: Allows you to store the profession's level + any buffs in
+ *                   a variable.
+ *
+ * Add Buff: Use this to add a temporary buff to a profession's level.
+ *
+ * Remove Buff: Usually buffs expire automatically, but if you need to manually
+ *              remove one you can use this plugin command.
  *
  * Update History:
  * Version 1.0.0 - Initial Release
@@ -53,25 +85,26 @@
  * Version 1.0.2:
  * - Added option to display a toast window on discovery of profession
  *
- * @command reinitialize
- * @text Reinitialize
- * @desc  Reinitializes all profession data. Use this if your saved game does not recognize new profession data.
+ * Version 1.1.0:
+ * - Added temporary buffs (or debuffs) when using items or plugin command
+ * - Added ability to use text codes in profession descriptions
+ * - Added ability to use custom icon image in place of big icon in display
+ *   window
+ * - Added option to change label text color
+ * - Added option to use transparent windows
+ * - Added option to use a custom scene background image
+ * - Added plugin command to change description
+ * - New professions are now loaded automatically in saved games without
+ *   needing to use reinitialize plugin command
  *
- * @arg reinitialize
- * @type boolean
- * @text Reinitialize
- * @desc Reinitializes profession data if true. No functionality if false.
- * @default true
+ * Version 1.1.1:
+ * - Change to profession buffs to make them more efficient for other plugins
+ *
+ * @command Reinitialize
+ * @desc Reinitializes all profession data. Use this if your saved game does not recognize new profession data.
  *
  * @command Call Scene
- * @text Call Scene
  * @desc Calls the Profession scene
- *
- * @arg call
- * @type boolean
- * @text Call Scene
- * @desc Calls the profession scene if true. No functionality for false.
- * @default true
  *
  * @command discover
  * @text Discover Profession
@@ -149,6 +182,73 @@
  * @default 0
  * @desc The variable to set to the profession level
  *
+ * @command Get Buffed Level
+ * @desc Get the profession's level (including buffs) in a variable
+ *
+ * @arg name
+ * @text Profession Name
+ * @desc The name of the profession
+ *
+ * @arg variable
+ * @text Variable
+ * @type variable
+ * @default 0
+ * @desc The variable to set to the profession level
+ *
+ * @command Add Buff
+ * @desc Add a temporary buff to a profession
+ *
+ * @arg buffId
+ * @text Buff ID
+ * @desc Unique ID used to refer to this buff
+ *
+ * @arg name
+ * @text Profession Name
+ * @desc The name of the profession to buff
+ *
+ * @arg amount
+ * @text Amount
+ * @type number
+ * @default 0
+ * @desc The amount of levels to add to the profession's level
+ *
+ * @arg frameCount
+ * @text Frame Count
+ * @type number
+ * @default 3600
+ * @min 1
+ * @desc The amount of frames the buff will last (60f = 1sec)
+ *
+ * @arg stackable
+ * @text Can Stack?
+ * @type boolean
+ * @default true
+ * @desc Allow this buff to stack with other buffs?
+ *
+ * @command Remove Buff
+ * @desc Remove a temporary buff to a profession
+ *
+ * @arg buffId
+ * @text Buff ID
+ * @desc Unique ID used to refer to the buff
+ *
+ * @arg name
+ * @text Profession Name
+ * @desc The name of the profession to remove the buff from
+ *
+ * @command Change Description
+ * @desc Change a profession's description
+ *
+ * @arg name
+ * @text Profession Name
+ * @desc The name of the profession to change description
+ *
+ * @arg description
+ * @text Description
+ * @type note
+ * @default ""
+ * @desc The new description
+ *
  * @param Professions
  * @type struct<Profession>[]
  * @default []
@@ -156,10 +256,22 @@
  *
  * @param Window Options
  *
+ * @param Transparent Windows
+ * @parent Window Options
+ * @type boolean
+ * @desc Whether the profession scene windows are transparent or not
+ * @default false
+ *
+ * @param Background Image
+ * @parent Window Options
+ * @type file
+ * @dir img/pictures
+ * @desc Image to show in the background of the scene. Default blurry map used if none provided.
+ *
  * @param Total Level Text
  * @parent Window Options
  * @desc Text to show describing the total level shown at bottom of scene
- * @default Total Level
+ * @default Total Level: 
  *
  * @param ScrollSpeed
  * @parent Window Options
@@ -192,24 +304,40 @@
  *
  * @param Text Options
  *
+ * @param Label Color
+ * @parent Text Options
+ * @type number
+ * @min 0
+ * @desc Color to draw label text in.
+ * @default 16
+ *
+ * @param Description Alignment
+ * @parent Text Options
+ * @type select
+ * @option left
+ * @option center
+ * @option right
+ * @desc The alignment of the description text.
+ * @default left
+ *
  * @param Level Text
  * @parent Text Options
- * @default Level
+ * @default Level: 
  * @desc Text to describe level
  *
  * @param Exp Text
  * @parent Text Options
- * @default Experience
+ * @default Experience: 
  * @desc Text to describe current experience
  *
  * @param Exp To Level Text
  * @parent Text Options
- * @default Experience To Level
+ * @default Experience To Level: 
  * @desc Text to describe experience needed to level
  *
  * @param Description Text
  * @parent Text Options
- * @default Description
+ * @default Description: 
  * @desc Text to describe the profession description
  *
  * @param Other CGMZ Plugin Options
@@ -274,6 +402,11 @@
  * @min -1
  * @desc Icon index to use for the profession. Set to -1 to not use
  *
+ * @param Picture
+ * @type file
+ * @dir img/pictures
+ * @desc The image to use for the profession in place of the big icon (recommended size: 64x64). Leave blank to not use.
+ *
  * @param Color
  * @type text
  * @default #ffffff
@@ -293,24 +426,28 @@ var Imported = Imported || {};
 Imported.CGMZ_Professions = true;
 var CGMZ = CGMZ || {};
 CGMZ.Versions = CGMZ.Versions || {};
-CGMZ.Versions["Professions"] = "1.0.2";
+CGMZ.Versions["Professions"] = "1.1.1";
 CGMZ.Professions = CGMZ.Professions || {};
 CGMZ.Professions.parameters = PluginManager.parameters('CGMZ_Professions');
 CGMZ.Professions.Entries = JSON.parse(CGMZ.Professions.parameters["Professions"]);
-CGMZ.Professions.SceneTitle = CGMZ.Professions.parameters["Scene Title"] || "Professions";
-CGMZ.Professions.TotalLevelText = CGMZ.Professions.parameters["Total Level Text"] || "Total Level";
-CGMZ.Professions.ScrollSpeed = Number(CGMZ.Professions.parameters["ScrollSpeed"]) || 1;
-CGMZ.Professions.ScrollWait = Number(CGMZ.Professions.parameters["ScrollWait"]) || 300;
-CGMZ.Professions.ScrollDeceleration = parseFloat(CGMZ.Professions.parameters["Scroll Deceleration"]) || 0.92;
-CGMZ.Professions.AutoScroll = (CGMZ.Professions.parameters["Auto Scroll"] === "true") ? true : false;
-CGMZ.Professions.LevelText = CGMZ.Professions.parameters["Level Text"] || "Level";
-CGMZ.Professions.ExpText = CGMZ.Professions.parameters["Exp Text"] || "Experience";
-CGMZ.Professions.ExpToLevelText = CGMZ.Professions.parameters["Exp To Level Text"] || "Experience To Level";
-CGMZ.Professions.DescriptionText = CGMZ.Professions.parameters["Description Text"] || "Description";
-CGMZ.Professions.ShowLevelUpToast = (CGMZ.Professions.parameters["Show Level Up Toast"] === "true") ? true : false;
-CGMZ.Professions.LevelUpText = CGMZ.Professions.parameters["Level Up Text"] || "has leveled up!";
-CGMZ.Professions.ShowDiscoverToast = (CGMZ.Professions.parameters["Show Discover Toast"] === "true") ? true : false;
-CGMZ.Professions.DiscoverText = CGMZ.Professions.parameters["Discover Text"] || "has leveled up!";
+CGMZ.Professions.SceneTitle = CGMZ.Professions.parameters["Scene Title"];
+CGMZ.Professions.TotalLevelText = CGMZ.Professions.parameters["Total Level Text"];
+CGMZ.Professions.ScrollSpeed = Number(CGMZ.Professions.parameters["ScrollSpeed"]);
+CGMZ.Professions.ScrollWait = Number(CGMZ.Professions.parameters["ScrollWait"]);
+CGMZ.Professions.ScrollDeceleration = parseFloat(CGMZ.Professions.parameters["Scroll Deceleration"]);
+CGMZ.Professions.AutoScroll = (CGMZ.Professions.parameters["Auto Scroll"] === "true");
+CGMZ.Professions.LevelText = CGMZ.Professions.parameters["Level Text"];
+CGMZ.Professions.ExpText = CGMZ.Professions.parameters["Exp Text"];
+CGMZ.Professions.ExpToLevelText = CGMZ.Professions.parameters["Exp To Level Text"];
+CGMZ.Professions.DescriptionText = CGMZ.Professions.parameters["Description Text"];
+CGMZ.Professions.ShowLevelUpToast = (CGMZ.Professions.parameters["Show Level Up Toast"] === "true");
+CGMZ.Professions.LevelUpText = CGMZ.Professions.parameters["Level Up Text"];
+CGMZ.Professions.ShowDiscoverToast = (CGMZ.Professions.parameters["Show Discover Toast"] === "true");
+CGMZ.Professions.DiscoverText = CGMZ.Professions.parameters["Discover Text"];
+CGMZ.Professions.LabelColor = Number(CGMZ.Professions.parameters["Label Color"]);
+CGMZ.Professions.DescriptionAlignment = CGMZ.Professions.parameters["Description Alignment"];
+CGMZ.Professions.WindowTransparency = (CGMZ.Professions.parameters["Transparent Windows"] === "true");
+CGMZ.Professions.SceneBackgroundImage = CGMZ.Professions.parameters["Background Image"];
 //=============================================================================
 // CGMZ_Profession
 //-----------------------------------------------------------------------------
@@ -324,12 +461,13 @@ function CGMZ_Profession() {
 //-----------------------------------------------------------------------------
 CGMZ_Profession.prototype.initialize = function(profession) {
 	this._name = profession.Name;
-	this._discovered = (profession.Discovered === 'true') ? true : false;
+	this._discovered = (profession.Discovered === 'true');
 	this._maxLevel = Number(profession["Max level"]);
 	this._level = Number(profession.Level);
-	this._usingExpCurve = (profession["Use Experience Curve?"] === 'true') ? true : false;
+	this._usingExpCurve = (profession["Use Experience Curve?"] === 'true');
 	this._iconIndex = Number(profession.Icon);
-	this._description = JSON.parse(profession.Description.replace(/\\n/g, " \\\\n "));
+	this._image = profession.Picture;
+	this._description = JSON.parse(profession.Description);
 	this._color = profession.Color;
 	this._expArray = JSON.parse(profession["Experience Curve"]);
 	for(let i = 0; i < this._expArray.length; i++) {
@@ -337,6 +475,8 @@ CGMZ_Profession.prototype.initialize = function(profession) {
 	}
 	this._exp = 0;
 	this._toastSE = profession["Toast Sound Effect"];
+	this._buffs = {};
+	this._needRefreshForBuff = false;
 };
 //-----------------------------------------------------------------------------
 // Get experience required for level
@@ -345,10 +485,10 @@ CGMZ_Profession.prototype.expForLevel = function(level) {
 	if(level <= 1) return 0;
 	if(level > this._maxLevel) return this.expForLevel(this._maxLevel);
 	if(!this._usingExpCurve) return this._expArray[level - 2]; // level - 2 since 0 not level and 1 lowest level possible
-	let basis = this._expArray[0];
-    let extra = this._expArray[1];
-    let acc_a = this._expArray[2];
-    let acc_b = this._expArray[3];
+	const basis = this._expArray[0];
+    const extra = this._expArray[1];
+    const acc_a = this._expArray[2];
+    const acc_b = this._expArray[3];
 	if(acc_b === 0) acc_b = 1;
     return Math.round(basis*(Math.pow(level-1, 0.9+acc_a/250))*level*
             (level+1)/(6+Math.pow(level,2)/50/acc_b)+(level-1)*extra);
@@ -367,6 +507,12 @@ CGMZ_Profession.prototype.expNeededToNextLevel = function() {
 	return this.expForLevel(this._level + 1) - this._exp;
 };
 //-----------------------------------------------------------------------------
+// Set new description
+//-----------------------------------------------------------------------------
+CGMZ_Profession.prototype.setDescription = function(description) {
+	this._description = JSON.parse(description);
+};
+//-----------------------------------------------------------------------------
 // Changed discovery status
 //-----------------------------------------------------------------------------
 CGMZ_Profession.prototype.changeDiscoveredStatus = function(discovered) {
@@ -380,15 +526,9 @@ CGMZ_Profession.prototype.changeDiscoveredStatus = function(discovered) {
 //-----------------------------------------------------------------------------
 CGMZ_Profession.prototype.changeExp = function(mode, amount) {
 	switch(mode) {
-		case '=': 
-			this._exp = amount;
-			break;
-		case '+':
-			this._exp += amount;
-			break;
-		case '-':
-			this._exp -= amount;
-			break;
+		case '=': this._exp = amount; break;
+		case '+': this._exp += amount; break;
+		case '-': this._exp -= amount; break;
 		default:
 			const script = "CGMZ Professions";
 			const error = "Malformed 'Experience' command received";
@@ -431,26 +571,26 @@ CGMZ_Profession.prototype.levelDown = function() {
 // Change Level
 //-----------------------------------------------------------------------------
 CGMZ_Profession.prototype.changeLevel = function(mode, amount) {
+	let levelExp = this._exp;
 	switch(mode) {
 		case '=': 
 			if(amount > this._maxLevel) amount = this._maxLevel;
 			if(amount < 1) amount = 1;
-			var levelExp = this.expForLevel(amount);
+			levelExp = this.expForLevel(amount);
 			break;
 		case '+':
 			var totalLevel = this._level + amount;
 			if(totalLevel > this._maxLevel) totalLevel = this._maxLevel;
 			if(totalLevel < 1) totalLevel = 1;
-			var levelExp = this.expForLevel(totalLevel);
+			levelExp = this.expForLevel(totalLevel);
 			break;
 		case '-':
 			var totalLevel = this._level - amount;
 			if(totalLevel > this._maxLevel) totalLevel = this._maxLevel;
 			if(totalLevel < 1) totalLevel = 1;
-			var levelExp = this.expForLevel(totalLevel);
+			levelExp = this.expForLevel(totalLevel);
 			break;
 		default:
-			levelExp = this._exp;
 			const script = "CGMZ Professions";
 			const error = "Malformed 'Level' command received";
 			const suggestion = "Check for proper plugin command usage in events";
@@ -472,6 +612,63 @@ CGMZ_Profession.prototype.loseExp = function(amount) {
 	this.changeExp('-', amount);
 };
 //-----------------------------------------------------------------------------
+// Add a buff to the profession (or overwrite existing buff)
+//-----------------------------------------------------------------------------
+CGMZ_Profession.prototype.addBuff = function(buffId, amount, frameCount, stackable = false) {
+	const buff = {amount: amount, stackable: stackable, frameCount: Graphics.frameCount + frameCount};
+	this._buffs[buffId] = buff;
+	const funcArgs = {profName: this._name, buffId: buffId};
+	const timer = new CGMZ_Timer(frameCount, buffId, "removeProfessionBuff", funcArgs);
+	$cgmz.requestNewTimer(timer);
+};
+//-----------------------------------------------------------------------------
+// Remove a buff from the profession, set flag for refresh as needed
+//-----------------------------------------------------------------------------
+CGMZ_Profession.prototype.removeBuff = function(buffId) {
+	delete this._buffs[buffId];
+	this._needRefreshForBuff = true;
+	$cgmzTemp._professionBuffRemoved = true;
+};
+//-----------------------------------------------------------------------------
+// Determine if the profession has active buffs
+//-----------------------------------------------------------------------------
+CGMZ_Profession.prototype.hasBuffs = function() {
+	return Object.keys(this._buffs).length > 0;
+};
+//-----------------------------------------------------------------------------
+// Get the total level of the profession including buffs
+//-----------------------------------------------------------------------------
+CGMZ_Profession.prototype.getBuffedLevel = function() {
+	const baseLevel = this._level;
+	const unstackableLevels = this.getUnstackableBuffLevels();
+	const stackableLevels = this.getStackableBuffLevels();
+	return baseLevel + unstackableLevels + stackableLevels;
+};
+//-----------------------------------------------------------------------------
+// Returns the highest unstackable buff level (if any)
+//-----------------------------------------------------------------------------
+CGMZ_Profession.prototype.getUnstackableBuffLevels = function() {
+	let buffLevel = 0;
+	for(const buff in this._buffs) {
+		if(!this._buffs[buff].stackable && this._buffs[buff].amount > buffLevel) {
+			buffLevel = this._buffs[buff].amount;
+		}
+	}
+	return buffLevel;
+};
+//-----------------------------------------------------------------------------
+// Returns the highest unstackable buff level (if any)
+//-----------------------------------------------------------------------------
+CGMZ_Profession.prototype.getStackableBuffLevels = function() {
+	let buffLevel = 0;
+	for(const buff in this._buffs) {
+		if(this._buffs[buff].stackable) {
+			buffLevel += this._buffs[buff].amount;
+		}
+	}
+	return buffLevel;
+};
+//-----------------------------------------------------------------------------
 // Set up level up toast (Requires CGMZ Toast)
 //-----------------------------------------------------------------------------
 CGMZ_Profession.prototype.setupLevelUpToast = function() {
@@ -487,13 +684,18 @@ CGMZ_Profession.prototype.setupLevelUpToast = function() {
 // Set up discover toast (Requires CGMZ Toast)
 //-----------------------------------------------------------------------------
 CGMZ_Profession.prototype.setupDiscoverToast = function() {
-	console.log("test");
 	let toast = {};
 	toast.CGMZProfessionToastDiscover = true;
 	toast.color = this._color;
 	toast.name = this._name;
 	if(this._toastSE !== "") toast.SE = {name: this._toastSE, pan: 0, pitch: 100, volume: 100};
 	$cgmzTemp.createNewToast(toast);
+};
+//-----------------------------------------------------------------------------
+// Processing after game load, add buff object if not exists
+//-----------------------------------------------------------------------------
+CGMZ_Profession.prototype.onAfterLoad = function() {
+	if(!this._buffs) this._buffs = {};
 };
 //=============================================================================
 // CGMZ
@@ -516,7 +718,7 @@ CGMZ_Core.prototype.initializeProfessionData = function(reinitialize) {
 		this.setupProfessionVariables();
 	}
 	for(let i = 0; i < CGMZ.Professions.Entries.length; i++) {
-		var prof = new CGMZ_Profession(JSON.parse(CGMZ.Professions.Entries[i]));
+		const prof = new CGMZ_Profession(JSON.parse(CGMZ.Professions.Entries[i]));
 		if(!this.getProfession(prof._name)) this._professions.push(prof);
 	}
 };
@@ -525,6 +727,18 @@ CGMZ_Core.prototype.initializeProfessionData = function(reinitialize) {
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.setupProfessionVariables = function() {
 	this._professions = [];
+};
+//-----------------------------------------------------------------------------
+// Alias. Check for new professions after loading saved game
+// Also perform recipe maintenance after load
+//-----------------------------------------------------------------------------
+const alias_CGMZ_Professions_onAfterLoad = CGMZ_Core.prototype.onAfterLoad;
+CGMZ_Core.prototype.onAfterLoad = function() {
+	alias_CGMZ_Professions_onAfterLoad.call(this);
+	this.initializeProfessionData(false);
+	for(const profession of this._professions) {
+		profession.onAfterLoad();
+	}
 };
 //-----------------------------------------------------------------------------
 // Returns array of all professions
@@ -625,33 +839,41 @@ CGMZ_Core.prototype.professionLevelsEarnedDiscovered = function() {
 // Register and handling for plugin commands
 //=============================================================================
 //-----------------------------------------------------------------------------
+// To be overridden by CGMZ plugins
+//-----------------------------------------------------------------------------
+const alias_CGMZ_Professions_CGMZ_Temp_createPluginData = CGMZ_Temp.prototype.createPluginData;
+CGMZ_Temp.prototype.createPluginData = function() {
+	alias_CGMZ_Professions_CGMZ_Temp_createPluginData.call(this);
+	this._professionBuffRemoved = false;
+};
+//-----------------------------------------------------------------------------
 // Register Plugin Commands
 //-----------------------------------------------------------------------------
 const alias_CGMZ_Professions_registerPluginCommands = CGMZ_Temp.prototype.registerPluginCommands;
 CGMZ_Temp.prototype.registerPluginCommands = function() {
 	alias_CGMZ_Professions_registerPluginCommands.call(this);
 	PluginManager.registerCommand("CGMZ_Professions", "Call Scene", this.pluginCommandProfessionsCallScene);
-	PluginManager.registerCommand("CGMZ_Professions", "reinitialize", this.pluginCommandProfessionsReinitialize);
+	PluginManager.registerCommand("CGMZ_Professions", "Reinitialize", this.pluginCommandProfessionsReinitialize);
 	PluginManager.registerCommand("CGMZ_Professions", "discover", this.pluginCommandProfessionsDiscover);
 	PluginManager.registerCommand("CGMZ_Professions", "changeExp", this.pluginCommandProfessionsChangeExp);
 	PluginManager.registerCommand("CGMZ_Professions", "changeLevel", this.pluginCommandProfessionsChangeLevel);
 	PluginManager.registerCommand("CGMZ_Professions", "getLevel", this.pluginCommandProfessionsGetLevel);
+	PluginManager.registerCommand("CGMZ_Professions", "Get Buffed Level", this.pluginCommandProfessionsGetBuffedLevel);
+	PluginManager.registerCommand("CGMZ_Professions", "Add Buff", this.pluginCommandProfessionsAddBuff);
+	PluginManager.registerCommand("CGMZ_Professions", "Remove Buff", this.pluginCommandProfessionsRemoveBuff);
+	PluginManager.registerCommand("CGMZ_Professions", "Change Description", this.pluginCommandProfessionsChangeDescription);
 };
 //-----------------------------------------------------------------------------
 // Call profession scene
 //-----------------------------------------------------------------------------
-CGMZ_Temp.prototype.pluginCommandProfessionsCallScene = function(args) {
-	if(args.call) {
-		SceneManager.push(CGMZ_Scene_Professions);
-	}
+CGMZ_Temp.prototype.pluginCommandProfessionsCallScene = function() {
+	SceneManager.push(CGMZ_Scene_Professions);
 };
 //-----------------------------------------------------------------------------
 // Reinitialize the profession data (for saved games)
 //-----------------------------------------------------------------------------
-CGMZ_Temp.prototype.pluginCommandProfessionsReinitialize = function(args) {
-	if(args.reinitialize) {
-		$cgmz.initializeProfessionData(true);
-	}
+CGMZ_Temp.prototype.pluginCommandProfessionsReinitialize = function() {
+	$cgmz.initializeProfessionData(true);
 };
 //-----------------------------------------------------------------------------
 // Set the discover status of a profession
@@ -672,12 +894,80 @@ CGMZ_Temp.prototype.pluginCommandProfessionsChangeLevel = function(args) {
 	$cgmz.changeProfessionLevel(args.name, args.mode, Number(args.amount));
 };
 //-----------------------------------------------------------------------------
-// Plugin command to get the profession's level into a variable
+// Plugin command to get the profession's unbuffed level into a variable
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.pluginCommandProfessionsGetLevel = function(args) {
 	const profession = $cgmz.getProfession(args.name);
 	if(profession) {
 		$gameVariables.setValue(Number(args.variable), profession._level);
+	}
+};
+//-----------------------------------------------------------------------------
+// Plugin command to get the profession's level + buff level into a variable
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.pluginCommandProfessionsGetBuffedLevel = function(args) {
+	const profession = $cgmz.getProfession(args.name);
+	if(profession) {
+		$gameVariables.setValue(Number(args.variable), profession.getBuffedLevel());
+	}
+};
+//-----------------------------------------------------------------------------
+// Plugin command to add a buff to a profession
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.pluginCommandProfessionsAddBuff = function(args) {
+	const profession = $cgmz.getProfession(args.name);
+	if(profession) {
+		profession.addBuff(args.buffId, Number(args.amount), Number(args.frameCount), args.stackable === "true");
+	}
+};
+//-----------------------------------------------------------------------------
+// Plugin command to remove a buff from a profession
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.pluginCommandProfessionsRemoveBuff = function(args) {
+	const profession = $cgmz.getProfession(args.name);
+	if(profession) {
+		profession.removeBuff(args.buffId);
+	}
+};
+//-----------------------------------------------------------------------------
+// Plugin command to change profession description
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.pluginCommandProfessionsChangeDescription = function(args) {
+	const profession = $cgmz.getProfession(args.name);
+	if(profession) {
+		profession.setDescription(args.description);
+	}
+};
+//-----------------------------------------------------------------------------
+// Alias. Create mapped functions
+//-----------------------------------------------------------------------------
+const alias_CGMZ_Professions_createMappedFunctions = CGMZ_Temp.prototype.createMappedFunctions;
+CGMZ_Temp.prototype.createMappedFunctions = function() {
+	alias_CGMZ_Professions_createMappedFunctions.call(this);
+	this._mappedFunctions["removeProfessionBuff"] = this.removeProfessionBuff.bind(this);
+};
+//-----------------------------------------------------------------------------
+// Remove a profession's buff
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.removeProfessionBuff = function(args) {
+	const profession = $cgmz.getProfession(args.profName);
+	if(profession) {
+		profession.removeBuff(args.buffId);
+	}
+};
+//-----------------------------------------------------------------------------
+// When an item is used, check if it should apply a temporary buff
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.checkItemForProfessionBuff = function(item) {
+	if(item && item.meta && item.meta.cgmzprofbuff) {
+		const buffs = item.meta.cgmzprofbuff.split("&");
+		for(const buff of buffs) {
+			const data = buff.split(","); // [Name, amount, frames, stackable]
+			const profession = $cgmz.getProfession(data[0]);
+			if(profession) {
+				profession.addBuff(item.name + "-" + data[0], Number(data[1]), Number(data[2]), data[3] === "true");
+			}
+		}
 	}
 };
 //=============================================================================
@@ -781,6 +1071,17 @@ CGMZ_Scene_Professions.prototype.onDisplayCancel = function() {
 	this._displayWindow.deactivate();
 	this._listWindow.activate();
 };
+//-----------------------------------------------------------------------------
+// Add background image
+//-----------------------------------------------------------------------------
+CGMZ_Scene_Professions.prototype.createBackground = function() {
+	Scene_MenuBase.prototype.createBackground.call(this);
+	if(CGMZ.Professions.SceneBackgroundImage) {
+		this._backgroundCustomSprite = new Sprite();
+		this._backgroundCustomSprite.bitmap = ImageManager.loadPicture(CGMZ.Professions.SceneBackgroundImage);
+		this.addChild(this._backgroundCustomSprite);
+	}
+};
 //=============================================================================
 // CGMZ_Window_ProfessionTotal
 //-----------------------------------------------------------------------------
@@ -796,6 +1097,7 @@ CGMZ_Window_ProfessionTotal.prototype.constructor = CGMZ_Window_ProfessionTotal;
 //-----------------------------------------------------------------------------
 CGMZ_Window_ProfessionTotal.prototype.initialize = function(rect) {
     Window_Base.prototype.initialize.call(this, rect);
+	this.setBackgroundType(2 * (CGMZ.Professions.WindowTransparency));
 	this.refresh();
 };
 //-----------------------------------------------------------------------------
@@ -811,8 +1113,8 @@ CGMZ_Window_ProfessionTotal.prototype.refresh = function() {
 CGMZ_Window_ProfessionTotal.prototype.drawTotalLevel = function() {
 	let totalLevels = $cgmz.totalProfessionLevelsDiscovered();
 	let earnedLevels = $cgmz.professionLevelsEarnedDiscovered();
-	let descriptor = CGMZ.Professions.TotalLevelText + ": ";
-	this.changeTextColor(ColorManager.systemColor());
+	let descriptor = CGMZ.Professions.TotalLevelText;
+	this.changeTextColor(ColorManager.textColor(CGMZ.Professions.LabelColor));
 	this.drawText(descriptor, 0, 0, this.contents.width, 'left');
 	let x = this.textWidth(descriptor);
 	descriptor = earnedLevels + " / " + totalLevels;
@@ -834,6 +1136,7 @@ CGMZ_Window_ProfessionList.prototype.constructor = CGMZ_Window_ProfessionList;
 //-----------------------------------------------------------------------------
 CGMZ_Window_ProfessionList.prototype.initialize = function(rect) {
     Window_Selectable.prototype.initialize.call(this, rect);
+	this.setBackgroundType(2 * (CGMZ.Professions.WindowTransparency));
 	this.select(0);
 };
 //-----------------------------------------------------------------------------
@@ -866,8 +1169,8 @@ CGMZ_Window_ProfessionList.prototype.makeItemList = function() {
 // Draw item in list
 //-----------------------------------------------------------------------------
 CGMZ_Window_ProfessionList.prototype.drawItem = function(index) {
-    let item = this._data[index];
-    let rect = this.itemRectWithPadding(index);
+    const item = this._data[index];
+    const rect = this.itemRectWithPadding(index);
 	this.changeTextColor(item._color);
 	let iconBoxWidth = 0;
 	if(item._iconIndex >= 0) {
@@ -908,19 +1211,30 @@ CGMZ_Window_ProfessionDisplay.prototype.constructor = CGMZ_Window_ProfessionDisp
 CGMZ_Window_ProfessionDisplay.prototype.initialize = function(rect) {
 	const heightMultiplier = 5; // maximum of 5 windows tall of data to scroll
     CGMZ_Window_Scrollable.prototype.initialize.call(this, rect, heightMultiplier, CGMZ.Professions.ScrollWait, CGMZ.Professions.ScrollSpeed, CGMZ.Professions.AutoScroll, CGMZ.Professions.ScrollDeceleration);
+	this.setBackgroundType(2 * (CGMZ.Professions.WindowTransparency));
 	this._profession = null;
 	this._largeIconWidth = ImageManager.iconWidth*2.2;
 	this._largeIconHeight = ImageManager.iconHeight*2.2;
 	this._iconBitmap = ImageManager.loadSystem("IconSet");
+	this._iconSprite = new Sprite();
+	this.addInnerChild(this._iconSprite);
+};
+//-----------------------------------------------------------------------------
+// Update. Check if a buff falls off and refresh accordingly
+//-----------------------------------------------------------------------------
+CGMZ_Window_ProfessionDisplay.prototype.update = function() {
+	CGMZ_Window_Scrollable.prototype.update.call(this);
+	if(this._profession && this._profession._needRefreshForBuff) {
+		this.requestRefresh();
+		this._profession._needRefreshForBuff = false;
+	}
 };
 //-----------------------------------------------------------------------------
 // Set the profession to be displayed
 //-----------------------------------------------------------------------------
 CGMZ_Window_ProfessionDisplay.prototype.setItem = function(profession) {
 	this._profession = profession;
-	this.refresh();
-	this._neededHeight += $gameSystem.windowPadding()*2;
-	this.checkForScroll();
+	this.requestRefresh();
 };
 //-----------------------------------------------------------------------------
 // Refresh
@@ -928,94 +1242,100 @@ CGMZ_Window_ProfessionDisplay.prototype.setItem = function(profession) {
 CGMZ_Window_ProfessionDisplay.prototype.refresh = function() {
 	if(!this._profession) return;
 	this.setupWindowForNewEntry();
-	this._neededHeight = 0;
-	let profession = this._profession;
-	let width = this.contents.width;
-	this.drawProfessionName(profession._name);
+	this._iconSprite.hide();
+	const profession = this._profession;
+	this.drawProfessionName();
+	if(profession._image) {
+		this.drawProfessionImage(profession);
+		return; // rest of info is drawn after image loaded in separate function
+	}
 	if(profession._iconIndex > 0) {
-		this.drawLargeIcon(profession._iconIndex);
+		this.drawLargeIcon();
 	}
 	this.drawProfessionLevel(profession);
 	this.drawProfessionExperience(profession);
-	this.drawProfessionExperienceToLevel(profession.expNeededToNextLevel());
-	let y = this.drawProfessionDescription(profession._description);
+	this.drawProfessionExperienceToLevel(profession);
+	let y = this.drawProfessionDescription(profession);
 	this._neededHeight = y;
 };
 //-----------------------------------------------------------------------------
 // Draw Name of profession
 //-----------------------------------------------------------------------------
-CGMZ_Window_ProfessionDisplay.prototype.drawProfessionName = function(name) {
+CGMZ_Window_ProfessionDisplay.prototype.drawProfessionName = function() {
 	this.contents.fontBold = true;
-	this.drawText(name, 0, 0, this.contents.width, 'center');
+	this.drawText(this._profession._name, 0, 0, this.contents.width, 'center');
 	this.contents.fontBold = false;
+};
+//-----------------------------------------------------------------------------
+// Load profession custom image
+//-----------------------------------------------------------------------------
+CGMZ_Window_ProfessionDisplay.prototype.drawProfessionImage = function(profession) {
+	this._iconSprite.bitmap = ImageManager.loadPicture(profession._image);
+	this._iconSprite.bitmap.addLoadListener(this.displayPictureBitmapOnLoad.bind(this, profession));
+};
+//-----------------------------------------------------------------------------
+// Display profession custom image after load
+//-----------------------------------------------------------------------------
+CGMZ_Window_ProfessionDisplay.prototype.displayPictureBitmapOnLoad = function(profession) {
+	this._iconSprite.y = this.lineHeight() + 4;
+	this._iconSprite.x = 0;
+	this._iconSprite.show();
+	this.drawProfessionLevel(profession);
+	this.drawProfessionExperience(profession);
+	this.drawProfessionExperienceToLevel(profession);
+	let y = this.drawProfessionDescription(profession);
+	this._neededHeight = y;
 };
 //-----------------------------------------------------------------------------
 // Draw profession level
 //-----------------------------------------------------------------------------
 CGMZ_Window_ProfessionDisplay.prototype.drawProfessionLevel = function(profession) {
-	let descriptor1 = CGMZ.Professions.LevelText + ": ";
-	let descriptor2 = profession._level + " / " + profession._maxLevel;
-	let x = (profession._iconIndex >= 0) ? this._largeIconWidth + 8 : 0;
-	let y = this.lineHeight();
+	const buffLevel = (profession.getBuffedLevel() - profession._level);
+	const buffLevelString = (buffLevel > 0) ? " + " + buffLevel : "";
+	const descriptor1 = CGMZ.Professions.LevelText;
+	const descriptor2 = profession._level + buffLevelString + " / " + profession._maxLevel;
+	const x = (profession._image) ? this._iconSprite.width + 8 : (profession._iconIndex >= 0) ? this._largeIconWidth + 8 : 0;
+	const y = this.lineHeight();
 	this.drawProfessionStandardLine(descriptor1, descriptor2, x, y, this.contents.width-x);
 };
 //-----------------------------------------------------------------------------
 // Draw profession experience
 //-----------------------------------------------------------------------------
 CGMZ_Window_ProfessionDisplay.prototype.drawProfessionExperience = function(profession) {
-	let exp = profession._exp;
-	let descriptor1 = CGMZ.Professions.ExpText + ": ";
-	let descriptor2 = $cgmzTemp.numberSplit(exp);
-	let x = (profession._iconIndex >= 0) ? this._largeIconWidth + 8 : 0;
-	let y = this.lineHeight()*2;
+	const exp = profession._exp;
+	const descriptor1 = CGMZ.Professions.ExpText;
+	const descriptor2 = $cgmzTemp.numberSplit(exp);
+	const x = (profession._image) ? this._iconSprite.width + 8 : (profession._iconIndex >= 0) ? this._largeIconWidth + 8 : 0;
+	const y = this.lineHeight()*2;
 	this.drawProfessionStandardLine(descriptor1, descriptor2, x, y, this.contents.width-x);
 };
 //-----------------------------------------------------------------------------
 // Draw profession experience to next level
 //-----------------------------------------------------------------------------
-CGMZ_Window_ProfessionDisplay.prototype.drawProfessionExperienceToLevel = function(exp) {
-	let descriptor1 = CGMZ.Professions.ExpToLevelText + ": ";
-	let descriptor2 = $cgmzTemp.numberSplit(exp);
-	let x = 0;
-	let y = this.lineHeight()*3;
+CGMZ_Window_ProfessionDisplay.prototype.drawProfessionExperienceToLevel = function(profession) {
+	const descriptor1 = CGMZ.Professions.ExpToLevelText;
+	const descriptor2 = $cgmzTemp.numberSplit(profession.expNeededToNextLevel());
+	const y = this.lineHeight()*3;
+	const x = (profession._image && y < this._iconSprite.height + this.lineHeight()) ? this._iconSprite.width + 8 : 0;
 	this.drawProfessionStandardLine(descriptor1, descriptor2, x, y, this.contents.width-x);
 };
 //-----------------------------------------------------------------------------
 // Draw profession description - returns y-value of line below last line drawn
 //-----------------------------------------------------------------------------
-CGMZ_Window_ProfessionDisplay.prototype.drawProfessionDescription = function(description) {
-	let descriptor1 = CGMZ.Professions.DescriptionText + ": ";
-	let descriptor2 = description.split(" ");
-	let x = 0;
+CGMZ_Window_ProfessionDisplay.prototype.drawProfessionDescription = function(profession) {
+	const width = this.contents.width;
 	let y = this.lineHeight()*4;
-	this.changeTextColor(ColorManager.systemColor());
-	this.drawText(descriptor1, x, y, this.contents.width, 'left');
-	x += this.textWidth(descriptor1);
-	this.changeTextColor(ColorManager.normalColor());
-	for(let i = 0; i < descriptor2.length; i++) {
-		if(descriptor2[i] === "") continue;
-		if(descriptor2[i] === '\\n') {
-			y += this.lineHeight();
-			x = 0;
-			continue;
-		}
-		var tempWidth = this.textWidth(descriptor2[i] + " ");
-		if(tempWidth + x > this.contents.width) {
-			if(tempWidth <= this.contents.width) {
-				y += this.lineHeight();
-				x = 0;
-			}
-		}
-		this.drawText(descriptor2[i] + " ", x, y, this.contents.width-x, 'left');
-		x += tempWidth;
-	}
-	return y + this.lineHeight();
+	const x = (profession._image && y < this._iconSprite.height + this.lineHeight()) ? this._iconSprite.width + 8 : 0;
+	this.drawProfessionStandardLine(CGMZ.Professions.DescriptionText, "", x, y, width);
+	const firstLineXOffset = this.textWidth(CGMZ.Professions.DescriptionText);
+	y += this.CGMZ_drawText(profession._description, x, firstLineXOffset, y, width, CGMZ.Professions.DescriptionAlignment);
+	return y;
 };
 //-----------------------------------------------------------------------------
 // Draws a standard line (blue system text: white text)
 //-----------------------------------------------------------------------------
 CGMZ_Window_ProfessionDisplay.prototype.drawProfessionStandardLine = function(descriptor1, descriptor2, x, y, width) {
-	this.changeTextColor(ColorManager.systemColor());
+	this.changeTextColor(ColorManager.textColor(CGMZ.Professions.LabelColor));
 	this.drawText(descriptor1, x, y, width-x, 'left');
 	x += this.textWidth(descriptor1);
 	this.changeTextColor(ColorManager.normalColor());
@@ -1024,7 +1344,8 @@ CGMZ_Window_ProfessionDisplay.prototype.drawProfessionStandardLine = function(de
 //-----------------------------------------------------------------------------
 // Draw Large icon
 //-----------------------------------------------------------------------------
-CGMZ_Window_ProfessionDisplay.prototype.drawLargeIcon = function(iconIndex) {
+CGMZ_Window_ProfessionDisplay.prototype.drawLargeIcon = function() {
+	const iconIndex = this._profession._iconIndex;
 	let bitmap = this._iconBitmap;
 	const pw = ImageManager.iconWidth;
     const ph = ImageManager.iconHeight;
@@ -1064,3 +1385,18 @@ CGMZ_Window_Toast.prototype.processCustomToast = function(toastObject) {
 	}
 };
 }
+//=============================================================================
+// Game_Battler
+//-----------------------------------------------------------------------------
+// Use buff item processing
+//=============================================================================
+//-----------------------------------------------------------------------------
+// Item use may cause temporary profession buff
+//-----------------------------------------------------------------------------
+const alias_CGMZ_Professions_useItem = Game_Battler.prototype.useItem;
+Game_Battler.prototype.useItem = function(item) {
+	alias_CGMZ_Professions_useItem.call(this, item);
+	if(DataManager.isItem(item)) {
+        $cgmzTemp.checkItemForProfessionBuff(item);
+    }
+};

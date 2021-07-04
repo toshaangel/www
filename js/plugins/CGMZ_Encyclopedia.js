@@ -11,7 +11,7 @@
  * Become a Patron to get access to beta/alpha plugins plus other goodies!
  * https://www.patreon.com/CasperGamingRPGM
  * ============================================================================
- * Version: 1.1.2
+ * Version: 1.1.3
  * ----------------------------------------------------------------------------
  * Compatibility: Only tested with my CGMZ plugins.
  * Made for RPG Maker MZ 1.0.0
@@ -74,6 +74,10 @@
  *
  * 1.1.2:
  * - This plugin now initiates a check for CGMZ Achievements after discovery
+ *
+ * 1.1.3:
+ * - Fixed a bug with TP Gain effects being drawn over Item descriptions
+ * - Whitespace is now trimmed from the currency unit for the heading in bestiary
  *
  * @command DiscoverEnemy
  * @text Discover Enemy
@@ -634,7 +638,7 @@ Imported.CGMZ_Encyclopedia = true;
 var CGMZ = CGMZ || {};
 CGMZ.Encyclopedia = CGMZ.Encyclopedia || {};
 CGMZ.Versions = CGMZ.Versions || {};
-CGMZ.Versions["Encyclopedia and Bestiary"] = "1.1.2";
+CGMZ.Versions["Encyclopedia and Bestiary"] = "1.1.3";
 CGMZ.Encyclopedia.parameters = PluginManager.parameters('CGMZ_Encyclopedia');
 CGMZ.Encyclopedia.IncludeBestiary = (CGMZ.Encyclopedia.parameters["Include Bestiary"] === "true") ? true : false;
 CGMZ.Encyclopedia.IncludeItems = (CGMZ.Encyclopedia.parameters["Include Items"] === "true") ? true : false;
@@ -2053,7 +2057,7 @@ CGMZ_Window_EncyclopediaDisplay.prototype.drawEncyclopediaBestiaryRewards = func
 	let descriptor2 = $cgmzTemp.numberSplit(exp);
 	this.drawEncyclopediaStandardLine(descriptor1, descriptor2, x, y, this.contents.width);
 	y += this.lineHeight();
-	descriptor1 = TextManager.currencyUnit + ": ";
+	descriptor1 = (TextManager.currencyUnit).trim() + ": ";
 	descriptor2 = $cgmzTemp.numberSplit(gold);
 	this.drawEncyclopediaStandardLine(descriptor1, descriptor2, x, y, this.contents.width);
 };
@@ -2159,7 +2163,7 @@ CGMZ_Window_EncyclopediaDisplay.prototype.drawEncyclopediaConsumable = function(
 // Returns y value after drawing the last effect
 //-----------------------------------------------------------------------------
 CGMZ_Window_EncyclopediaDisplay.prototype.drawEncyclopediaEffects = function(effects, y) {
-	if(effects.length < 1) return this.lineHeight()*6;
+	if(effects.length < 1) return y;
 	let tracker = {"HPv1": 0, "HPv2": 0, "MPv1": 0, "MPv2": 0, "TP": 0, "ADDSTATE": [], "REMOVESTATE": [], "BUFFS": [], "DEBUFFS": [],
 				   "REMOVEDBUFFS": [], "REMOVEDDEBUFFS": [], "GROW": [], "LEARNS": []};
 	for(let i = 0; i < effects.length; i++) {
@@ -2206,7 +2210,7 @@ CGMZ_Window_EncyclopediaDisplay.prototype.drawEncyclopediaEffects = function(eff
 	if(!(tracker.HPv1 != 0 || tracker.HPv2 != 0 || tracker.MPv1 != 0 || tracker.MPv2 != 0 || tracker.TP != 0 || 
 	   tracker.ADDSTATE.length > 0 || tracker.REMOVESTATE.length > 0 || tracker.BUFFS.length > 0 || tracker.DEBUFFS.length > 0 || 
 	   tracker.REMOVEDBUFFS.length > 0 || tracker.REMOVEDDEBUFFS.length > 0 || tracker.GROW.length > 0 || tracker.LEARNS.length > 0)) {
-			return this.lineHeight()*6;
+			return y;
 	}
 	this.drawEncyclopediaCenteredText(CGMZ.Encyclopedia.EffectsText, y, true);
 	y += this.lineHeight();

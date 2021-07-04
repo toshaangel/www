@@ -11,10 +11,10 @@
  * Become a Patron to get access to beta/alpha plugins plus other goodies!
  * https://www.patreon.com/CasperGamingRPGM
  * ============================================================================
- * Version: 1.4.0
+ * Version: 1.5.2
  * ----------------------------------------------------------------------------
  * Compatibility: Only tested with my CGMZ plugins.
- * Made for RPG Maker MZ 1.0.0
+ * Made for RPG Maker MZ 1.2.0
  * ----------------------------------------------------------------------------
  * Description: This is the core CGMZ plugin which is used extensively
  * by other CGMZ plugins and is likely to be required.
@@ -59,16 +59,25 @@
  * - Added option to go fullscreen on game start
  * - Bugfix to add cap to scrollable window size
  *
+ * 1.5.0:
+ * - Added new draw text function for text codes with automatic line breaks
+ * - Added update behavior
+ * - Added behavior after load in CGMZ classes
+ * - Added new timer class
+ * - Optimized existing code
+ *
+ * 1.5.1:
+ * - Added parameter to simulate deployed environment during playtest
+ * - Added new draw text function for drawing for a single line of text with text codes
+ *
+ * 1.5.2:
+ * - More concise error reporting
+ * - Bugfix for font size changes throwing off line wrap when drawing text with text codes
+ *
  * @command Initialize
  * @text Initialize
  * @desc Re-initializes some CGMZ Classes. Only call this if you know what you
  * are doing. Will reset all CGMZ Data as if you started a new game.
- *
- * @arg reset
- * @type boolean
- * @text Reset
- * @desc Resets the core cgmz data if true. No functionality for false.
- * @default true
  *
  * @param Check for Updates
  * @type boolean
@@ -89,18 +98,24 @@
  * @type boolean
  * @desc Go fullscreen on game start?
  * @default false
+ *
+ * @param Simulate Production Env
+ * @type boolean
+ * @desc If set to true, this will cause the game to think you are NOT playtesting even when launched in editor
+ * @default false
 */
 var Imported = Imported || {};
 Imported.CGMZ_Core = true;
 var CGMZ = CGMZ || {};
 CGMZ.Versions = CGMZ.Versions || {};
-CGMZ.Versions["CGMZ Core"] = "1.4.0";
+CGMZ.Versions["CGMZ Core"] = "1.5.2";
 CGMZ.Core = CGMZ.Core || {};
 CGMZ.Core.parameters = PluginManager.parameters('CGMZ_Core');
-CGMZ.Core.CheckForUpdates = (CGMZ.Core.parameters["Check for Updates"] === "true") ? true : false;
-CGMZ.Core.ShowDevTools = (CGMZ.Core.parameters["Dev Tools on Start"] === "true") ? true : false;
-CGMZ.Core.StartFullscreen = (CGMZ.Core.parameters["Fullscreen"] === "true") ? true : false;
-CGMZ.Core.ShowFPSCounter = (CGMZ.Core.parameters["Show FPS Counter"] === "true") ? true : false;
+CGMZ.Core.CheckForUpdates = (CGMZ.Core.parameters["Check for Updates"] === "true");
+CGMZ.Core.ShowDevTools = (CGMZ.Core.parameters["Dev Tools on Start"] === "true");
+CGMZ.Core.StartFullscreen = (CGMZ.Core.parameters["Fullscreen"] === "true");
+CGMZ.Core.ShowFPSCounter = (CGMZ.Core.parameters["Show FPS Counter"] === "true");
+CGMZ.Core.SimulateProductionEnv = (CGMZ.Core.parameters["Simulate Production Env"] === "true");
 //=============================================================================
 // CGMZ_Temp
 //-----------------------------------------------------------------------------
@@ -115,6 +130,7 @@ function CGMZ_Temp() {
 CGMZ_Temp.prototype.initialize = function() {
 	this._inputCurrentState = {};
 	this.createPluginData();
+	this.createMappedFunctions();
 	this.registerPluginCommands();
 	this.initEnvVariables();
 };
@@ -140,25 +156,8 @@ CGMZ_Temp.prototype.getMaxCanvasSize = function() {
 // Check the version of CGMZ plugins against most up to date from server
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.checkCGMZPluginVersions = function(jsonData) {
-	/* Plugins before I added this functionality might not have CGMZ.Versions */
-	if(Imported.CGMZ_Menu_CommandWindow && !CGMZ.Versions["Menu Command Window"]) {
-		CGMZ.Versions["Menu Command Window"] = 1.0;
-	}
-	if(Imported.CGMZ_ExtraStats && !CGMZ.Versions["Extra Stats"]) {
-		CGMZ.Versions["Extra Stats"] = 1.0;
-	}
-	if(Imported.CGMZ_GameInfo && !CGMZ.Versions["Game Info"]) {
-		CGMZ.Versions["Game Info"] = 1.0;
-	}
-	if(Imported.CGMZ_GameOver && !CGMZ.Versions["Game Over"]) {
-		CGMZ.Versions["Game Over"] = 1.0;
-	}
-	if(Imported.CGMZ_SplashScreen && !CGMZ.Versions["Splash Screen"]) {
-		CGMZ.Versions["Splash Screen"] = 1.0;
-	}
 	let warned = false;
 	let pluginName = "";
-	/* Actually check local versions against server version */
 	jsonData.versions.forEach((version) => {
 		if(CGMZ.Versions[version.name] && CGMZ.Versions[version.name].toString() !== version.version.toString()) {
 			if(!warned) {
@@ -182,6 +181,21 @@ CGMZ_Temp.prototype.createPluginData = function() {
 	// Used by CGMZ plugins
 };
 //-----------------------------------------------------------------------------
+// Update CGMZ Timers and other plugins
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.update = function() {
+	this.updateTimers();
+};
+//-----------------------------------------------------------------------------
+// Update CGMZ Timers
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.updateTimers = function() {
+	const timer = $cgmz.getEarliestTimer();
+	if(timer && timer._frameCount < Graphics.frameCount) {
+		$cgmz.executeEarliestTimer();
+	}
+};
+//-----------------------------------------------------------------------------
 // Register Plugin Commands
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.registerPluginCommands = function() {
@@ -190,20 +204,15 @@ CGMZ_Temp.prototype.registerPluginCommands = function() {
 //-----------------------------------------------------------------------------
 // Reinitializes the plugin - Plugin Command
 //-----------------------------------------------------------------------------
-CGMZ_Temp.prototype.pluginCommandReinitialize = function(args) {
-	if (args.reset === "true") {
-		$cgmzTemp.createPluginData();
-		$cgmz.createPluginData();
-	}
+CGMZ_Temp.prototype.pluginCommandReinitialize = function() {
+	$cgmzTemp.createPluginData();
+	$cgmz.createPluginData();
 };
 //-----------------------------------------------------------------------------
 // Report an error to the console
 //-----------------------------------------------------------------------------
-CGMZ_Temp.prototype.reportError = function(error, origin, suggestion) {
-	suggestion = suggestion || "Update Plugins";
-	console.warn("Error in plugin: " + origin);
-	console.warn("Error description: " + error);
-	console.warn("Possible solution: " + suggestion);
+CGMZ_Temp.prototype.reportError = function(error, origin, suggestion = "Update Plugins") {
+	console.warn("Error in plugin: " + origin + "\nError description: " + error + "\nPossible solution: " + suggestion);
 };
 //-----------------------------------------------------------------------------
 // Takes a number and returns it's toLocaleString value
@@ -226,7 +235,7 @@ CGMZ_Temp.prototype.timeSplit = function(frameCount) {
 // Does not go above days as a time unit.
 // For example, 30 seconds would return [30, "seconds"]
 //              45 minutes would return [45, "minutes"]
-//              18 hours would return   [18, "hours"] 
+//              18 hours would return   [18, "hours"]
 //              28 days would return    [28, "days"]
 // If there is an error, it will return an empty array
 // If forceApproximation is true, will round down to nearest even unit provided
@@ -261,25 +270,16 @@ CGMZ_Temp.prototype.approximateTimeValue = function(seconds, forceApproximation,
 // Takes an amount of seconds and approximates it to an amount of time units (minute, hour, day)
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.approximateTimeValueToUnit = function(seconds, unitString) {
-	let value = 0;
-	if (unitString === "Days") {
-		value = Math.floor(seconds/60/60/24);
+	switch(unitString) {
+		case "Days": return Math.floor(seconds/60/60/24);
+		case "Hours": return Math.floor(seconds/60/60);
+		case "Minutes": return Math.floor(seconds/60);
+		case "Seconds": return seconds;
 	}
-	else if (unitString === "Hours") {
-		value = Math.floor(seconds/60/60);
-	}
-	else if (unitString === "Minutes") {
-		value = Math.floor(seconds/60);
-	}
-	else if (unitString === "Seconds") {
-		value = seconds;
-	}
-	else {
-		const script = "CGMZ Core";
-		const error = "Unrecognized unitString in approximateTimeValueToUnit()";
-		this.reportError(error, script);
-	}
-	return value;
+	const script = "CGMZ Core";
+	const error = "Unrecognized unitString in approximateTimeValueToUnit()";
+	this.reportError(error, script);
+	return 0;
 };
 //-----------------------------------------------------------------------------
 // Take javascript getDate, getMonth, and getFullYear and return formatted date text
@@ -295,112 +295,83 @@ CGMZ_Temp.prototype.approximateTimeValueToUnit = function(seconds, unitString) {
 // 8: DD/MM          (ex: 20/1)
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.createDateText = function(day, month, year, format, delim) {
-	let txt;
 	switch(format) {
-		case 0:
-			txt = (month+1).toString() + delim + day.toString() + delim + year.toString();
-			return txt;
-		case 1:
-			txt = day.toString() + delim + (month+1).toString() + delim + year.toString();
-			return txt;
-		case 2:
-			txt = year.toString() + delim + (month+1).toString() + delim + day.toString();
-			return txt;
-		case 3:
-			txt = this.getFullMonthName(month) + " " + day.toString() + ", " + year.toString();
-			return txt;
-		case 4:
-			txt = day.toString() + " " + this.getFullMonthName(month) + " " + year.toString();
-			return txt;
-		case 5:
-			txt = this.getShortMonthName(month) + " " + day.toString() + ", " + year.toString();
-			return txt;
-		case 6:
-			txt = day.toString() + " " + this.getShortMonthName(month) + " " + year.toString();
-			return txt;
-		case 7:
-			txt = (month+1).toString() + delim + day.toString();
-			return txt;
-		case 8:
-			txt =  day.toString() + delim + (month+1).toString();
-			return txt;
-		default:
-			this.reportError("createDateText: Out of range", "CGMZ Core");
-			txt = "Unknown Date";
+		case 0: return (month+1).toString() + delim + day.toString() + delim + year.toString();
+		case 1: return day.toString() + delim + (month+1).toString() + delim + year.toString();
+		case 2: return year.toString() + delim + (month+1).toString() + delim + day.toString();
+		case 3: return this.getFullMonthName(month) + " " + day.toString() + ", " + year.toString();
+		case 4: return day.toString() + " " + this.getFullMonthName(month) + " " + year.toString();
+		case 5: return this.getShortMonthName(month) + " " + day.toString() + ", " + year.toString();
+		case 6: return day.toString() + " " + this.getShortMonthName(month) + " " + year.toString();
+		case 7: return (month+1).toString() + delim + day.toString();
+		case 8: return day.toString() + delim + (month+1).toString();
 	}
-	return txt;
+	this.reportError("createDateText: Out of range", "CGMZ Core");
+	return "Unknown Date";
 };
 //-----------------------------------------------------------------------------
 // Convert javascript getMonth int to full name of month string
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.getFullMonthName = function(month) {
-	let monthName = "";
 	switch(month) {
-		case 0: monthName = "January"; break;
-		case 1: monthName = "February"; break;
-		case 2: monthName = "March"; break;
-		case 3: monthName = "April"; break;
-		case 4: monthName = "May"; break;
-		case 5: monthName = "June"; break;
-		case 6: monthName = "July"; break;
-		case 7: monthName = "August"; break;
-		case 8: monthName = "September"; break;
-		case 9: monthName = "October"; break;
-		case 10: monthName = "November"; break;
-		case 11: monthName = "December"; break;
-		default:
-			this.reportError("getFullMonthName: Out of range", "CGMZ Core");
-			monthName = "Unknown";
+		case 0: return "January";
+		case 1: return "February";
+		case 2: return "March";
+		case 3: return "April";
+		case 4: return "May";
+		case 5: return "June";
+		case 6: return "July";
+		case 7: return "August";
+		case 8: return "September";
+		case 9: return "October";
+		case 10: return "November";
+		case 11: return "December";
 	}
-	return monthName;
+	this.reportError("getFullMonthName: Out of range", "CGMZ Core");
+	return "Unknown";
 };
 //-----------------------------------------------------------------------------
 // Convert javascript getMonth int to abbreviated name of month string
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.getShortMonthName = function(month) {
-	let monthName = "";
 	switch(month) {
-		case 0: monthName = "Jan"; break;
-		case 1: monthName = "Feb"; break;
-		case 2: monthName = "Mar"; break;
-		case 3: monthName = "Apr"; break;
-		case 4: monthName = "May"; break;
-		case 5: monthName = "Jun"; break;
-		case 6: monthName = "Jul"; break;
-		case 7: monthName = "Aug"; break;
-		case 8: monthName = "Sep"; break;
-		case 9: monthName = "Oct"; break;
-		case 10: monthName = "Nov"; break;
-		case 11: monthName = "Dec"; break;
-		default:
-			this.reportError("getShortMonthName: Out of range", "CGMZ Core", "Update CGMZ Plugins");
-			monthName = "Unknown";
+		case 0: return "Jan";
+		case 1: return "Feb";
+		case 2: return "Mar";
+		case 3: return "Apr";
+		case 4: return "May";
+		case 5: return "Jun";
+		case 6: return "Jul";
+		case 7: return "Aug";
+		case 8: return "Sep";
+		case 9: return "Oct";
+		case 10: return "Nov";
+		case 11: return "Dec";
 	}
-	return monthName;
+	this.reportError("getShortMonthName: Out of range", "CGMZ Core", "Update CGMZ Plugins");
+	return "Unknown";
 };
 //-----------------------------------------------------------------------------
 // Look up item given type and id
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.lookupItem = function(type, id) {
 	switch(type) {
-		case 'item':
-			return $dataItems[id];
-		case 'weapon':
-			return $dataWeapons[id];
-		case 'armor':
-			return $dataArmors[id];
-		default:
-			this.reportError("Item type setup incorrectly", "CGMZ Core", "Check item parameters set up through CGMZ plugins");
-			return null;
+		case 'item': return $dataItems[id];
+		case 'weapon': return $dataWeapons[id];
+		case 'armor': return $dataArmors[id];
 	}
+	this.reportError("Item type setup incorrectly", "CGMZ Core", "Check item parameters set up through CGMZ plugins");
+	return null;
 };
 //-----------------------------------------------------------------------------
 // Split string based on width and if the next word will fit in that line
+// Deprecated. TO-DO: Remove in future version
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.wrapText = function(string, contents, xOffset = 0, firstLineXOffset = 0, separator = " ") {
 	let lines = [];
 	let tempLine = "";
-	let words = string.split(" ");
+	let newString = this.convertEscapeCharacters(string);
+	let words = newString.split(" ");
 	let x = xOffset + firstLineXOffset;
 	for(let i = 0; i < words.length; i++) {
 		if(i === words.length - 1) {
@@ -419,6 +390,29 @@ CGMZ_Temp.prototype.wrapText = function(string, contents, xOffset = 0, firstLine
 		lines.push(tempLine);
 	}
 	return lines
+};
+//-----------------------------------------------------------------------------
+// Copy of escape code replacement from Window Base - temporary
+// Deprecated. TO-DO: Remove in future version
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.convertEscapeCharacters = function(text) {
+    /* eslint no-control-regex: 0 */
+    text = text.replace(/\\/g, "\x1b");
+    text = text.replace(/\x1b\x1b/g, "\\");
+    text = text.replace(/\x1bV\[(\d+)\]/gi, (_, p1) =>
+        $gameVariables.value(parseInt(p1))
+    );
+    text = text.replace(/\x1bV\[(\d+)\]/gi, (_, p1) =>
+        $gameVariables.value(parseInt(p1))
+    );
+    text = text.replace(/\x1bN\[(\d+)\]/gi, (_, p1) =>
+        this.actorName(parseInt(p1))
+    );
+    text = text.replace(/\x1bP\[(\d+)\]/gi, (_, p1) =>
+        this.partyMemberName(parseInt(p1))
+    );
+    text = text.replace(/\x1bG/gi, TextManager.currencyUnit);
+    return text;
 };
 //-----------------------------------------------------------------------------
 // Request a response from an API using fetch, and output response to custom
@@ -445,9 +439,9 @@ CGMZ_Temp.prototype.inputClear = function() {
 // on key down
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.onKeyDown = function(event) {
-	let keyCode = event.keyCode;
-	if(keyCode) {
-		this._inputCurrentState[keyCode] = true;
+	let key = event.key;
+	if(key) {
+		this._inputCurrentState[key] = true;
 		this.refreshForKeysDown();
 	}
 };
@@ -455,9 +449,9 @@ CGMZ_Temp.prototype.onKeyDown = function(event) {
 // on key up
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.onKeyUp = function(event) {
-	let keyCode = event.keyCode;
-	if(keyCode) {
-		this._inputCurrentState[keyCode] = false;
+	let key = event.key;
+	if(key) {
+		this._inputCurrentState[key] = false;
 		this.refreshForKeysUp();
 	}
 };
@@ -479,6 +473,21 @@ CGMZ_Temp.prototype.refreshForKeysUp = function() {
 CGMZ_Temp.prototype.isKeyPressed = function(keyCode) {
 	return this._inputCurrentState[keyCode];
 };
+//-----------------------------------------------------------------------------
+// Create mapped functions
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.createMappedFunctions = function() {
+	this._mappedFunctions = {}
+};
+//-----------------------------------------------------------------------------
+// Call a mapped function
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.callMappedFunctions = function(funcName, args) {
+	func = this._mappedFunctions[funcName];
+	if(func) {
+		func.call(this, args);
+	}
+};
 //=============================================================================
 // CGMZ_Core
 //-----------------------------------------------------------------------------
@@ -491,6 +500,7 @@ function CGMZ_Core() {
 // Initialize CGMZ_Core
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.initialize = function() {
+	this._cgmzTimers = [];
 	this.createPluginData();
 };
 //-----------------------------------------------------------------------------
@@ -498,6 +508,84 @@ CGMZ_Core.prototype.initialize = function() {
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.createPluginData = function() {
 	// Used by CGMZ plugins
+};
+//-----------------------------------------------------------------------------
+// Check if anything needs to be done after a saved game is loaded
+//-----------------------------------------------------------------------------
+CGMZ_Core.prototype.onAfterLoad = function() {
+	if(!this._cgmzTimers) this._cgmzTimers = [];
+	// Used by CGMZ plugins
+};
+//-----------------------------------------------------------------------------
+// Get earliest timer
+//-----------------------------------------------------------------------------
+CGMZ_Core.prototype.getEarliestTimer = function() {
+	if(this._cgmzTimers) return this._cgmzTimers[0];
+	return null;
+};
+//-----------------------------------------------------------------------------
+// Get all timers
+//-----------------------------------------------------------------------------
+CGMZ_Core.prototype.getAllTimers = function() {
+	return this._cgmzTimers;
+};
+//-----------------------------------------------------------------------------
+// Get timer by id
+//-----------------------------------------------------------------------------
+CGMZ_Core.prototype.getTimerById = function(id) {
+	return this._cgmzTimers.find(timer => timer._id === id);
+};
+//-----------------------------------------------------------------------------
+// Request adding a timer, if valid will add the timer to the timer array
+// sorted by each timer's frameCount
+//-----------------------------------------------------------------------------
+CGMZ_Core.prototype.requestNewTimer = function(timer) {
+	if(!timer) return;
+	const existingTimer = this.getTimerById(timer._id);
+	if(existingTimer) {
+		existingTimer._frameCount = timer._frameCount;
+	} else {
+		this._cgmzTimers.push(timer);
+	}
+	this._cgmzTimers.sort((a, b) => (a._frameCount > b._frameCount) ? 1 : -1);
+};
+//-----------------------------------------------------------------------------
+// Execute earliest timer
+//-----------------------------------------------------------------------------
+CGMZ_Core.prototype.executeEarliestTimer = function() {
+	timer = this._cgmzTimers.shift();
+	if(timer) {
+		$cgmzTemp.callMappedFunctions(timer._funcName, timer._args);
+	}
+};
+//-----------------------------------------------------------------------------
+// Execute timer by id
+//-----------------------------------------------------------------------------
+CGMZ_Core.prototype.executeTimerById = function(id) {
+	for(let i = 0; i < this._cgmzTimers.length; i++) {
+		if(this._cgmzTimers[i]._id === id) {
+			const removedTimer = this._cgmzTimers.splice(i, 1)[0];
+			$cgmzTemp.callMappedFunctions(removedTimer._funcName, removedTimer._args);
+			break;
+		}
+	}
+};
+//=============================================================================
+// CGMZ_Timer
+//-----------------------------------------------------------------------------
+// Handles a timer (by frame count)
+//=============================================================================
+function CGMZ_Timer() {
+    this.initialize.apply(this, arguments);
+}
+//-----------------------------------------------------------------------------
+// Initialize Reputation
+//-----------------------------------------------------------------------------
+CGMZ_Timer.prototype.initialize = function(frameCount, id, funcName, args = {}) {
+	this._id = id;
+	this._frameCount = Graphics.frameCount + frameCount;
+	this._funcName = funcName;
+	this._args = args;
 };
 //=============================================================================
 // Game_Map
@@ -513,6 +601,19 @@ Game_Map.prototype.CGMZ_getMapName = function() {
 		name = $dataMap.meta.cgmzname;
 	}
 	return name;
+};
+//=============================================================================
+// Game_System
+//-----------------------------------------------------------------------------
+// Add call to CGMZ_Core after load
+//=============================================================================
+//-----------------------------------------------------------------------------
+// Alias. Also check if CGMZ_Core needs to do anything after load
+//-----------------------------------------------------------------------------
+const alias_CGMZ_Core_GameSystem_onAfterLoad = Game_System.prototype.onAfterLoad;
+Game_System.prototype.onAfterLoad = function() {
+    alias_CGMZ_Core_GameSystem_onAfterLoad.call(this);
+	$cgmz.onAfterLoad();
 };
 //=============================================================================
 // DataManager
@@ -559,6 +660,20 @@ DataManager.setupNewGame = function() {
 		const url = 'https://www.caspergaming.com/api/public/cgmz/v2/versions/';
 		$cgmzTemp.requestResponse(url, $cgmzTemp.checkCGMZPluginVersions);
 	}
+};
+//=============================================================================
+// SceneManager
+//-----------------------------------------------------------------------------
+// Update CGMZ_Core every frame
+// modified functions: updateMain
+//=============================================================================
+//-----------------------------------------------------------------------------
+// Update CGMZ_Core
+//-----------------------------------------------------------------------------
+const alias_CGMZ_Core_SceneManager_updateMain = SceneManager.updateMain;
+SceneManager.updateMain = function() {
+	alias_CGMZ_Core_SceneManager_updateMain.call(this);
+	if($cgmzTemp) $cgmzTemp.update();
 };
 //=============================================================================
 // Scene_Boot
@@ -706,7 +821,7 @@ CGMZ_Window_Scrollable.prototype.updateScroll = function() {
 		this._scrollTimer = 0;
 	}
 	else {
-		var speed = (this._scrollMode == 1) ? -this._scrollSpeed : this._scrollSpeed;
+		const speed = (this._scrollMode == 1) ? -this._scrollSpeed : this._scrollSpeed;
 		this.processScroll(speed);
 	}
 };
@@ -883,13 +998,94 @@ CGMZ_Window_Scrollable.prototype.isCancelEnabled = function() {
 //=============================================================================
 // Window_Base
 //-----------------------------------------------------------------------------
-// Adding functions for CGMZ Windows. Drawing gauges
+// Adding functions for CGMZ Windows. Drawing gauges and text processing
 //=============================================================================
+//-----------------------------------------------------------------------------
+// Use bitmap gauge - don't always need full sprite gauge
+//-----------------------------------------------------------------------------
 Window_Base.prototype.CGMZ_drawGauge = function(rect, rate, color1, color2, color0 = ColorManager.gaugeBackColor()) {
 	const fillW = Math.floor((rect.width - 2) * rate);
     const fillH = rect.height - 2;
 	this.contents.fillRect(rect.x, rect.y, rect.width, rect.height, color0);
     this.contents.gradientFillRect(rect.x + 1, rect.y + 1, fillW, fillH, color1, color2);
+};
+//-----------------------------------------------------------------------------
+// Draw a string of text with text codes and word wrapping.
+// It can also handle a first-line offset.
+// Returns the overall output height
+//-----------------------------------------------------------------------------
+Window_Base.prototype.CGMZ_drawText = function(string, x, firstLineX, y, width, alignment = "left") {
+	this.resetFontSettings();
+    const textState = this.createTextState(string, x, y, width);
+	textState.drawing = false;
+	textState.x = firstLineX;
+	textState.lastSpaceIndex = 0;
+	while (textState.index < textState.text.length) {
+		const c = textState.text[textState.index++];
+		const tempFS = this.contents.fontSize;
+		let neededWidth = textState.x + this.textWidth(textState.buffer) + this.textSizeEx(c).width * (c !== ' ');
+		this.contents.fontSize = tempFS; // reset font size since textSizeEx resets font size.
+		if(neededWidth > textState.width && textState.lastSpaceIndex > 0) {
+			textState.text = textState.text.substring(0, textState.lastSpaceIndex) + '\n' + textState.text.substring(textState.lastSpaceIndex + 1);
+			textState.x = textState.startX;
+		}
+		if (c.charCodeAt(0) < 0x20) {
+			this.flushTextState(textState);
+			this.processControlCharacter(textState, c);
+		} else if(c === " ") {
+			textState.buffer += c;
+			this.flushTextState(textState);
+			textState.lastSpaceIndex = textState.index - 1;
+		} else {
+			textState.buffer += c;
+		}
+	}
+	switch(alignment) {
+		case "left":
+			const textState2 = this.createTextState(textState.text, x, y, width);
+			textState2.x = firstLineX;
+			this.processAllText(textState2);
+			return textState2.outputHeight;
+		case "center":
+		case "right":
+			let totalHeight = 0;
+			let firstLine = true;
+			const lines = textState.text.split("\n");
+			for(line of lines) {
+				let textState2 = this.createTextState(line, x, y + totalHeight, width);
+				let textWidth = this.textSizeEx(line).width;
+				textState2.x = width + textState2.x - textWidth;
+				if(alignment === "center") textState2.x = (textState2.x / 2) + (firstLineX * firstLine / 2);
+				if(firstLine && (firstLineX > textState2.x)) textState2.x = firstLineX;
+				firstLine = false;
+				this.processAllText(textState2);
+				totalHeight += textState2.outputHeight;
+			}
+			return totalHeight;
+	}
+	return 0;
+};
+//-----------------------------------------------------------------------------
+// Draw one line of string of text with any character codes.
+// While \n IS supported, it is not recommended for this function since it assumes only one line will be drawn
+// It can also handle an x offset.
+// Returns the output height of the line drawn
+//-----------------------------------------------------------------------------
+Window_Base.prototype.CGMZ_drawTextLine = function(string, x, y, width, alignment = "left") {
+	this.resetFontSettings();
+	const textState = this.createTextState(string, x, y, width);
+	const textWidth = this.textSizeEx(string).width;
+	switch(alignment) {
+		case "center":
+			textState.x = width + textState.x - textWidth;
+			textState.x = (textState.x / 2) + (x / 2);
+			break;
+		case "right":
+			textState.x = width + textState.x - textWidth;
+			if(textState.x < x) textState.x = x;
+	}
+	this.processAllText(textState);
+	return textState.outputHeight;
 };
 //=============================================================================
 // Input
@@ -919,4 +1115,16 @@ const CGMZ_Core_Input_onLostFocus = Input._onLostFocus;
 Input._onLostFocus = function() {
     CGMZ_Core_Input_onLostFocus.call(this);
 	if($cgmzTemp) $cgmzTemp.inputClear();
+};
+//=============================================================================
+// Game_Temp
+//-----------------------------------------------------------------------------
+// Simulate production environment parameter
+//=============================================================================
+//-----------------------------------------------------------------------------
+// Alias. Always pass false if simulating production
+//-----------------------------------------------------------------------------
+const CGMZ_Core_GameTemp_isPlaytest = Game_Temp.prototype.isPlaytest;
+Game_Temp.prototype.isPlaytest = function() {
+	return (CGMZ.Core.SimulateProductionEnv) ? false : CGMZ_Core_GameTemp_isPlaytest.call(this);
 };

@@ -179,7 +179,7 @@ Eli.GlobalText = {
 
     parameters: EliPluginManager.createParameters() || {},
     alias: {},
-    regGlobalEscape: undefined,
+    regGlobalEscape: null,
     regIcon: /\\i/gi,
 
     param(){
@@ -204,6 +204,7 @@ Plugin.initialize();
 Alias.Game_Message_add = Game_Message.prototype.add;
 Game_Message.prototype.add = function(text) {
     text = EliBook.convertEscapeCharacters(text)
+    text = text.replace(Plugin.regGlobalEscape, '')
     Alias.Game_Message_add.call(this, text)
 }
 
@@ -213,23 +214,25 @@ Game_Message.prototype.add = function(text) {
 
 Alias.Window_Base_initialize = Window_Base.prototype.initialize;
 Window_Base.prototype.initialize = function(x, y, width, height){
-    Alias.Window_Base_initialize.call(this, ...arguments);
+    Alias.Window_Base_initialize.call(this, x, y, width, height);
     this._globalTag = Plugin.param().tag;
 };
 
 Alias.Window_Base_drawText = Window_Base.prototype.drawText;
 Window_Base.prototype.drawText = function(text, x, y, maxWidth, align) {
     if(this.canDrawGlobalText(String(text))){
-        this.drawTextExAlign(...arguments);
+        text = String(text).replace(Plugin.regGlobalEscape, '')
+        this.drawTextExAlign(text, x, y, maxWidth, align);
     }else{
-        Alias.Window_Base_drawText.call(this, ...arguments);
+        Alias.Window_Base_drawText.call(this, text, x, y, maxWidth, align);
     }
 }
 
 Alias.Window_Base_drawTextEx = Window_Base.prototype.drawTextEx
 Window_Base.prototype.drawTextEx = function(text, x, y) {
     if(text){
-        text = this.convertEscapeCharacters(text);
+        text = this.convertEscapeCharacters(text)
+        text = text.replace(Plugin.regGlobalEscape, '')
     }
 
     return Alias.Window_Base_drawTextEx.call(this, text, x, y)
@@ -246,8 +249,6 @@ Window_Base.prototype.canDrawGlobalText = function(text){
 };
 
 Window_Base.prototype.drawTextExAlign = function(text, x, y, maxWidth, align){
-    text = String(text).replace(Plugin.regGlobalEscape, '');
-
     if(this.canFixCenterAlign(align)) {
         x = this.fixCenterAlign(text, x);
     }

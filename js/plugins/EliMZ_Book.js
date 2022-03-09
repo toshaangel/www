@@ -5,8 +5,8 @@
 /*:
 @target MZ
 
-@plugindesc Essential plugin for all Eli plugins.
-@author Hakuen Studio | v3.2.0
+@plugindesc v3.3.2 - Essential plugin for all Eli plugins.
+@author Hakuen Studio
 @url https://hakuenstudio.itch.io/
 
 @help
@@ -51,6 +51,15 @@ Twitter - https://twitter.com/hakuen_studio
 ============================================================================
 Update log
 ============================================================================
+Version 3.3.2 - 05/08/2021
+- Fixed a crash with VisuMZ_1_EventsMoveCore when spawn events.
+
+Version 3.3.1 - 05/06/2021
+- Fixed a bug when checking the type of a data object.
+
+Version 3.3.0 - 05/03/2021
+- Added Game Pad button codes.
+
 Version 3.2.0 - 02/08/2021
 - Improvements on the Eli.ColorManager object.
 
@@ -129,7 +138,7 @@ Imported.Eli_Book = true;
 
 Eli.Book = {
 
-    Version: ['3', '2', '0'],
+    Version: ['3', '3', '2'],
     alias: {},
     escapeCodes: [],
     regExtractMeta: /<([^<>:]+)(:?)([^>]*)>/g,
@@ -250,10 +259,10 @@ Eli.Book = {
     },
 
     toBoolean(string){
-        const value = string.toLowerCase();
+        const value = string.toLowerCase()
         const options = ['enable', 'enabled', 'true', 'on', 'default', 'auto', 'ui area']
 
-        return options.includes(value);
+        return options.includes(value)
     },
 
     ruleOf3(a, b, c){
@@ -950,6 +959,11 @@ Input.keyBoardCodes = {
     forwardslash:191, graveaccent:192, openbracket:219, backslash:220, closebracket:221, singlequote:222
 };
 
+Input.gamePadCodes = {
+    a: 0, b: 1, x: 2, y: 3, lb: 4, rb: 5, lt: 6, rt: 7, select: 8,
+    start: 9, l3: 10, r3: 11, up: 12, down: 13, left: 14, right: 15
+}
+
 /* --------------------------------- SPRITE --------------------------------- */
 
 {
@@ -1039,51 +1053,47 @@ DataManager.extractSaveContents = function(contents) {
 };
 
 DataManager.isDataActor = function(data) {
-    return !!data.nickname;
+    return data.hasOwnProperty("nickname")
 };
 
 DataManager.isDataArmor = function(data) {
-    return !!data.atypeId;
+    return data.hasOwnProperty("atypeId")
 };
 
 DataManager.isDataClass = function(data) {
-    return !!data.learnings;
+    return data.hasOwnProperty("learnings")
 };
 
 DataManager.isDataEnemy = function(data) {
-    return !!data.dropItems;
-};
-
-DataManager.isDataEnemy = function(data) {
-    return !!data.dropItems;
+    return data.hasOwnProperty("dropItems")
 };
 
 DataManager.isDataItem = function(data) {
-    return !!data.itypeId;
+    return data.hasOwnProperty("itypeId")
 };
 
 DataManager.isDataMapInfo = function(data) {
-    return !!data.expanded;
+    return data.hasOwnProperty("expanded")
 };
 
 DataManager.isDataSkills = function(data) {
-    return !!data.stypeId;
+    return data.hasOwnProperty("stypeId")
 };
 
 DataManager.isDataStates = function(data) {
-    return !!data.stepsToRemove;
+    return data.hasOwnProperty("stepsToRemove")
 };
 
 DataManager.isDataSystem = function(data) {
-    return !!data.locale;
+    return data.hasOwnProperty("locale")
 };
 
 DataManager.isDataTroops = function(data) {
-    return !!data.members;
+    return data.hasOwnProperty("members")
 };
 
 DataManager.isDataWeapon = function(data) {
-    return !!data.wtypeId;
+    return data.hasOwnProperty("wtypeId")
 };
 
 }
@@ -1160,8 +1170,22 @@ Game_Event.prototype.initialize = function(mapId, eventId) {
 Game_Event.prototype.initNote = function(eventId){
     if(Imported.Galv_EventSpawner && this.isSpawnEvent){
         this._note = $dataSpawnMap.events[this._spawnEventId].note || '';
-    }else{
+    }else if($dataMap.events[eventId]){
+        /*
+            This is an attempt to try to fix a crash with VisuMZ Event Move core.
+            Ideally, it has to be something like I did with Galv above:
+            if(Imported.VisuMZ_1_EventsMoveCore && this.isSpawnedEvent()){
+                this._note = $dataSomething[eventId].note
+            }
+            But the function "isSpawnedEvent()" always return false.
+            And I don't know if it is a function of visustella, since
+            the project that was given to me also contains a lot of other plugins...
+
+            At least, this will avoid the crash.
+        */
         this._note = $dataMap.events[eventId].note || '';
+    }else{
+        this._note = ''
     }
 };
 
@@ -2299,6 +2323,25 @@ SceneMap.extras = function(){
 };
 this._paramsCurve[i] = parameterCurve.slice(i*3, (3*(i+1)));
 Eli.CustomParameterCurve.regExp = /([\w]+)(:?)([^#]*)/g;
+
+// Input.gamepadMapper = {
+// 0: "A",
+// 1: "B",
+// 2: "X",
+// 3: "Y",
+// 4: "LB",
+// 5: "RB",
+// 6: LT
+// 7: RT
+// 8: select
+// 9: start
+// 10: L3
+// 11: R3
+// 12: up,
+// 13: down,
+// 14: left,
+// 15: right
+// };
 
 */
 

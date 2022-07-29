@@ -3,7 +3,7 @@
 // *** MUSHROOMCAKE28'S AUDIO ENGINE
 //  * Author: MushroomCake28
 //  * Contact: On the official forum -> https://forums.rpgmakerweb.com/index.php?members/mushroomcake28.75234/
-//  * Version: 1.05n (2020-08-31) 
+//  * Version: 1.06 (2020-08-31) 
 //--------------------------------------------------------------------------------------------------------------
 // * INFO : This is the base engine for the MUSH Audio plugin, which will revamp the audio system in RPG Maker Mz.
 //          This will add many features and will also modify some of the existing function (this may cause some
@@ -28,7 +28,6 @@
 //			- 2.08 : Spatial SE player
 //			- 2.09 : VSC section
 //			- 2.10 : ME section
-//			- 2.11 : Audio Storage Object (ASO)
 // * Section 3: Manager
 //			- 3.01 : Plugin Manager
 // 			- 3.02 : Config Manager
@@ -36,11 +35,13 @@
 // * Section 4: Game Objects
 //			- 4.01 : Game Player
 //			- 4.02 : Game Map
+//			- 4.03 : Game Interpreter
 // * Section 5: Scenes
 //			- 5.01 : Scene Base
 //			- 5.02 : Scene Map
 //			- 5.03 : Scene Menu
 //			- 5.04 : Scene Gameover
+//			- 5.05 : Scene GameEnd
 // * Section 6: Windows
 //			- 6.01 : Windows Options
 //--------------------------------------------------------------------------------------------------------------
@@ -58,7 +59,7 @@
 //--------------------------------------------------------------------------------------------------------------
 /*:
 * @target MZ
-* @plugindesc [v.1.05n] Implement the Mush Audio Engine features.
+* @plugindesc [v.1.06] Implement the Mush Audio Engine features.
 * @author MushroomCake28
 * @url https://forums.rpgmakerweb.com/index.php?threads/mush-audio-engine-spatial-audio-voice-acting-new-channels-etc.128741/
 * @help 
@@ -283,6 +284,12 @@
 * The volume of a VSC is controlled by the VSC Volume option in the options
 * menu. If the VSC Feature is OFF (general section), it will use the SE 
 * volume setting. 
+*
+* @param DevelopperMode
+* @text Developper Mode
+* @desc Set to false when deploying. If true, it will show error alerts to the dev.
+* @type boolean
+* @default true 
 *
 * @param GeneralFeatures
 * @text General Features
@@ -901,6 +908,46 @@
 *
 * @ ------------------------------------------------
 *
+* @command ChangeVolumeBgm
+* @text Change BGM Volume
+* @desc Change the volume of an active MUSH BGM.
+*
+* @arg Channel
+* @text Channel
+* @desc Select the channel of the BGM.
+* @type number
+* @min 1
+* @default 1
+*
+* @arg Volume
+* @text Volume
+* @desc Set the new BGM volume.
+* @type number
+* @min 0
+* @default 100
+*
+* @ ------------------------------------------------
+*
+* @command ChangeVolumeBgs
+* @text Change BGS Volume
+* @desc Change the volume of an active MUSH BGS.
+*
+* @arg Channel
+* @text Channel
+* @desc Select the channel of the BGS.
+* @type number
+* @min 1
+* @default 1
+*
+* @arg Volume
+* @text Volume
+* @desc Set the new BGS volume.
+* @type number
+* @min 0
+* @default 100
+*
+* @ ------------------------------------------------
+*
 * @command PlaySpatialSe
 * @text Play Spatial SE
 * @desc Play a spacial SE from a certain position.
@@ -1054,7 +1101,7 @@
 
 var Imported = Imported || {};
 Imported.mushFeatures = Imported.mushFeatures || {}; 
-Imported.mushFeatures['MUSH_Audio_Engine'] = 1.05;
+Imported.mushFeatures['MUSH_Audio_Engine'] = 1.06;
 
 var Mush = Mush || {};
 Mush.parameters = Mush.parameters || {};
@@ -1067,6 +1114,8 @@ Mush.alias = Mush.alias || {};
 
 var params = PluginManager.parameters('MUSH_Audio_Engine');
 Mush.parameters.mushAudioEngine = {
+
+	devMode: eval(params["DevelopperMode"]),
 
 	genFeatures: {
 		uis: eval(params['FEA_UIS']),
@@ -1208,6 +1257,12 @@ AudioManager.updateAllMushVscVolume = function() {
 	}
 };
 
+AudioManager.continueBuffer = function(buffer) {
+	buffer.play(true, buffer.currentPosition);
+	buffer.currentPosition = null;
+	buffer.currentlyPaused = false;
+};
+
 AudioManager.initializeSpatialAudioOnStart = function(data) {
 	for (var i = 0; i < data.bgm.length; i++) {
 		const dt = data.bgm[i];
@@ -1319,7 +1374,9 @@ AudioManager.playMushBgm = function(bgm, channel, autoRemover, interrupt, pos) {
 		if (this.getBgmFromChannel(channel)) {
 			const buffer = this.getBgmFromChannel(channel);
 			if (buffer.name != bgm.name) {
-				alert("There is already a BGM playing in channel " + channel + "!");
+				if (Mush.parameters.mushAudioEngine.devMode) {
+					alert("There is already a BGM playing in channel " + channel + "!");
+				}
 			} else {
 				this.updateMushBgmParameters(buffer, bgm);
 			}
@@ -1417,6 +1474,25 @@ AudioManager.pauseMushBgm = function(channel) {
 	}
 };
 
+AudioManager.continueMushBgm = function(channel) {
+	const buffer = AudioManager.getBgmFromChannel(channel);
+	AudioManager.continueBuffer(buffer);
+};
+
+AudioManager.changeVolumeBgm = function(channel, volume) {
+	const buffer = AudioManager.getBgmFromChannel(channel);
+	if (buffer) {
+		const bgm = {
+			name: buffer.name,
+			pitch: buffer.pitch * 100,
+			volume: volume
+		}
+		AudioManager.updateMushBgmParameters(buffer, bgm);
+	} else if (Mush.parameters.mushAudioEngine.devMode) {
+		alert("There is no MUSH BGM playing in channel " + channel + ".");
+	}
+};
+
 AudioManager.checkAlreadyHaveBgmAudioChannel = function(channel) {
 	var already = false;
 	var container = this._bgmBuffers;
@@ -1434,7 +1510,9 @@ AudioManager.playMushBgs = function(bgs, channel, autoRemover, interrupt, pos) {
 		if (this.getBgsFromChannel(channel)) {
 			const buffer = this.getBgsFromChannel(channel);
 			if (buffer.name != bgs.name) {
-				alert("There is already a BGS playing in channel " + channel + "!");
+				if (Mush.parameters.mushAudioEngine.devMode) {
+					alert("There is already a BGS playing in channel " + channel + "!");
+				}
 			} else {
 				this.updateMushBgsParameters(buffer, bgs);
 			}
@@ -1518,6 +1596,25 @@ AudioManager.pauseMushBgs = function(channel) {
 		buffer.currentlyPaused = true;
 		buffer.currentPosition = buffer.seek();
 		buffer.stop();
+	}
+};
+
+AudioManager.continueMushBgs = function(channel) {
+	const buffer = AudioManager.getBgsFromChannel(channel);
+	AudioManager.continueBuffer(buffer);
+};
+
+AudioManager.changeVolumeBgs = function(channel, volume) {
+	const buffer = AudioManager.getBgsFromChannel(channel);
+	if (buffer) {
+		const bgs = {
+			name: buffer.name,
+			pitch: buffer.pitch * 100,
+			volume: volume
+		}
+		AudioManager.updateMushBgsParameters(buffer, bgs);
+	} else if (Mush.parameters.mushAudioEngine.devMode) {
+		alert("There is no MUSH BGS playing in channel " + channel + ".");
 	}
 };
 
@@ -1948,87 +2045,27 @@ AudioManager.isMePlaying = function() {
 	}
 };
 
-AudioManager.me_stopAllBgmBgs = function(bool) {
-	this._meTemp = {bgm: [], bgs: []};
+AudioManager.me_stopAllBgmBgs = function() {
 	for (var i = 0; i < this._bgmBuffers.length; i++) {
-		var obj = {};
-		const buf = this._bgmBuffers[i];
-		obj.bgm = {name: buf.name, pitch: buf.pitch, volume: buf.volume};
-		obj.channel = buf.channel;
-		obj.autoRemover = buf.autoRemover;
-		obj.interrupt = buf.pause;
-		obj.pos = buf.seek();
-		obj.spatial = $gamePlayer.checkAlreadyHaveAudioChannel_Container(buf.channel, "bgm");
-		if (obj.spatial) {
-			obj.spatialData = buf.spatialData;
-		}
-		this._meTemp.bgm.push(obj);
+		const buffer = this._bgmBuffers[i];
+		AudioManager.pauseMushBgm(buffer.channel);
 	}
 	for (var i = 0; i < this._bgsBuffers.length; i++) {
-		var obj = {};
-		const buf = this._bgsBuffers[i];
-		obj.bgs = {name: buf.name, pitch: buf.pitch, volume: buf.volume};
-		obj.channel = buf.channel;
-		obj.autoRemover = buf.autoRemover;
-		obj.interrupt = buf.pause;
-		obj.pos = buf.seek();
-		obj.spatial = $gamePlayer.checkAlreadyHaveAudioChannel_Container(buf.channel, "bgs");
-		if (obj.spatial) {
-			obj.spatialData = buf.spatialData;
-		}
-		this._meTemp.bgs.push(obj);
+		const buffer = this._bgsBuffers[i];
+		AudioManager.pauseMushBgs(buffer.channel);
 	}
-	this.stopAllMushBgm();
-	this.stopAllMushBgs();
 };
 
 AudioManager.me_restartAllMushBgmBgs = function() {
-	for (var i = 0; i < this._meTemp.bgm.length; i++) {
-		const dt = this._meTemp.bgm[i];
-		AudioManager.playMushBgm(dt.bgm, dt.channel, dt.autoRemover, dt.interrupt, dt.pos);
-		if ((dt.spatial)&&(!$gamePlayer.checkAlreadyHaveAudioChannel(dt.channel, $gamePlayer._bgmTracker))) {
-			$gamePlayer.addSpacialBGM(dt.spatialData);
-			const buffer = this.getBgmFromChannel(dt.channel);
-			buffer.spatialData = dt.spatialData;
-		} else {
-			AudioManager.fadeInMushBgm(dt.channel, 1);
-		}
+	for (var i = 0; i < this._bgmBuffers.length; i++) {
+		const buffer = this._bgmBuffers[i];
+		AudioManager.continueMushBgm(buffer.channel);
 	}
-	for (var i = 0; i < this._meTemp.bgs.length; i++) {
-		const dt = this._meTemp.bgs[i];
-		AudioManager.playMushBgs(dt.bgs, dt.channel, dt.autoRemover, dt.interrupt, dt.pos); 
-		if ((dt.spatial)&&(!$gamePlayer.checkAlreadyHaveAudioChannel(dt.channel, $gamePlayer._bgsTracker))) {
-			$gamePlayer.addSpacialBGS(dt.spatialData);
-			const buffer = this.getBgsFromChannel(dt.channel);
-			buffer.spatialData = dt.spatialData;
-		} else {
-			AudioManager.fadeInMushBgs(dt.channel, 1);
-		}
+	for (var i = 0; i < this._bgsBuffers.length; i++) {
+		const buffer = this._bgsBuffers[i];
+		AudioManager.continueMushBgs(buffer.channel);
 	}
 	$gamePlayer.requestSpatialAudioUpdate_full();
-};
-
-
-//==============================================================================================================
-// * 2.11 : Audio Manager - Audio Storage Object (ASO)
-//==============================================================================================================
-
-AudioManager.createASO = function(bgms, bgss) {
-	var aso = {bgms: [], bgss: []};
-	for (var i = 0; i < bgms.length; i++) {
-		aso.bgms.push(bgms[i]);
-	}
-	for (var i = 0; i < bgss.length; i++) {
-		aso.bgss.push(bgss[i]);
-	}
-	return aso;
-};
-
-AudioManager.createFullASO = function() {
-	var bgms = [];
-	var bgss = [];
-	var fullASO = AudioManager.createASO(bgms, bgss);
-	return fullASO;
 };
 
 
@@ -2079,7 +2116,9 @@ PluginManager.registerCommand('MUSH_Audio_Engine', 'PlayBgm', args => {
 			AudioManager.fadeInMushBgm(Number(args.Channel), Number(args.FadeIn));
 		}
 	} else {
-		alert("Can't play " + args.Filename + " because BGM Channel " + args.Channel + " is already in use!");
+		if (Mush.parameters.mushAudioEngine.devMode) {
+			alert("Can't play " + args.Filename + " because BGM Channel " + args.Channel + " is already in use!");
+		}
 	}
 });
 
@@ -2091,7 +2130,9 @@ PluginManager.registerCommand('MUSH_Audio_Engine', 'PlayBgs', args => {
 			AudioManager.fadeInMushBgs(Number(args.Channel), Number(args.FadeIn));
 		}
 	} else {
-		alert("Can't play " + args.Filename + " because BGS Channel " + args.Channel + " is already in use!");
+		if (Mush.parameters.mushAudioEngine.devMode) {
+			alert("Can't play " + args.Filename + " because BGS Channel " + args.Channel + " is already in use!");
+		}
 	}
 });
 
@@ -2117,6 +2158,14 @@ PluginManager.registerCommand('MUSH_Audio_Engine', 'StopAllBgm', args => {
 
 PluginManager.registerCommand('MUSH_Audio_Engine', 'StopAllBgs', args => {
 	AudioManager.stopAllMushBgs(Number(args.FadeOut));
+});
+
+PluginManager.registerCommand('MUSH_Audio_Engine', 'ChangeVolumeBgm', args => {
+	AudioManager.changeVolumeBgm(Number(args.Channel), Number(args.Volume))
+});
+
+PluginManager.registerCommand('MUSH_Audio_Engine', 'ChangeVolumeBgs', args => {
+	AudioManager.changeVolumeBgs(Number(args.Channel), Number(args.Volume))
 });
 
 PluginManager.registerCommand('MUSH_Audio_Engine', 'PlaySpatialSe', args => {
@@ -2431,7 +2480,9 @@ Game_Player.prototype.checkAlreadyHaveAudioChannel_Container = function(channel,
 	} else if (type == "bgs") {
 		return this.checkAlreadyHaveAudioChannel(channel, this._bgsTracker);
 	} else {
-		alert("Error: No container.")
+		if (Mush.parameters.mushAudioEngine.devMode) {
+			alert("Error: No container.")
+		}
 		return null;
 	}
 };
@@ -2454,7 +2505,9 @@ Game_Player.prototype.addSpacialBGM = function(obj) {
 			}
 		}
 	} else {
-		alert("You have 2 or more BGM using the same channel. Error: channel " + obj.channel);
+		if (Mush.parameters.mushAudioEngine.devMode) {
+			alert("You have 2 or more BGM using the same channel. Error: channel " + obj.channel);
+		}
 	}
 };
 
@@ -2476,7 +2529,9 @@ Game_Player.prototype.addSpacialBGS = function(obj) {
 			}
 		}
 	} else {
-		alert("You have 2 or more BGS using the same channel. Error: channel " + obj.channel);
+		if (Mush.parameters.mushAudioEngine.devMode) {
+			alert("You have 2 or more BGS using the same channel. Error: channel " + obj.channel);
+		}
 	}
 };
 
@@ -2526,6 +2581,13 @@ Game_Player.prototype.clearSpatialBgs = function(channel) {
 	}
 };
 
+Game_Player.prototype.clearAllSpatialObjects = function() {
+	this._bgmTracker = [];
+    this._bgsTracker = [];
+    this._bgmDynamic = [];
+    this._bgsDynamic = [];
+};	
+
 
 //==============================================================================================================
 // * 4.02 : Game Map
@@ -2569,8 +2631,23 @@ Game_Map.prototype.checkParentsAutoplay_part2 = function(xhr, mapId) {
         	this.checkParentsAutoplay_part1(this._tempMapId);
         }
     } else {
-        alert("Error loading map data.");
+    	if (Mush.parameters.mushAudioEngine.devMode) {
+        	alert("Error loading map data.");
+        }
     }
+};
+
+
+//==============================================================================================================
+// * 4.03 : Game Interpreter
+//==============================================================================================================
+
+// Return to Title Screen
+Mush.alias.Game_Interpreter_Command354_002 = Game_Interpreter.prototype.command354;
+Game_Interpreter.prototype.command354 = function() {
+	AudioManager.stopAllMushBgm(1);
+    AudioManager.stopAllMushBgs(1);
+    return Mush.alias.Game_Interpreter_Command354_002.call(this);
 };
 
 
@@ -2592,10 +2669,12 @@ Scene_Base.prototype.update = function() {
 Mush.alias.Scene_Map_Start_002 = Scene_Map.prototype.start;
 Scene_Map.prototype.start = function() {
     Mush.alias.Scene_Map_Start_002.call(this);
+    this._spatialAudioDebug = false;
     this.continueVscChannels();
     this.continueBgmBgsChannels();
     if (SceneManager.isPreviousScene(Scene_Load)) {
-    	console.log("here");
+    	this._spatialAudioDebug = true;
+    	this._spatialAudioDebug_counter = 5;
     	$gamePlayer.requestSpatialAudioUpdate_full();
     }
 };
@@ -2636,17 +2715,13 @@ Scene_Map.prototype.continueBgmBgsChannels = function() {
 	for (var i = 0; i < AudioManager._bgmBuffers.length; i++) {
 		const buffer = AudioManager._bgmBuffers[i];
 		if (!buffer.isPlaying() && buffer.currentlyPaused) {
-			buffer.play(true, buffer.currentPosition);
-			buffer.currentPosition = null;
-			buffer.currentlyPaused = false;
+			AudioManager.continueMushBgm(buffer.channel);
 		}
 	}
 	for (var i = 0; i < AudioManager._bgsBuffers.length; i++) {
 		const buffer = AudioManager._bgsBuffers[i];
 		if (!buffer.isPlaying() && buffer.currentlyPaused) {
-			buffer.play(true, buffer.currentPosition);
-			buffer.currentPosition = null;
-			buffer.currentlyPaused = false;
+			AudioManager.continueMushBgs(buffer.channel);
 		}
 	}
 };
@@ -2690,6 +2765,19 @@ Scene_Map.prototype.closeBgmBgsChannels = function() {
 	}
 };
 
+Mush.alias.Scene_Map_Update_002 = Scene_Map.prototype.update;
+Scene_Map.prototype.update = function() {
+	Mush.alias.Scene_Map_Update_002.call(this);
+	if (this._spatialAudioDebug) {
+		if (this._spatialAudioDebug_counter <= 0) {
+			this._spatialAudioDebug = false;
+			$gamePlayer.requestSpatialAudioUpdate_full();
+		} else {
+			this._spatialAudioDebug_counter -= 1;
+		}
+	}
+};
+
 
 //==============================================================================================================
 // * 5.03 : Scene Menu
@@ -2716,6 +2804,18 @@ Scene_Gameover.prototype.initialize = function() {
     Mush.alias.Scene_Gameover_Initialize_002.call(this);
     AudioManager.stopAllMushBgm(0);
     AudioManager.stopAllMushBgs(0);
+};
+
+
+//==============================================================================================================
+// * 5.05 : Scene GameEnd
+//==============================================================================================================
+
+Mush.alias.Scene_GameEnd_CommandToTitle_002 = Scene_GameEnd.prototype.commandToTitle;
+Scene_GameEnd.prototype.commandToTitle = function() {
+    Mush.alias.Scene_GameEnd_CommandToTitle_002.call(this);
+    AudioManager.stopAllMushBgm(1);
+    AudioManager.stopAllMushBgs(1);
 };
 
 

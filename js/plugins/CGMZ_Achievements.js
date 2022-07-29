@@ -13,10 +13,10 @@
  * Become a Patron to get access to beta/alpha plugins plus other goodies!
  * https://www.patreon.com/CasperGamingRPGM
  * ============================================================================
- * Version: 1.1.1
+ * Version: 1.2.2
  * ----------------------------------------------------------------------------
  * Compatibility: Only tested with my CGMZ plugins.
- * Made for RPG Maker MZ 1.0.0
+ * Made for RPG Maker MZ 1.2.1
  * ----------------------------------------------------------------------------
  * Description: Adds an achievements system including achievement points,
  * secret achievements, difficulty, and more. Achievements offer automatic
@@ -29,15 +29,16 @@
  * Documentation:
  * This plugin supports the following plugin commands:
  * Earn Achievement by Name - This earns the achievement with the name
- * provided
+ * provided, case sensitive
  *
  * Earn Achievement by ID - This earns the achievement with the provided ID.
- * IDs are the order the achievements are listed in the plugin manager.
+ * IDs are the order the achievements are listed in the plugin manager and
+ * start at 1.
  *
  * Call Scene - This calls the achievement scene.
  *
- * Update - This will not touch existing achievements, but add any new ones to
- * the achievement data
+ * Change Description - This will let you change the pre and post description
+ *                      of an achievement
  *
  * Reinitialize - This will reset all achievement progress as if you had
  * started a new game.
@@ -78,8 +79,25 @@
  * Version 1.1.1:
  * - Fixed bug with variable tracking when using the "=" operator
  *
+ * Version 1.2.0:
+ * - Added ability to use text codes in achievement descriptions
+ * - New achievements should now be automatically recognized by saved games
+ * - Added ability to change pre and post descriptions
+ * - Added option to change the label / header text color
+ * - Added option to change text alignment of list window
+ * - Added option to change text alignment of totals window
+ * - Fixed bug with toast audio on achievement earn
+ * - Fixed bug with padding on list window
+ * - Removed plugin command to manually recognize new achievements in saved
+ *   game
+ *
+ * Version 1.2.1:
+ * - Fixed crash when not using CGMZ Encyclopedia
+ *
+ * Version 1.2.2:
+ * - Fixed bug with variable achievements not auto completing when they should
+ *
  * @command Earn Achievement By Name
- * @text Earn Achievement By Name
  * @desc Earns an achievement by its name
  *
  * @arg name
@@ -89,7 +107,6 @@
  * @default
  *
  * @command Earn Achievement By ID
- * @text Earn Achievement By ID
  * @desc Earns an achievement by its id
  *
  * @arg id
@@ -99,34 +116,35 @@
  * @default 0
  *
  * @command Call Scene
- * @text Call Scene
  * @desc Calls the Achievement Scene
  *
- * @arg callScene
- * @type boolean
- * @text Call Scene
- * @desc Calls the Achievement scene if true. No functionality if false.
- * @default true
+ * @command Change Description
+ * @desc Chbanges the pre or post description of an achievement
  *
- * @command Update
- * @text Update
- * @desc Adds new achievement data to the plugin. Use for saved games to recognize newly added data
+ * @arg name
+ * @type text
+ * @text Achievement Name
+ * @desc The name of the achievement to change description. Leave blank if using ID.
+ * @default
  *
- * @arg update
- * @type boolean
- * @text Update
- * @desc Adds new achievement data to the plugin. Will not affect existing achievements
- * @default true
+ * @arg id
+ * @type number
+ * @text Achievement ID
+ * @desc The id of the achievement to change description. Not used if using name instead.
+ * @default 0
+ *
+ * @arg Pre Description
+ * @type note
+ * @default ""
+ * @desc Achievement description before it is earned. Leave blank for no change
+ *
+ * @arg Post Description
+ * @type note
+ * @default ""
+ * @desc Achievement description after it is earned. Leave blank for no change
  *
  * @command Reinitialize
- * @text Reinitialize
  * @desc Resets all of the achievement data. Use for saved games to recognize changed data
- *
- * @arg reinitialize
- * @type boolean
- * @text Reinitialize
- * @desc Resets all of the achievement data as if you started a new game.
- * @default true
  *
  * @param CGMZ Achievements
  *
@@ -231,48 +249,73 @@
  * @param Reward Text
  * @parent Text Options
  * @desc Text to describe Rewards
- * @default Rewards
+ * @default Rewards:
  *
  * @param Requirement Text
  * @parent Text Options
  * @desc Text to describe Requirements
- * @default Requirements
+ * @default Requirements:
  *
  * @param Difficulty Text
  * @parent Text Options
  * @desc Text to describe Difficulty
- * @default Difficulty
+ * @default Difficulty:
  *
  * @param Description Text
  * @parent Text Options
  * @desc Text to describe Description
- * @default Description
+ * @default Description:
  *
  * @param Points Text
  * @parent Text Options
  * @desc Text to describe Points
- * @default Points
+ * @default Points:
  *
  * @param Unearned Text
  * @parent Text Options
- * @desc Text to appear at the top of the achievement window when unearned.
+ * @desc Text to appear at the top of the achievement window when unearned
  * @default Keep playing to earn this achievement
  *
  * @param Earned Text
  * @parent Text Options
- * @desc Text to appear at the top of the achievement window when earned.
- * @default Achievement earned on
+ * @desc Text to appear at the top of the achievement window when earned
+ * @default Achievement earned on:
  *
  * @param Earned Count Text
  * @parent Text Options
  * @desc Text to appear when counting earned achievements
- * @default Earned
+ * @default Earned:
+ *
+ * @param Total Window Alignment
+ * @parent Text Options
+ * @type select
+ * @option left
+ * @option center
+ * @option right
+ * @desc The alignment of the text in the totals window
+ * @default left
+ *
+ * @param List Window Alignment
+ * @parent Text Options
+ * @type select
+ * @option left
+ * @option center
+ * @option right
+ * @desc The alignment of the text in the achievement list window
+ * @default left
  *
  * @param Currency Unit Space
  * @parent Text Options
  * @type boolean
  * @desc Add a space between the Currency Value and Currency Unit?
  * @default false
+ *
+ * @param Label Color
+ * @parent Text Options
+ * @type number
+ * @min 0
+ * @desc Color to draw label text in.
+ * @default 16
  * 
  * @param Gauge Colors
  * @parent Achievement Scene Options
@@ -653,40 +696,41 @@ Imported.CGMZ_Achievements = true;
 var CGMZ = CGMZ || {};
 CGMZ.Achievements = CGMZ.Achievements || {};
 CGMZ.Versions = CGMZ.Versions || {};
-CGMZ.Versions["Achievements"] = "1.1.1";
+CGMZ.Versions["Achievements"] = "1.2.2";
 CGMZ.Achievements.parameters = PluginManager.parameters('CGMZ_Achievements');
-CGMZ.Achievements.FileName = CGMZ.Achievements.parameters["File"] || "Achievements.txt";
-CGMZ.Achievements.FolderName = CGMZ.Achievements.parameters["Folder"] || "Data";
-CGMZ.Achievements.ShowAchievementPop = (CGMZ.Achievements.parameters["ShowAchievementPop"] === "true") ? true : false;
-CGMZ.Achievements.AchievementEarnedText = CGMZ.Achievements.parameters["AchievementEarnedText"] || "Achievement Earned";
-CGMZ.Achievements.AchievementEarnedColor = Number(CGMZ.Achievements.parameters["AchievementEarnedColor"]) || 0;
-CGMZ.Achievements.AchievementEarnedAlignment = CGMZ.Achievements.parameters["AchievementEarnedAlignment"] || "center";
-CGMZ.Achievements.AchievementEarnedSound = CGMZ.Achievements.parameters["AchievementEarnedSound"] || "Applause1";
-CGMZ.Achievements.ShowSecretAchievements = (CGMZ.Achievements.parameters["ShowSecretAchievements"] === "true") ? true : false;
-CGMZ.Achievements.SecretText = CGMZ.Achievements.parameters["SecretText"] || "??????";
-CGMZ.Achievements.ShowCriteriaAfterCompletion = (CGMZ.Achievements.parameters["ShowCriteriaAfterCompletion"] === "true") ? true : false;
-CGMZ.Achievements.DateFormat = Number(CGMZ.Achievements.parameters["DateFormat"]) || 0;
-CGMZ.Achievements.CurrencyGaugeColor1 = Number(CGMZ.Achievements.parameters["CurrencyGaugeColor1"]) || 6;
-CGMZ.Achievements.CurrencyGaugeColor2 = Number(CGMZ.Achievements.parameters["CurrencyGaugeColor2"]) || 17;
-CGMZ.Achievements.GenericGaugeColor1 = Number(CGMZ.Achievements.parameters["GenericGaugeColor1"]) || 28;
-CGMZ.Achievements.GenericGaugeColor2 = Number(CGMZ.Achievements.parameters["GenericGaugeColor2"]) || 29;
-CGMZ.Achievements.ItemGaugeColor1 = Number(CGMZ.Achievements.parameters["ItemGaugeColor1"]) || 22;
-CGMZ.Achievements.ItemGaugeColor2 = Number(CGMZ.Achievements.parameters["ItemGaugeColor2"]) || 23;
-CGMZ.Achievements.SwitchVarGaugeColor1 = Number(CGMZ.Achievements.parameters["SwitchVarGaugeColor1"]) || 20;
-CGMZ.Achievements.SwitchVarGaugeColor2 = Number(CGMZ.Achievements.parameters["SwitchVarGaugeColor2"]) || 21;
-CGMZ.Achievements.ScrollSpeed = Number(CGMZ.Achievements.parameters["ScrollSpeed"]) || 1;
-CGMZ.Achievements.ScrollWait = Number(CGMZ.Achievements.parameters["ScrollWait"]) || 300;
-CGMZ.Achievements.ScrollDeceleration = parseFloat(CGMZ.Achievements.parameters["Scroll Deceleration"]) || 0.92;
-CGMZ.Achievements.AutoScroll = (CGMZ.Achievements.parameters["Auto Scroll"] === "true") ? true : false;
-CGMZ.Achievements.CurrencyUnitSpace = (CGMZ.Achievements.parameters["Currency Unit Space"] === "true") ? true : false;
-CGMZ.Achievements.RewardText = CGMZ.Achievements.parameters["Reward Text"] || "Rewards";
-CGMZ.Achievements.RequirementText = CGMZ.Achievements.parameters["Requirement Text"] || "Requirements";
-CGMZ.Achievements.DifficultyText = CGMZ.Achievements.parameters["Difficulty Text"] || "Difficulty";
-CGMZ.Achievements.DescriptionText = CGMZ.Achievements.parameters["Description Text"] || "Description";
-CGMZ.Achievements.PointsText = CGMZ.Achievements.parameters["Points Text"] || "Points";
-CGMZ.Achievements.UnearnedText = CGMZ.Achievements.parameters["Unearned Text"] || "Keep playing to earn this achievement";
-CGMZ.Achievements.EarnedText = CGMZ.Achievements.parameters["Earned Text"] || "Achievement earned on";
-CGMZ.Achievements.EarnedCountText = CGMZ.Achievements.parameters["Earned Count Text"] || "Earned";
+CGMZ.Achievements.ShowAchievementPop = (CGMZ.Achievements.parameters["ShowAchievementPop"] === "true");
+CGMZ.Achievements.AchievementEarnedText = CGMZ.Achievements.parameters["AchievementEarnedText"];
+CGMZ.Achievements.AchievementEarnedColor = Number(CGMZ.Achievements.parameters["AchievementEarnedColor"]);
+CGMZ.Achievements.AchievementEarnedAlignment = CGMZ.Achievements.parameters["AchievementEarnedAlignment"];
+CGMZ.Achievements.AchievementEarnedSound = CGMZ.Achievements.parameters["AchievementEarnedSound"];
+CGMZ.Achievements.ShowSecretAchievements = (CGMZ.Achievements.parameters["ShowSecretAchievements"] === "true");
+CGMZ.Achievements.SecretText = CGMZ.Achievements.parameters["SecretText"];
+CGMZ.Achievements.ShowCriteriaAfterCompletion = (CGMZ.Achievements.parameters["ShowCriteriaAfterCompletion"] === "true");
+CGMZ.Achievements.DateFormat = Number(CGMZ.Achievements.parameters["DateFormat"]);
+CGMZ.Achievements.CurrencyGaugeColor1 = Number(CGMZ.Achievements.parameters["CurrencyGaugeColor1"]);
+CGMZ.Achievements.CurrencyGaugeColor2 = Number(CGMZ.Achievements.parameters["CurrencyGaugeColor2"]);
+CGMZ.Achievements.GenericGaugeColor1 = Number(CGMZ.Achievements.parameters["GenericGaugeColor1"]);
+CGMZ.Achievements.GenericGaugeColor2 = Number(CGMZ.Achievements.parameters["GenericGaugeColor2"]);
+CGMZ.Achievements.ItemGaugeColor1 = Number(CGMZ.Achievements.parameters["ItemGaugeColor1"]);
+CGMZ.Achievements.ItemGaugeColor2 = Number(CGMZ.Achievements.parameters["ItemGaugeColor2"]);
+CGMZ.Achievements.SwitchVarGaugeColor1 = Number(CGMZ.Achievements.parameters["SwitchVarGaugeColor1"]);
+CGMZ.Achievements.SwitchVarGaugeColor2 = Number(CGMZ.Achievements.parameters["SwitchVarGaugeColor2"]);
+CGMZ.Achievements.ScrollSpeed = Number(CGMZ.Achievements.parameters["ScrollSpeed"]);
+CGMZ.Achievements.ScrollWait = Number(CGMZ.Achievements.parameters["ScrollWait"]);
+CGMZ.Achievements.ScrollDeceleration = parseFloat(CGMZ.Achievements.parameters["Scroll Deceleration"]);
+CGMZ.Achievements.AutoScroll = (CGMZ.Achievements.parameters["Auto Scroll"] === "true");
+CGMZ.Achievements.CurrencyUnitSpace = (CGMZ.Achievements.parameters["Currency Unit Space"] === "true");
+CGMZ.Achievements.RewardText = CGMZ.Achievements.parameters["Reward Text"];
+CGMZ.Achievements.RequirementText = CGMZ.Achievements.parameters["Requirement Text"];
+CGMZ.Achievements.DifficultyText = CGMZ.Achievements.parameters["Difficulty Text"];
+CGMZ.Achievements.DescriptionText = CGMZ.Achievements.parameters["Description Text"];
+CGMZ.Achievements.PointsText = CGMZ.Achievements.parameters["Points Text"];
+CGMZ.Achievements.UnearnedText = CGMZ.Achievements.parameters["Unearned Text"];
+CGMZ.Achievements.EarnedText = CGMZ.Achievements.parameters["Earned Text"];
+CGMZ.Achievements.EarnedCountText = CGMZ.Achievements.parameters["Earned Count Text"];
+CGMZ.Achievements.TotalWindowAlignment = CGMZ.Achievements.parameters["Total Window Alignment"];
+CGMZ.Achievements.ListWindowAlignment = CGMZ.Achievements.parameters["List Window Alignment"];
+CGMZ.Achievements.LabelColor = Number(CGMZ.Achievements.parameters["Label Color"]);
 CGMZ.Achievements.Achievements = JSON.parse(CGMZ.Achievements.parameters["Achievements"]);
 //=============================================================================
 // CGMZ_Achievement
@@ -707,15 +751,15 @@ CGMZ_Achievement.prototype.initialize = function(achievementData, id) {
 	this._name = achievementData["Name"];
 	this._points = Number(achievementData["Points"]);
 	this._difficulty = achievementData["Difficulty"];
-	this._predesc = JSON.parse(achievementData["Pre Description"].replace(/\\n/g, " \\\\n "));
-	this._postdesc = JSON.parse(achievementData["Post Description"].replace(/\\n/g, " \\\\n "));
+	this._predesc = JSON.parse(achievementData["Pre Description"]);
+	this._postdesc = JSON.parse(achievementData["Post Description"]);
 	if(this._postdesc === "") {
 		this._postdesc = this._predesc;
 	}
-	this._automatic = (achievementData["Automatic"] === "true") ? true : false;
-	this._secret = (achievementData["Secret"] === "true") ? true : false;
+	this._automatic = (achievementData["Automatic"] === "true");
+	this._secret = (achievementData["Secret"] === "true");
 	const popupData = JSON.parse(achievementData["Popup"]);
-	this._popup = {"display": (popupData["Display?"] === "true") ? true : false, "sound": popupData["Sound"],
+	this._popup = {"display": (popupData["Display?"] === "true"), "sound": popupData["Sound"],
 					"image": popupData["Image"], "color": Number(popupData["Color"])};
 	const rewards = JSON.parse(achievementData["Rewards"]);
 	this._rewards = {};
@@ -762,61 +806,52 @@ CGMZ_Achievement.prototype.initialize = function(achievementData, id) {
 // Initialize Achievement items (requirement or reward)
 //-----------------------------------------------------------------------------
 CGMZ_Achievement.prototype.initializeItems = function(itemArray, JSONtext, idText, amtText, type) {
-	if(JSONtext !== "[]") {
-		var parsedItems = JSON.parse(JSONtext);
-		for(var i = 0; i < parsedItems.length; i++) {
-			var obj = JSON.parse(parsedItems[i]);
-			var id = Number(obj[idText]);
-			var amt = Number(obj[amtText]);
-			itemArray.push({"type": type, "id": id, "amt": amt});
-		}
+	let parsedItems = JSON.parse(JSONtext);
+	for(let i = 0; i < parsedItems.length; i++) {
+		const obj = JSON.parse(parsedItems[i]);
+		const id = Number(obj[idText]);
+		const amt = Number(obj[amtText]);
+		itemArray.push({"type": type, "id": id, "amt": amt});
 	}
 };
 //-----------------------------------------------------------------------------
 // Initialize Achievement switches (requirement or reward)
 //-----------------------------------------------------------------------------
 CGMZ_Achievement.prototype.initializeSwitches = function(switchArray, JSONtext, idText, valueText, descText) {
-	if(JSONtext !== "[]") {
-		var parsedItems = JSON.parse(JSONtext);
-		for(var i = 0; i < parsedItems.length; i++) {
-			var obj = JSON.parse(parsedItems[i]);
-			var id = Number(obj[idText]);
-			var value = (obj[valueText] === "true") ? true : false;
-			var description = obj[descText];
-			switchArray.push({"value": value, "id": id, "description": description});
-		}
+	let parsedItems = JSON.parse(JSONtext);
+	for(let i = 0; i < parsedItems.length; i++) {
+		const obj = JSON.parse(parsedItems[i]);
+		const id = Number(obj[idText]);
+		const value = (obj[valueText] === "true");
+		const description = obj[descText];
+		switchArray.push({"value": value, "id": id, "description": description});
 	}
 };
 //-----------------------------------------------------------------------------
 // Initialize Achievement switches (requirement or reward)
 //-----------------------------------------------------------------------------
 CGMZ_Achievement.prototype.initializeVariables = function(variableArray, JSONtext, idText, valueText, descText, opText) {
-	if(JSONtext !== "[]") {
-		var parsedItems = JSON.parse(JSONtext);
-		for(let i = 0; i < parsedItems.length; i++) {
-			var obj = JSON.parse(parsedItems[i]);
-			var id = Number(obj[idText]);
-			var value = Number(obj[valueText]);
-			var operator = obj[opText];
-			var description = obj[descText];
-			variableArray.push({"value": value, "id": id, "description": description, "operator": operator});
-		}
+	let parsedItems = JSON.parse(JSONtext);
+	for(let i = 0; i < parsedItems.length; i++) {
+		const obj = JSON.parse(parsedItems[i]);
+		const id = Number(obj[idText]);
+		const value = Number(obj[valueText]);
+		const operator = obj[opText];
+		const description = obj[descText];
+		variableArray.push({"value": value, "id": id, "description": description, "operator": operator});
 	}
 };
 //-----------------------------------------------------------------------------
 // Initialize Achievement profession requirements
 //-----------------------------------------------------------------------------
 CGMZ_Achievement.prototype.initializeProfessionRequirements = function(reqs) {
-	var required = [];
-	if(Imported.CGMZ_Professions) {
-		reqs = JSON.parse(reqs);
-		for(var i = 0; i < reqs.length; i++) {
-			var reqTemp = JSON.parse(reqs[i]);
-			var req = {};
-			req.name = reqTemp.Name;
-			req.level = Number(reqTemp["Level Requirement"]);
-			required.push(req);
-		}
+	if(!Imported.CGMZ_Professions) return [];
+	let required = [];
+	reqs = JSON.parse(reqs);
+	for(let i = 0; i < reqs.length; i++) {
+		const reqTemp = JSON.parse(reqs[i]);
+		const req = {"name": reqTemp.Name, "level": Number(reqTemp["Level Requirement"])};
+		required.push(req);
 	}
 	return required;
 };
@@ -824,20 +859,23 @@ CGMZ_Achievement.prototype.initializeProfessionRequirements = function(reqs) {
 // Set flag if achievement has rewards
 //-----------------------------------------------------------------------------
 CGMZ_Achievement.prototype.setRewardFlag = function(rewards) {
-	this._hasRewards = (rewards.currency > 0 || rewards.items.length > 0 || 
-						rewards.switches.length > 0 || rewards.variables.length > 0);
+	this._hasRewards = (rewards.currency > 0 || rewards.items.length > 0 || rewards.switches.length > 0 || rewards.variables.length > 0);
 };
 //-----------------------------------------------------------------------------
 // Set flag if achievement has requirements
 //-----------------------------------------------------------------------------
 CGMZ_Achievement.prototype.setRequirementFlag = function(req) {
-	this._hasRequirements = (req.currency > 0 || req.items.length > 0 || req.switches.length > 0 ||
-							req.variables.length > 0 || req.saves > 0 || req.steps > 0 ||
-							req.playtime > 0 || req.wins > 0 || req.battles > 0 || req.escapes > 0 ||
-							req.achievepts > 0 || req.achievetotal > 0 || req.encyclopediatotal ||
+	this._hasRequirements = (req.currency > 0 || req.items.length > 0 || req.switches.length > 0 || req.variables.length > 0 || req.saves > 0 || req.steps > 0 ||
+							req.playtime > 0 || req.wins > 0 || req.battles > 0 || req.escapes > 0 || req.achievepts > 0 || req.achievetotal > 0 || req.encyclopediatotal ||
 							req.encyclopediaarmors || req.encyclopediabestiary || req.encyclopediaitems ||
-							req.encyclopediaweapons || req.encyclopediaskills || req.encyclopediastates ||
-							req.professions.length > 0);
+							req.encyclopediaweapons || req.encyclopediaskills || req.encyclopediastates || req.professions.length > 0);
+};
+//-----------------------------------------------------------------------------
+// Set achievement descriptions
+//-----------------------------------------------------------------------------
+CGMZ_Achievement.prototype.setDescriptions = function(pre, post) {
+	if(pre) this._predesc = pre;
+	if(post) this._postdesc = post;
 };
 //-----------------------------------------------------------------------------
 // Get achievement name
@@ -879,14 +917,21 @@ CGMZ_Achievement.prototype.hasRequirements = function() {
 // CGMZ
 //-----------------------------------------------------------------------------
 // Manage achievement data. Stored as an array of achievement objects.
-// alias functions: createPluginData
 //=============================================================================
 //-----------------------------------------------------------------------------
 // Alias. Call Initialize for achievements
 //-----------------------------------------------------------------------------
-var alias_CGMZ_Achievements_createPluginData = CGMZ_Core.prototype.createPluginData;
+const alias_CGMZ_Achievements_createPluginData = CGMZ_Core.prototype.createPluginData;
 CGMZ_Core.prototype.createPluginData = function() {
 	alias_CGMZ_Achievements_createPluginData.call(this);
+	this.initializeAchievements(false);
+};
+//-----------------------------------------------------------------------------
+// Alias. Load new achievements after saved game load
+//-----------------------------------------------------------------------------
+const alias_CGMZ_Achievements_CGMZCore_onAfterLoad = CGMZ_Core.prototype.onAfterLoad;
+CGMZ_Core.prototype.onAfterLoad = function() {
+	alias_CGMZ_Achievements_CGMZCore_onAfterLoad.call(this);
 	this.initializeAchievements(false);
 };
 //-----------------------------------------------------------------------------
@@ -898,9 +943,9 @@ CGMZ_Core.prototype.initializeAchievements = function(reinitialize) {
 	if(!this._achievements || reinitialize) {
 		this.setupAchievementVariables();
 	}
-	var id = this._achievements.length + 1;
+	let id = this._achievements.length + 1;
 	for(let i = 0; i < CGMZ.Achievements.Achievements.length; i++) {
-		var achievement = new CGMZ_Achievement(CGMZ.Achievements.Achievements[i], id);
+		const achievement = new CGMZ_Achievement(CGMZ.Achievements.Achievements[i], id);
 		if(!this.getAchievementByName(achievement.getName())) {
 			this.commitAchievement(achievement);
 			id++;
@@ -1014,10 +1059,8 @@ CGMZ_Core.prototype.setupAchievementCriteriaTypeArrays = function() {
 // Earn achievement
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.earnAchievement = function(id) {
-	let achievement = this.getAchievementByID(id);
-	if(achievement.isEarned()) {
-		return;
-	}
+	const achievement = this.getAchievementByID(id);
+	if(achievement.isEarned()) return;
 	achievement._earned = true;
 	this._achievetotal++;
 	this._achievepts += achievement._points;
@@ -1042,51 +1085,27 @@ CGMZ_Core.prototype.giveAchievementRewards = function(reward) {
 	if(reward.currency > 0) {
 		$gameParty.gainGold(reward.currency);
 	}
-	if(reward.items.length > 0) {
-		reward.items.forEach(function(item) {
-			if(item.type === "item") {
-				$gameParty.gainItem($dataItems[item.id], item.amt);
-			}
-			else if(item.type === "weapon") {
-				$gameParty.gainItem($dataWeapons[item.id], item.amt);
-			}
-			else if(item.type === "armor") {
-				$gameParty.gainItem($dataArmors[item.id], item.amt);
-			}
-		});
+	for(const itemObj of reward.items) {
+		const item = $cgmzTemp.lookupItem(itemObj.type, itemObj.id)
+		$gameParty.gainItem(item, itemObj.amt);
 	}
-	if(reward.switches.length > 0) {
-		reward.switches.forEach(function(switchobj) {
-			$gameSwitches.setValue(switchobj.id, switchobj.value);
-		});
+	for(const switchObj of reward.switches) {
+		$gameSwitches.setValue(switchobj.id, switchobj.value);
 	}
-	if(reward.variables.length > 0) {
-		var oldValue;
-		reward.variables.forEach(function(variableobj) {
-			try {
-				oldValue = $gameVariables.value(variableobj.id);
-				if(variableobj.operator == '=') {
-					$gameVariables.setValue(variableobj.id, variableobj.value);
-				}
-				else if(variableobj.operator == '+') {
-					$gameVariables.setValue(variableobj.id, oldValue + variableobj.value);
-				}
-				else if(variableobj.operator == '-') {
-					$gameVariables.setValue(variableobj.id, oldValue - variableobj.value);
-				}
-				else if(variableobj.operator == '*') {
-					$gameVariables.setValue(variableobj.id, oldValue * variableobj.value);
-				}
-				else if(variableobj.operator == '/') {
-					$gameVariables.setValue(variableobj.id, oldValue / variableobj.value);
-				}
-				else if(variableobj.operator == '%') {
-					$gameVariables.setValue(variableobj.id, oldValue % variableobj.value);
-				}
-			} catch (e) {
-				$gameVariables.setValue(variableobj.id, 0);
+	for(const variableObj of reward.variables) {
+		try {
+			oldValue = $gameVariables.value(variableobj.id);
+			switch(variableobj.operator) {
+				case "=": $gameVariables.setValue(variableobj.id, variableobj.value); break;
+				case "+": $gameVariables.setValue(variableobj.id, oldValue + variableobj.value); break;
+				case "-": $gameVariables.setValue(variableobj.id, oldValue - variableobj.value); break;
+				case "*": $gameVariables.setValue(variableobj.id, oldValue * variableobj.value); break;
+				case "/": $gameVariables.setValue(variableobj.id, oldValue / variableobj.value); break;
+				case "%": $gameVariables.setValue(variableobj.id, oldValue % variableobj.value); break;
 			}
-		});
+		} catch (e) {
+			$gameVariables.setValue(variableobj.id, 0);
+		}
 	}
 };
 //-----------------------------------------------------------------------------
@@ -1096,13 +1115,12 @@ CGMZ_Core.prototype.setupAchievementToast = function(achievement) {
 	let toastobj = {};
 	const pop = achievement._popup;
 	const seName = (pop.sound === "") ? CGMZ.Achievements.AchievementEarnedSound : pop.sound;
-	toastobj.SE = {name: seName, pan: 100, pitch: 100, volume: 100};
+	toastobj.SE = {name: seName, pan: 0, pitch: 100, volume: 100};
 	if(pop.image !== "") {
 		toastobj.isImage = true;
 		toastobj.picture = pop.image;
 		toastobj.showBackground = false;
-	}
-	else {
+	} else {
 		toastobj.isText = true;
 		toastobj.lineOneAlignment = CGMZ.Achievements.AchievementEarnedAlignment;
 		toastobj.lineOne = CGMZ.Achievements.AchievementEarnedText;
@@ -1117,10 +1135,8 @@ CGMZ_Core.prototype.setupAchievementToast = function(achievement) {
 // Check Achievement Criteria and Award if achievement is earned
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementForEarn = function(achievement) {
-	if(!this.needCriteriaCheck(achievement)) {
-		return;
-	}
-	var criteria = achievement._requirements;
+	if(!this.needCriteriaCheck(achievement)) return;
+	const criteria = achievement._requirements;
 	if(criteria.currency > 0 && $gameParty.gold() < criteria.currency) return;
 	if(criteria.steps > 0 && $gameParty.steps() < criteria.steps) return;
 	if(criteria.saves > 0 && $gameSystem.saveCount() < criteria.saves) return;
@@ -1137,43 +1153,25 @@ CGMZ_Core.prototype.checkAchievementForEarn = function(achievement) {
 	if(criteria.encyclopediaweapons > 0 && this.getEncyclopediaWeaponsPercent() < criteria.encyclopediaweapons) return;
 	if(criteria.encyclopediaskills > 0 && this.getEncyclopediaSkillsPercent() < criteria.encyclopediaskills) return;
 	if(criteria.encyclopediastates > 0 && this.getEncyclopediaStatesPercent() < criteria.encyclopediastates) return;
-	for(var i = 0; i < criteria.professions.length; i++) {
-		var profession = $cgmz.getProfession(criteria.professions[i].name);
+	for(let i = 0; i < criteria.professions.length; i++) {
+		const profession = $cgmz.getProfession(criteria.professions[i].name);
 		if(profession._level < criteria.professions[i].level) return;
 	}
-	for(let i = 0; i < criteria.items.length; i++) {
-		var item = criteria.items[i];
-		if(item.type === "item") {
-			if($gameParty.numItems($dataItems[item.id]) < item.amt) return;
-		}
-		else if(item.type === "weapon") {
-			if($gameParty.numItems($dataWeapons[item.id]) < item.amt) return;
-		}
-		else if(item.type === "armor") {
-			if($gameParty.numItems($dataArmors[item.id]) < item.amt) return;
-		}
+	for(const itemObj of criteria.items) {
+		const item = $cgmzTemp.lookupItem(itemObj.type, itemObj.id);
+		if($gameParty.numItems(item) < itemObj.amt) return;
 	}
-	for(let i = 0; i < criteria.switches.length; i++) {
-		var switchObj = criteria.switches[i];
+	for(const switchObj of criteria.switches) {
 		if(switchObj.value != $gameSwitches.value(switchObj.id)) return;
 	}
-	for(let i = 0; i < criteria.variables.length; i++) {
-		var variableObj = criteria.variables[i];
-		var gameVariable = $gameVariables.value(variableObj.id);
-		if(variableObj.operator === ">") {
-			if(gameVariable <= variableObj.value) return;
-		}
-		else if(variableObj.operator === ">=") {
-			if(gameVariable < variableObj.value) return;
-		}
-		else if(variableObj.operator === "=") {
-			if(variableObj.value != gameVariable) return;
-		}
-		else if(variableObj.operator === "<=") {
-			if(gameVariable > variableObj.value) return;
-		}
-		else if(variableObj.operator === "<") {
-			if(gameVariable >= variableObj.value) return;
+	for(const variableObj of criteria.variables) {
+		const gameVariable = $gameVariables.value(variableObj.id);
+		switch(variableObj.operator) {
+			case ">": if(gameVariable <= variableObj.value) return; break;
+			case ">=": if(gameVariable < variableObj.value) return; break;
+			case "=": if(gameVariable != variableObj.value) return; break;
+			case "<=": if(gameVariable > variableObj.value) return; break;
+			case "<": if(gameVariable >= variableObj.value) return;
 		}
 	}
 	this.earnAchievement(achievement._id);
@@ -1188,100 +1186,100 @@ CGMZ_Core.prototype.needCriteriaCheck = function(achievement) {
 // Check Achievement Currency Criteria
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementCurrencyCriteria = function() {
-	this._achievementTypes.currency.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
+	for(const id of this._achievementTypes.currency) {
+		const achievement = this.getAchievementByID(id);
 		if($gameParty.gold() >= achievement._requirements.currency) {
 			this.checkAchievementForEarn(achievement);
 		}
-	}, this);
+	}
 };
 //-----------------------------------------------------------------------------
 // Check Achievement Steps Criteria
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementStepsCriteria = function() {
-	this._achievementTypes.steps.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
+	for(const id of this._achievementTypes.steps) {
+		const achievement = this.getAchievementByID(id);
 		if($gameParty.steps() >= achievement._requirements.steps) {
 			this.checkAchievementForEarn(achievement);
 		}
-	}, this);
+	}
 };
 //-----------------------------------------------------------------------------
 // Check Achievement Saves Criteria
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementSavesCriteria = function() {
-	this._achievementTypes.saves.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
+	for(const id of this._achievementTypes.saves) {
+		const achievement = this.getAchievementByID(id);
 		if($gameSystem.saveCount() >= achievement._requirements.saves) {
 			this.checkAchievementForEarn(achievement);
 		}
-	}, this);
+	}
 };
 //-----------------------------------------------------------------------------
 // Check Achievement Battles Criteria
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementBattlesCriteria = function() {
-	this._achievementTypes.battles.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
+	for(const id of this._achievementTypes.battles) {
+		const achievement = this.getAchievementByID(id);
 		if($gameSystem.battleCount() >= achievement._requirements.battles) {
 			this.checkAchievementForEarn(achievement);
 		}
-	}, this);
+	}
 };
 //-----------------------------------------------------------------------------
 // Check Achievement Wins Criteria
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementWinsCriteria = function() {
-	this._achievementTypes.wins.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
+	for(const id of this._achievementTypes.wins) {
+		const achievement = this.getAchievementByID(id);
 		if($gameSystem.winCount() >= achievement._requirements.wins) {
 			this.checkAchievementForEarn(achievement);
 		}
-	}, this);
+	}
 };
 //-----------------------------------------------------------------------------
 // Check Achievement Escapes Criteria
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementEscapesCriteria = function() {
-	this._achievementTypes.escapes.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
+	for(const id of this._achievementTypes.escapes) {
+		const achievement = this.getAchievementByID(id);
 		if($gameSystem.escapeCount() >= achievement._requirements.escapes) {
 			this.checkAchievementForEarn(achievement);
 		}
-	}, this);
+	}
 };
 //-----------------------------------------------------------------------------
 // Check Achievement Playtime Criteria
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementPlaytimeCriteria = function() {
-	this._achievementTypes.playtime.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
+	for(const id of this._achievementTypes.playtime) {
+		const achievement = this.getAchievementByID(id);
 		if($gameSystem.playtime() >= achievement._requirements.playtime) {
 			this.checkAchievementForEarn(achievement);
 		}
-	}, this);
+	}
 };
 //-----------------------------------------------------------------------------
 // Check Achievement Achievepts Criteria
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementAchieveptsCriteria = function() {
-	this._achievementTypes.achievepts.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
+	for(const id of this._achievementTypes.achievepts) {
+		const achievement = this.getAchievementByID(id);
 		if($cgmz.countEarnedAchievementPoints() >= achievement._requirements.achievepts) {
 			this.checkAchievementForEarn(achievement);
 		}
-	}, this);
+	}
 };
 //-----------------------------------------------------------------------------
 // Check Achievement Achievetotal Criteria
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementAchievetotalCriteria = function() {
-	this._achievementTypes.achievetotal.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
-		if($cgmz.countEarnedAchievements() >=  achievement._requirements.achievetotal) {
+	for(const id of this._achievementTypes.achievetotal) {
+		const achievement = this.getAchievementByID(id);
+		if($cgmz.countEarnedAchievements() >= achievement._requirements.achievetotal) {
 			this.checkAchievementForEarn(achievement);
 		}
-	}, this);
+	}
 };
 //-----------------------------------------------------------------------------
 // Check Achievement Encyclopedia Criteria
@@ -1317,27 +1315,13 @@ CGMZ_Core.prototype.checkAchievementEncyclopediaCriteria = function() {
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementItemsCriteria = function() {
 	this._achievementTypes.items.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
-		var criteria = achievement._requirements;
-		for(let i = 0; i < criteria.items.length; i++) {
-			var item = criteria.items[i];
-			if(item.type === "item") {
-				if($gameParty.numItems($dataItems[item.id]) >= item.amt) {
-					this.checkAchievementForEarn(achievement);
-					return;
-				}
-			}
-			else if(item.type === "weapon") {
-				if($gameParty.numItems($dataWeapons[item.id]) >= item.amt) {
-					this.checkAchievementForEarn(achievement);
-					return;
-				}
-			}
-			else if(item.type === "armor") {
-				if($gameParty.numItems($dataArmors[item.id]) >= item.amt) {
-					this.checkAchievementForEarn(achievement);
-					return;
-				}
+		const achievement = this.getAchievementByID(id);
+		const criteria = achievement._requirements;
+		for(const itemObj of criteria.items) {
+			const item = $cgmzTemp.lookupItem(itemObj.type, itemObj.id);
+			if($gameParty.numItems(item) >= itemObj.amt) {
+				this.checkAchievementForEarn(achievement);
+				return;
 			}
 		}
 	}, this);
@@ -1347,10 +1331,9 @@ CGMZ_Core.prototype.checkAchievementItemsCriteria = function() {
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementSwitchesCriteria = function() {
 	this._achievementTypes.switches.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
-		var criteria = achievement._requirements;
-		for(let i = 0; i < criteria.switches.length; i++) {
-			var switchObj = criteria.switches[i];
+		const achievement = this.getAchievementByID(id);
+		const criteria = achievement._requirements;
+		for(const switchObj of criteria.switches) {
 			if(switchObj.value == $gameSwitches.value(switchObj.id)) {
 				this.checkAchievementForEarn(achievement);
 				return;
@@ -1363,11 +1346,10 @@ CGMZ_Core.prototype.checkAchievementSwitchesCriteria = function() {
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.checkAchievementVariablesCriteria = function() {
 	this._achievementTypes.variables.forEach(function(id) {
-		var achievement = this.getAchievementByID(id);
-		var criteria = achievement._requirements;
-		for(let i = 0; i < criteria.variables.length; i++) {
-			var variableObj = criteria.variables[i];
-			var gameVariable = $gameVariables.value(variableObj.id);
+		const achievement = this.getAchievementByID(id);
+		const criteria = achievement._requirements;
+		for(const variableObj of criteria.variables) {
+			const gameVariable = $gameVariables.value(variableObj.id);
 			if(variableObj.operator === ">") {
 				if(gameVariable > variableObj.value) {
 					this.checkAchievementForEarn(achievement);
@@ -1381,7 +1363,7 @@ CGMZ_Core.prototype.checkAchievementVariablesCriteria = function() {
 				}
 			}
 			else if(variableObj.operator === "=") {
-				if(gameVariable == variableObj.value) {
+				if(gameVariable === variableObj.value) {
 					this.checkAchievementForEarn(achievement);
 					return;
 				}
@@ -1424,26 +1406,16 @@ CGMZ_Core.prototype.getAchievements = function() {
 	return this._achievements;
 };
 //-----------------------------------------------------------------------------
-// Get achievement by ID, returns false if no achievement found
+// Get achievement by ID, returns undefined if no achievement found
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.getAchievementByID = function(id) {
-	for(let i = 0; i < this._achievements.length; i++) {
-		if(this._achievements[i]._id === id) {
-			return this._achievements[i];
-		}
-	}
-	return null;
+	return this._achievements.find(achievement => achievement._id === id);
 };
 //-----------------------------------------------------------------------------
-// Get achievement by ID, returns false if no achievement found
+// Get achievement by name, returns undefined if no achievement found
 //-----------------------------------------------------------------------------
-CGMZ_Core.prototype.getAchievementByName = function(achname) {
-	for(let i = 0; i < this._achievements.length; i++) {
-		if(this._achievements[i].getName() === achname) {
-			return this._achievements[i];
-		}
-	}
-	return null;
+CGMZ_Core.prototype.getAchievementByName = function(name) {
+	return this._achievements.find(achievement => achievement.getName() === name);
 };
 //-----------------------------------------------------------------------------
 // Get achievement earned count
@@ -1475,16 +1447,16 @@ const alias_CGMZ_Achievements_registerPluginCommands = CGMZ_Temp.prototype.regis
 CGMZ_Temp.prototype.registerPluginCommands = function() {
 	alias_CGMZ_Achievements_registerPluginCommands.call(this);
 	PluginManager.registerCommand("CGMZ_Achievements", "Reinitialize", this.pluginCommandAchievementsReinitialize);
-	PluginManager.registerCommand("CGMZ_Achievements", "Update", this.pluginCommandAchievementsUpdate);
 	PluginManager.registerCommand("CGMZ_Achievements", "Call Scene", this.pluginCommandAchievementsCallScene);
 	PluginManager.registerCommand("CGMZ_Achievements", "Earn Achievement By Name", this.pluginCommandAchievementsEarnByName);
 	PluginManager.registerCommand("CGMZ_Achievements", "Earn Achievement By ID", this.pluginCommandAchievementsEarnByID);
+	PluginManager.registerCommand("CGMZ_Achievements", "Change Description", this.pluginCommandAchievementsChangeDescription);
 };
 //-----------------------------------------------------------------------------
 // Earn an achievement by its name
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.pluginCommandAchievementsEarnByName = function(args) {
-	let achievement = $cgmz.getAchievementByName(args.name);
+	const achievement = $cgmz.getAchievementByName(args.name);
 	if(achievement) {
 		$cgmz.earnAchievement(achievement._id);
 	}
@@ -1493,7 +1465,7 @@ CGMZ_Temp.prototype.pluginCommandAchievementsEarnByName = function(args) {
 // Earn an achievement by its ID
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.pluginCommandAchievementsEarnByID = function(args) {
-	let achievement = $cgmz.getAchievementByID(Number(args.id));
+	const achievement = $cgmz.getAchievementByID(Number(args.id));
 	if(achievement) {
 		$cgmz.earnAchievement(achievement._id);
 	}
@@ -1501,25 +1473,24 @@ CGMZ_Temp.prototype.pluginCommandAchievementsEarnByID = function(args) {
 //-----------------------------------------------------------------------------
 // Reinitialize the achievement data
 //-----------------------------------------------------------------------------
-CGMZ_Temp.prototype.pluginCommandAchievementsReinitialize = function(args) {
-	if (args.reinitialize === "true") {
-		$cgmz.initializeAchievements(true);
-	}
+CGMZ_Temp.prototype.pluginCommandAchievementsReinitialize = function() {
+	$cgmz.initializeAchievements(true);
 };
 //-----------------------------------------------------------------------------
-// Update achievement data for new achievements only
+// Call the Achievements Scene
 //-----------------------------------------------------------------------------
-CGMZ_Temp.prototype.pluginCommandAchievementsUpdate = function(args) {
-	if (args.update === "true") {
-		$cgmz.initializeAchievements(false);
-	}
+CGMZ_Temp.prototype.pluginCommandAchievementsCallScene = function() {
+	SceneManager.push(CGMZ_Scene_Achievements);
 };
 //-----------------------------------------------------------------------------
-// Call the Encyclopedia Scene
+// Change an achievement description
 //-----------------------------------------------------------------------------
-CGMZ_Temp.prototype.pluginCommandAchievementsCallScene = function(args) {
-	if (args.callScene === "true") {
-		SceneManager.push(CGMZ_Scene_Achievements);
+CGMZ_Temp.prototype.pluginCommandAchievementsChangeDescription = function(args) {
+	const achievement = (args.name) ? $cgmz.getAchievementByName(args.name) : $cgmz.getAchievementByID(Number(args.id));
+	if(achievement) {
+		const pre = JSON.parse(args["Pre Description"]);
+		const post = JSON.parse(args["Post Description"]);
+		achievement.setDescriptions(pre, post);
 	}
 };
 //=============================================================================
@@ -1584,9 +1555,8 @@ CGMZ_Scene_Achievements.prototype.createTotalsWindow = function() {
 CGMZ_Scene_Achievements.prototype.totalsWindowRect = function() {
 	const x = 0;
 	const y = this._listWindow.y + this._listWindow.height;
-	const width = Graphics.boxWidth / 3;
-	const lines = 1 + ($cgmz.usingAchievementPoints())*1;
-	const height = this.calcWindowHeight(lines, false);
+	const width = this._listWindow.width;
+	const height = Graphics.boxHeight - y;
 	return new Rectangle(x, y, width, height);
 };
 //-----------------------------------------------------------------------------
@@ -1605,7 +1575,7 @@ CGMZ_Scene_Achievements.prototype.createAchievementWindow = function() {
 //-----------------------------------------------------------------------------
 CGMZ_Scene_Achievements.prototype.achievementWindowRect = function() {
 	const x = this._listWindow.width;
-	const y = this.mainAreaTop();
+	const y = this._listWindow.y;
 	const width = Graphics.boxWidth - x;
 	const height = Graphics.boxHeight - y;
 	return new Rectangle(x, y, width, height);
@@ -1656,12 +1626,6 @@ CGMZ_Achievement_Window_List.prototype.item = function() {
     return this._data[this.index()];
 };
 //-----------------------------------------------------------------------------
-// Determine if current item enabled
-//-----------------------------------------------------------------------------
-CGMZ_Achievement_Window_List.prototype.isCurrentItemEnabled = function() {
-    return true;
-};
-//-----------------------------------------------------------------------------
 // Determine if achievement is enabled
 //-----------------------------------------------------------------------------
 CGMZ_Achievement_Window_List.prototype.isEnabled = function(achievement) {
@@ -1672,36 +1636,28 @@ CGMZ_Achievement_Window_List.prototype.isEnabled = function(achievement) {
 //-----------------------------------------------------------------------------
 CGMZ_Achievement_Window_List.prototype.refresh = function() {
     this.makeItemList();
-    this.createContents();
-    this.drawAllItems();
+    Window_Selectable.prototype.refresh.call(this);
 };
 //-----------------------------------------------------------------------------
 // Make list of achievements
 //-----------------------------------------------------------------------------
 CGMZ_Achievement_Window_List.prototype.makeItemList = function() {
     this._data = [];
-	var achievements = $cgmz.getAchievements();
-	achievements.forEach(function(achievement) {
+	for(const achievement of $cgmz.getAchievements()) {
 		if(!achievement.isSecret() || achievement.isEarned() || CGMZ.Achievements.ShowSecretAchievements) {
 			this._data.push(achievement);
 		}
-	}, this);
+	}
 };
 //-----------------------------------------------------------------------------
 // Draw achievement names
 //-----------------------------------------------------------------------------
 CGMZ_Achievement_Window_List.prototype.drawItem = function(index) {
     const achievement = this._data[index];
-    let rect = this.itemRect(index);
-    rect.width -= $gameSystem.windowPadding();
+    const rect = this.itemRectWithPadding(index);
+	const name = (achievement.isSecret() && !achievement.isEarned()) ? CGMZ.Achievements.SecretText : achievement.getName();
     this.changePaintOpacity(this.isEnabled(achievement));
-	if(achievement.isSecret() && !achievement.isEarned()) {
-		this.drawText(CGMZ.Achievements.SecretText, rect.x, rect.y, rect.width, 'left');
-	}
-	else {
-		this.drawText(achievement.getName(), rect.x, rect.y, rect.width, 'left');
-	}
-    this.changePaintOpacity(true);
+	this.drawText(name, rect.x, rect.y, rect.width, CGMZ.Achievements.ListWindowAlignment);
 };
 //-----------------------------------------------------------------------------
 // Update helper window
@@ -1731,14 +1687,13 @@ CGMZ_Achievement_Window_Totals.prototype.initialize = function(rect) {
 //-----------------------------------------------------------------------------
 CGMZ_Achievement_Window_Totals.prototype.refresh = function() {
     this.contents.clear();
-	const width = this.contents.width - $gameSystem.windowPadding() * 2;
 	const earned = $cgmz.countEarnedAchievements();
-	let text = CGMZ.Achievements.EarnedCountText + ": " + earned;
-    this.drawText(text, 0, 0, width, 'left');
+	let text = CGMZ.Achievements.EarnedCountText + earned;
+    this.drawText(text, 0, 0, this.contents.width, CGMZ.Achievements.TotalWindowAlignment);
 	if($cgmz.usingAchievementPoints()) {
 		const points = $cgmz.countEarnedAchievementPoints();
-		text = CGMZ.Achievements.PointsText + ": " + points;
-		this.drawText(text, 0, this.lineHeight(), width, 'left');
+		text = CGMZ.Achievements.PointsText + points;
+		this.drawText(text, 0, this.lineHeight(), this.contents.width, CGMZ.Achievements.TotalWindowAlignment);
 	}
 };
 //=============================================================================
@@ -1763,8 +1718,9 @@ CGMZ_Achievement_Window_Display.prototype.initialize = function(rect) {
 // Set the achievement to be displayed
 //-----------------------------------------------------------------------------
 CGMZ_Achievement_Window_Display.prototype.setItem = function(achievement) {
+	if(this._achievement === achievement) return;
 	this._achievement = achievement;
-	this.refresh();
+	this.requestRefresh();
 };
 //-----------------------------------------------------------------------------
 // Refresh
@@ -1772,291 +1728,165 @@ CGMZ_Achievement_Window_Display.prototype.setItem = function(achievement) {
 CGMZ_Achievement_Window_Display.prototype.refresh = function() {
 	if(!this._achievement) return;
 	this.setupWindowForNewEntry();
-	var achievement = this._achievement;
-	var totalWidth = this.contents.width - $gameSystem.windowPadding() * 2;
-	if(achievement.isSecret() && !achievement.isEarned()) {
-		this.drawText(CGMZ.Achievements.SecretText, 0, 0, totalWidth, 'center')
-	} else {
-		this.drawText(achievement.getName(), 0, 0, totalWidth, 'center');
-	}
-	var descriptor = "";
-	var x = 0;
-	var lines = 1;
+	const achievement = this._achievement;
+	const achieveName = (achievement.isSecret() && !achievement.isEarned()) ? CGMZ.Achievements.SecretText : achievement.getName();
+	this.drawText(achieveName, 0, 0, this.contents.width, 'center');
+	let y = this.lineHeight();
 	if(achievement.isEarned()) {
-		descriptor = CGMZ.Achievements.EarnedText + ": ";
-		this.changeTextColor(ColorManager.systemColor());
-		this.drawText(descriptor, 0, this.lineHeight()*lines, totalWidth, 'left');
-		x = this.textWidth(descriptor);
-		descriptor = achievement._earndate;
-		this.changeTextColor(ColorManager.normalColor());
-		this.drawText(descriptor, x, this.lineHeight()*lines, totalWidth-x, 'left');
+		this.drawStandardLine(CGMZ.Achievements.EarnedText, achievement._earndate, 0, y);
+	} else {
+		this.drawText(CGMZ.Achievements.UnearnedText, 0, y, this.contents.width, 'left');
 	}
-	else {
-		this.changeTextColor(ColorManager.normalColor());
-		descriptor = CGMZ.Achievements.UnearnedText;
-		this.drawText(descriptor, 0, this.lineHeight()*lines, totalWidth, 'left');
+	if(achievement._difficulty) {
+		y += this.lineHeight();
+		this.drawStandardLine(CGMZ.Achievements.DifficultyText, achievement._difficulty, 0, y);
 	}
-	lines++;
-	if(achievement._difficulty !== "") {
-		descriptor = CGMZ.Achievements.DifficultyText + ": ";
-		this.changeTextColor(ColorManager.systemColor());
-		this.drawText(descriptor, 0, this.lineHeight()*lines, totalWidth, 'left');
-		x = this.textWidth(descriptor);
-		descriptor = achievement._difficulty;
-		this.changeTextColor(ColorManager.normalColor());
-		this.drawText(descriptor, x, this.lineHeight()*lines, totalWidth-x, 'left');
-		lines++;
+	if(achievement._points) {
+		y += this.lineHeight();
+		this.drawStandardLine(CGMZ.Achievements.PointsText, achievement._points, 0, y);
 	}
-	if(achievement._points > 0) {
-		descriptor = CGMZ.Achievements.PointsText + ": ";
-		this.changeTextColor(ColorManager.systemColor());
-		this.drawText(descriptor, 0, this.lineHeight()*lines, totalWidth, 'left');
-		x = this.textWidth(descriptor);
-		descriptor = achievement._points;
-		this.changeTextColor(ColorManager.normalColor());
-		this.drawText(descriptor, x, this.lineHeight()*lines, totalWidth-x, 'left');
-		lines++;
+	if(achievement._predesc && !achievement.isEarned()) {
+		y += this.lineHeight();
+		y += this.drawAchievementDescription(achievement._predesc, y);
+	} else if(achievement._postdesc && achievement.isEarned()) {
+		y += this.lineHeight();
+		y += this.drawAchievementDescription(achievement._postdesc, y);
 	}
-	if(achievement._predesc !== "" && !achievement.isEarned()) {
-		lines = this.drawAchievementDescription(achievement._predesc, lines);
-	}
-	else if(achievement._postdesc !== "" && achievement.isEarned()) {
-		lines = this.drawAchievementDescription(achievement._postdesc, lines);
-	}
-	// Colors used for currency criteria gauges
-	var currencyColor1 = ColorManager.textColor(CGMZ.Achievements.CurrencyGaugeColor1);
-	var currencyColor2 = ColorManager.textColor(CGMZ.Achievements.CurrencyGaugeColor2);
-	// Colors used for item criteria gauges
-	var itemGaugeColor1 = ColorManager.textColor(CGMZ.Achievements.ItemGaugeColor1);
-	var itemGaugeColor2 = ColorManager.textColor(CGMZ.Achievements.ItemGaugeColor2);
-	// Colors used for switch and variable gauges
-	var switchVarGaugeColor1 = ColorManager.textColor(CGMZ.Achievements.SwitchVarGaugeColor1);
-	var switchVarGaugeColor2 = ColorManager.textColor(CGMZ.Achievements.SwitchVarGaugeColor2);
-	// Common colors used for multiple criteria gauges
-	var genericGaugeColor1 = ColorManager.textColor(CGMZ.Achievements.GenericGaugeColor1);
-	var genericGaugeColor2 = ColorManager.textColor(CGMZ.Achievements.GenericGaugeColor2);
+	const currencyColor1 = ColorManager.textColor(CGMZ.Achievements.CurrencyGaugeColor1);
+	const currencyColor2 = ColorManager.textColor(CGMZ.Achievements.CurrencyGaugeColor2);
+	const itemGaugeColor1 = ColorManager.textColor(CGMZ.Achievements.ItemGaugeColor1);
+	const itemGaugeColor2 = ColorManager.textColor(CGMZ.Achievements.ItemGaugeColor2);
+	const switchVarGaugeColor1 = ColorManager.textColor(CGMZ.Achievements.SwitchVarGaugeColor1);
+	const switchVarGaugeColor2 = ColorManager.textColor(CGMZ.Achievements.SwitchVarGaugeColor2);
+	const genericGaugeColor1 = ColorManager.textColor(CGMZ.Achievements.GenericGaugeColor1);
+	const genericGaugeColor2 = ColorManager.textColor(CGMZ.Achievements.GenericGaugeColor2);
 	// Draw criteria
 	if(this.canShowCriteria(achievement)) {
-		var req = achievement._requirements;
-		this.changeTextColor(ColorManager.systemColor());
-		descriptor = CGMZ.Achievements.RequirementText + ": ";
-		x = this.textWidth(descriptor);
-		this.drawText(descriptor, 0, this.lineHeight()*lines, totalWidth, 'left');
-		this.changeTextColor(ColorManager.normalColor());
-		if(req.currency > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $gameParty.gold(), req.currency,
-											  currencyColor1, currencyColor2, TextManager.currencyUnit, achievement);
-			x = 0;
+		const req = achievement._requirements;
+		this.drawLabel(CGMZ.Achievements.RequirementText, 0, y, 'center');
+		y += this.lineHeight();
+		y = this.drawCriteriaProgress(0, y, $gameParty.gold(), req.currency, currencyColor1, currencyColor2, TextManager.currencyUnit, achievement);
+		y = this.drawCriteriaProgress(0, y, $gameParty.steps(), req.steps, genericGaugeColor1, genericGaugeColor2, "Steps", achievement);
+		y = this.drawCriteriaProgress(0, y, $gameSystem.saveCount(), req.saves, genericGaugeColor1, genericGaugeColor2, "Saves", achievement);
+		y = this.drawCriteriaProgress(0, y, $gameSystem.battleCount(), req.battles, genericGaugeColor1, genericGaugeColor2, "Battles", achievement);
+		y = this.drawCriteriaProgress(0, y, $gameSystem.winCount(), req.wins, genericGaugeColor1, genericGaugeColor2, "Wins", achievement);
+		y = this.drawCriteriaProgress(0, y, $gameSystem.escapeCount(), req.escapes, genericGaugeColor1, genericGaugeColor2, "Escapes", achievement);
+		y = this.drawCriteriaProgress(0, y, $cgmz.countEarnedAchievements(), req.achievetotal, genericGaugeColor1, genericGaugeColor2, "Achievements", achievement);
+		y = this.drawCriteriaProgress(0, y, $cgmz.countEarnedAchievementPoints(), req.achievepts, genericGaugeColor1, genericGaugeColor2, "Points", achievement);
+		if(Imported.CGMZ_Encyclopedia) {
+			y = this.drawCriteriaProgress(0, y, $cgmz.getEncyclopediaTotalPercent(), req.encyclopediatotal, genericGaugeColor1, genericGaugeColor2, "% Enc. Total", achievement);
+			y = this.drawCriteriaProgress(0, y, $cgmz.getEncyclopediaBestiaryPercent(), req.encyclopediabestiary, genericGaugeColor1, genericGaugeColor2, "% Enc. Bestiary", achievement);
+			y = this.drawCriteriaProgress(0, y, $cgmz.getEncyclopediaItemsPercent(), req.encyclopediaitems, genericGaugeColor1, genericGaugeColor2, "% Enc. Items", achievement);
+			y = this.drawCriteriaProgress(0, y, $cgmz.getEncyclopediaWeaponsPercent(), req.encyclopediaweapons, genericGaugeColor1, genericGaugeColor2, "% Enc. Weapons", achievement);
+			y = this.drawCriteriaProgress(0, y, $cgmz.getEncyclopediaArmorsPercent(), req.encyclopediaarmors, genericGaugeColor1, genericGaugeColor2, "% Enc. Armors", achievement);
+			y = this.drawCriteriaProgress(0, y, $cgmz.getEncyclopediaSkillsPercent(), req.encyclopediaskills, genericGaugeColor1, genericGaugeColor2, "% Enc. Skills", achievement);
+			y = this.drawCriteriaProgress(0, y, $cgmz.getEncyclopediaStatesPercent(), req.encyclopediastates, genericGaugeColor1, genericGaugeColor2, "% Enc. States", achievement);
 		}
-		if(req.steps > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $gameParty.steps(), req.steps,
-											  genericGaugeColor1, genericGaugeColor2, "Шаги", achievement);
-			x = 0;
+		for(let i = 0; i < req.professions.length; i++) {
+			const name = req.professions[i].name;
+			const profession = $cgmz.getProfession(name);
+			y = this.drawCriteriaProgress(0, y, profession._level, req.professions[i].level, genericGaugeColor1, genericGaugeColor2, " " + name + " Level", achievement);
 		}
-		if(req.saves > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $gameSystem.saveCount(), req.saves,
-											  genericGaugeColor1, genericGaugeColor2, "Сохранения", achievement);
-			x = 0;
-		}
-		if(req.battles > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $gameSystem.battleCount(), req.battles,
-											  genericGaugeColor1, genericGaugeColor2, "Бой", achievement);
-			x = 0;
-		}
-		if(req.wins > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $gameSystem.winCount(), req.wins,
-											  genericGaugeColor1, genericGaugeColor2, "Победы", achievement);
-			x = 0;
-		}
-		if(req.escapes > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $gameSystem.escapeCount(), req.escapes,
-											  genericGaugeColor1, genericGaugeColor2, "Побег", achievement);
-			x = 0;
-		}
-		if(req.achievetotal > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.countEarnedAchievements(), req.achievetotal,
-											  genericGaugeColor1, genericGaugeColor2, "Достижения", achievement);
-			x = 0;
-		}
-		if(req.achievepts > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.countEarnedAchievementPoints(), req.achievepts,
-											  genericGaugeColor1, genericGaugeColor2, "Очки", achievement);
-			x = 0;
-		}
-		if(req.encyclopediatotal > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaTotalPercent(), req.encyclopediatotal,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. Total", achievement);
-			x = 0;
-		}
-		if(req.encyclopediabestiary > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaBestiaryPercent(), req.encyclopediabestiary,
-											  genericGaugeColor1, genericGaugeColor2, "% Познания Бестиария", achievement);
-			x = 0;
-		}
-		if(req.encyclopediaitems > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaItemsPercent(), req.encyclopediaitems,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. Предметы", achievement);
-			x = 0;
-		}
-		if(req.encyclopediaweapons > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaWeaponsPercent(), req.encyclopediaweapons,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. Оружие", achievement);
-			x = 0;
-		}
-		if(req.encyclopediaarmors > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaArmorsPercent(), req.encyclopediaarmors,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. Броня", achievement);
-			x = 0;
-		}
-		if(req.encyclopediaskills > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaSkillsPercent(), req.encyclopediaskills,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. Навык", achievement);
-			x = 0;
-		}
-		if(req.encyclopediastates > 0) {
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, $cgmz.getEncyclopediaStatesPercent(), req.encyclopediastates,
-											  genericGaugeColor1, genericGaugeColor2, "% Enc. Состояния", achievement);
-			x = 0;
-		}
-		for(var i = 0; i < req.professions.length; i++) {
-			var name = req.professions[i].name;
-			var profession = $cgmz.getProfession(name);
-			lines = this.drawCriteriaProgress(x, lines, totalWidth-x, profession._level, req.professions[i].level,
-											  genericGaugeColor1, genericGaugeColor2, " " + name + " Уровень", achievement);
-			x = 0;
-		}
-		if(req.playtime > 0) {
-			var max = $gameSystem.playtime();
+		if(req.playtime) {
+			let max = $gameSystem.playtime();
 			if(achievement.isEarned() || max > req.playtime) {
 				max = req.playtime;
 			}
-			var timeArray1 = $cgmzTemp.approximateTimeValue(req.playtime);
-			var timeArray2 = $cgmzTemp.approximateTimeValue(max);
-			var descriptor = timeArray2[0].toString() + " " + timeArray2[1] + " / " + timeArray1[0].toString() + " " + timeArray1[1] + " Played";
-			this.drawGauge(x, this.lineHeight()*lines, totalWidth-x, genericGaugeColor1, genericGaugeColor2, max, req.playtime, descriptor);
-			lines++;
-			x = 0;
+			const timeArray1 = $cgmzTemp.approximateTimeValue(req.playtime);
+			const timeArray2 = $cgmzTemp.approximateTimeValue(max);
+			let descriptor = timeArray2[0] + " " + timeArray2[1] + " / " + timeArray1[0] + " " + timeArray1[1] + " Played";
+			this.drawGauge(0, y, this.contents.width, genericGaugeColor1, genericGaugeColor2, max, req.playtime, descriptor);
+			y += this.lineHeight();
 		}
-		if(req.items.length > 0) {
-			lines = this.drawCriteriaItems(achievement.isEarned(), req.items, x, lines, totalWidth-x,
-										   itemGaugeColor1, itemGaugeColor2);
-			x = 0;
-		}
-		if(req.switches.length > 0) {
-			lines = this.drawCriteriaSwitches(achievement.isEarned(), req.switches, x, lines, totalWidth-x,
-										   switchVarGaugeColor1, switchVarGaugeColor2);
-			x = 0;
-		}
-		if(req.variables.length > 0) {
-			lines = this.drawCriteriaVariables(achievement.isEarned(), req.variables, x, lines, totalWidth-x,
-											   switchVarGaugeColor1, switchVarGaugeColor2);
-			x = 0;
-		}
+		y = this.drawCriteriaItems(achievement.isEarned(), req.items, 0, y, itemGaugeColor1, itemGaugeColor2);
+		y = this.drawCriteriaSwitches(achievement.isEarned(), req.switches, 0, y, switchVarGaugeColor1, switchVarGaugeColor2);
+		y = this.drawCriteriaVariables(achievement.isEarned(), req.variables, 0, y, switchVarGaugeColor1, switchVarGaugeColor2);
 	}
 	if(this.canShowRewards(achievement)) {
-		var rew = achievement._rewards;
-		this.changeTextColor(ColorManager.systemColor());
-		descriptor = CGMZ.Achievements.RewardText + ": ";
-		x = this.textWidth(descriptor);
-		this.drawText(descriptor, 0, this.lineHeight()*lines, totalWidth, 'left');
-		this.changeTextColor(ColorManager.normalColor());
-		if(rew.currency > 0) {
-			var space = CGMZ.Achievements.CurrencyUnitSpace ? " " : "";
-			var descriptor = rew.currency.toString() + space + TextManager.currencyUnit;
-			this.drawText(descriptor, x, this.lineHeight()*lines, totalWidth, 'left');
-			x = 0;
-			lines++;
+		const rewards = achievement._rewards;
+		this.drawLabel(CGMZ.Achievements.RewardText, 0, y, 'center');
+		y += this.lineHeight();
+		if(rewards.currency) {
+			const space = CGMZ.Achievements.CurrencyUnitSpace ? " " : "";
+			this.drawText(rewards.currency + space + TextManager.currencyUnit, 0, y, this.contents.width, 'left');
+			y += this.lineHeight();
 		}
-		if(rew.items.length > 0) {
-			lines = this.drawRewardsItems(rew.items, x, lines, totalWidth-x);
-			x = 0;
-		}
-		if(rew.switches.length > 0) {
-			lines = this.drawRewardsSwitches(rew.switches, x, lines, totalWidth);
-			x = 0;
-		}
-		if(rew.variables.length > 0) {
-			lines = this.drawRewardsSwitches(rew.variables, x, lines, totalWidth);
-			x = 0;
-		}
+		y = this.drawRewardsItems(rewards.items, 0, y);
+		y = this.drawRewardsSwitchesAndVariables(rewards.switches, 0, y);
+		y = this.drawRewardsSwitchesAndVariables(rewards.variables, 0, y);
 	}
-	this._neededHeight = this.lineHeight()*lines;
-	this._neededHeight += $gameSystem.windowPadding()*2;
-	this.checkForScroll();
+	this._neededHeight = y;
+};
+//-----------------------------------------------------------------------------
+// Draw a standard line of 1 label + 1 piece of text
+//-----------------------------------------------------------------------------
+CGMZ_Achievement_Window_Display.prototype.drawStandardLine = function(label, text, x, y) {
+	this.drawLabel(label, x, y);
+	x = this.textWidth(label);
+	this.drawText(text, x, y, this.contents.width - x, "left");
+};
+//-----------------------------------------------------------------------------
+// Draw label / header text
+//-----------------------------------------------------------------------------
+CGMZ_Achievement_Window_Display.prototype.drawLabel = function(label, x, y, alignment = "left") {
+	this.changeTextColor(ColorManager.textColor(CGMZ.Achievements.LabelColor));
+	this.drawText(label, x, y, this.contents.width - x, alignment);
+	this.changeTextColor(ColorManager.normalColor());
 };
 //-----------------------------------------------------------------------------
 // Draw criteria progress with gauge
 // Returns the line counter + 1 (this function draws 1 line when called)
 //-----------------------------------------------------------------------------
-CGMZ_Achievement_Window_Display.prototype.drawCriteriaProgress = function(x, lines, width, numerator, denominator,
-																		  color1, color2, criteriaText, achievement) {
-	const y = this.lineHeight()*lines;
+CGMZ_Achievement_Window_Display.prototype.drawCriteriaProgress = function(x, y, numerator, denominator, color1, color2, criteriaText, achievement) {
+	if(denominator <= 0) return y;
 	let max = numerator;
 	if(achievement.isEarned() || numerator > denominator) {
 		max = denominator;
 	}
-	const descriptor = max.toString() + " / " + denominator.toString() + " " + criteriaText;
-	this.drawGauge(x, y, width, color1, color2, max, denominator, descriptor);
-	return lines + 1;
+	const descriptor = max + " / " + denominator + " " + criteriaText;
+	this.drawGauge(x, y, this.contents.width - x, color1, color2, max, denominator, descriptor);
+	return y + this.lineHeight();
 };
 //-----------------------------------------------------------------------------
 // Draw criteria items progress
 // Returns the line counter + amount of lines drawn via this function
 //-----------------------------------------------------------------------------
-CGMZ_Achievement_Window_Display.prototype.drawCriteriaItems = function(earned, itemArray, x, lines, width,
-																		  color1, color2) {
-	for(let i = 0; i < itemArray.length; i++) {
-		var y = this.lineHeight()*lines;
-		var criteriaObj = itemArray[i];
-		var item = this.getItemObject(criteriaObj);
-		var max = $gameParty.numItems(item);
-		var denominator = criteriaObj.amt;
-		if(earned || max > denominator) {
-			max = denominator;
-		}
-		var descriptor = max.toString() + " / " + criteriaObj.amt.toString();
-		this.drawGauge(x, y, width, color1, color2, max, denominator, descriptor, item);
-		width = this.contents.width - $gameSystem.windowPadding() * 2;
-		x = 0;
-		lines++;
+CGMZ_Achievement_Window_Display.prototype.drawCriteriaItems = function(earned, itemArray, x, y, color1, color2) {
+	for(const criteriaObj of itemArray) {
+		const item = $cgmzTemp.lookupItem(criteriaObj.type, criteriaObj.id);
+		const denominator = criteriaObj.amt;
+		let max = $gameParty.numItems(item);
+		if(earned || max > denominator) max = denominator;
+		const descriptor = max + " / " + criteriaObj.amt;
+		this.drawGauge(x, y, this.contents.width - x, color1, color2, max, denominator, descriptor, item);
+		y += this.lineHeight();
 	}
-	return lines;
+	return y;
 };
 //-----------------------------------------------------------------------------
 // Draw criteria switches progress
 // Returns the line counter + amount of lines drawn via this function
 //-----------------------------------------------------------------------------
-CGMZ_Achievement_Window_Display.prototype.drawCriteriaSwitches = function(earned, switchArray, x, lines, width,
-																		  color1, color2) {
-	for(let i = 0; i < switchArray.length; i++) {
-		var y = this.lineHeight()*lines;
-		var switchObj = switchArray[i];
-		var switchval = $gameSwitches.value(switchObj.id);
-		var max = (switchval == switchObj.value) ? 1 : 0;
-		if(earned) {
-			max = 1;
-		}
-		var descriptor = switchObj.description + " " + max.toString() + " / 1";
-		this.drawGauge(x, y, width, color1, color2, max, 1, descriptor);
-		width = this.contents.width - $gameSystem.windowPadding() * 2;
-		x = 0;
-		lines++;
+CGMZ_Achievement_Window_Display.prototype.drawCriteriaSwitches = function(earned, switchArray, x, y, color1, color2) {
+	for(const switchObj of switchArray) {
+		const switchval = $gameSwitches.value(switchObj.id);
+		const max = (earned) ? 1 : (switchval == switchObj.value) ? 1 : 0;
+		const descriptor = switchObj.description + " " + max + " / 1";
+		this.drawGauge(x, y, this.contents.width - x, color1, color2, max, 1, descriptor);
+		y += this.lineHeight();
 	}
-	return lines;
+	return y;
 };
 //-----------------------------------------------------------------------------
 // Draw criteria variables progress
 // Due to so many options for variables and not really making sense for gauges,
 // it treats it like a switch.
 //-----------------------------------------------------------------------------
-CGMZ_Achievement_Window_Display.prototype.drawCriteriaVariables = function(earned, variableArray, x, lines, width,
-																		  color1, color2) {
-	for(let i = 0; i < variableArray.length; i++) {
-		var y = this.lineHeight()*lines;
-		var variableObj = variableArray[i];
-		var max = 0;
-		var denominator = 1;
-		var descriptor = "";
+CGMZ_Achievement_Window_Display.prototype.drawCriteriaVariables = function(earned, variableArray, x, y, color1, color2) {
+	for(const variableObj of variableArray) {
+		let max = 0;
+		let denominator = 1;
+		let descriptor = "";
 		if(variableObj.operator !== ">" && variableObj.operator !== ">=") {
 			max = 0
 			if(earned || ($gameVariables.value(variableObj.id) <= variableObj.value && variableObj.operator !== "=") ||
@@ -2064,89 +1894,44 @@ CGMZ_Achievement_Window_Display.prototype.drawCriteriaVariables = function(earne
 				max = 1;
 			}
 			denominator = 1;
-			descriptor = variableObj.description + " " + max.toString() + " / 1";
+			descriptor = variableObj.description + " " + max + " / 1";
 		}
 		else {
-			denominator = (variableObj.operator === '>') ? variableObj.value+1 : variableObj.value;
+			denominator = (variableObj.operator === '>') ? variableObj.value + 1 : variableObj.value;
 			max = $gameVariables.value(variableObj.id);
 			if(earned || max > denominator) {
 				max = denominator;
 			}
-			descriptor = variableObj.description + " " + max.toString() + " / " + denominator.toString();
+			descriptor = variableObj.description + " " + max + " / " + denominator;
 		}
-		this.drawGauge(x, y, width, color1, color2, max, denominator, descriptor);
-		width = this.contents.width - $gameSystem.windowPadding() * 2;
-		x = 0;
-		lines++;
+		this.drawGauge(x, y, this.contents.width - x, color1, color2, max, denominator, descriptor);
+		y += this.lineHeight();
 	}
-	return lines;
+	return y;
 };
 //-----------------------------------------------------------------------------
 // Draw item rewards
 //-----------------------------------------------------------------------------
-CGMZ_Achievement_Window_Display.prototype.drawRewardsItems = function(itemArray, x, lines, width) {
-	for(let i = 0; i < itemArray.length; i++) {
-		var y = this.lineHeight()*lines;
-		var rewardObj = itemArray[i];
-		var item = this.getItemObject(rewardObj);
-		var descriptor = rewardObj.amt.toString() + "x ";
-		this.drawText(descriptor, x, y, width, 'left');
-		var newWidth = width - this.textWidth(descriptor);
-		x += this.textWidth(descriptor);
-		this.drawItemName(item, x, y, newWidth);
-		width = this.contents.width - $gameSystem.windowPadding() * 2;
-		x = 0;
-		lines++;
+CGMZ_Achievement_Window_Display.prototype.drawRewardsItems = function(itemArray, x, y, width) {
+	for(const rewardObj of itemArray) {
+		const item = $cgmzTemp.lookupItem(rewardObj.type, rewardObj.id)
+		const descriptor = rewardObj.amt + "x ";
+		this.drawText(descriptor, x, y, this.contents.width, 'left');
+		const amtWidth = this.textWidth(descriptor);
+		this.drawItemName(item, amtWidth, y, this.contents.width - amtWidth);
+		y += this.lineHeight();
 	}
-	return lines;
+	return y;
 };
 //-----------------------------------------------------------------------------
 // Draw switch rewards
 //-----------------------------------------------------------------------------
-CGMZ_Achievement_Window_Display.prototype.drawRewardsSwitches = function(switchArray, x, lines, width) {
-	if(x != 0) {
-		lines++;
-		x = 0;
+CGMZ_Achievement_Window_Display.prototype.drawRewardsSwitchesAndVariables = function(objArray, x, y) {
+	for(const obj of objArray) {
+		this.drawText(obj.description, x, y, this.contents.width, 'left');
+		y += this.lineHeight();
 	}
-	for(let i = 0; i < switchArray.length; i++) {
-		var y = this.lineHeight()*lines;
-		var descriptor = switchArray[i].description;
-		this.drawText(descriptor, x, y, width, 'left');
-		lines++;
-	}
-	return lines;
-};
-//-----------------------------------------------------------------------------
-// Draw variable rewards
-//-----------------------------------------------------------------------------
-CGMZ_Achievement_Window_Display.prototype.drawRewardsVariables = function(variableArray, x, lines, width) {
-	if(x != 0) {
-		lines++;
-		x = 0;
-	}
-	for(let i = 0; i < variableArray.length; i++) {
-		var y = this.lineHeight()*lines;
-		var descriptor = variableArray[i].description;
-		this.drawText(descriptor, x, y, width, 'left');
-		lines++;
-	}
-	return lines;
-};
-//-----------------------------------------------------------------------------
-// Returns the item object from system data type.
-//-----------------------------------------------------------------------------
-CGMZ_Achievement_Window_Display.prototype.getItemObject = function(itemObj) {
-	let item = null;
-	if(itemObj.type === "item") {
-		item = $dataItems[itemObj.id];
-	}
-	else if(itemObj.type === "weapon") {
-		item = $dataWeapons[itemObj.id];
-	}
-	else if(itemObj.type === "armor") {
-		item = $dataArmors[itemObj.id];
-	}
-	return item;
+	return y;
 };
 //-----------------------------------------------------------------------------
 // Determine if the window should show criteria
@@ -2166,35 +1951,11 @@ CGMZ_Achievement_Window_Display.prototype.canShowRewards = function(achievement)
 //-----------------------------------------------------------------------------
 // Draw achievement description - returns y-value of line below last line drawn
 //-----------------------------------------------------------------------------
-CGMZ_Achievement_Window_Display.prototype.drawAchievementDescription = function(description, lines) {
-	var descriptor1 = CGMZ.Achievements.DescriptionText + ": ";
-	var descriptor2 = description.split(" ");
-	var x = 0;
-	var y = this.lineHeight()*lines;
-	this.changeTextColor(ColorManager.systemColor());
-	this.drawText(descriptor1, x, y, this.contents.width, 'left');
-	x += this.textWidth(descriptor1);
-	this.changeTextColor(ColorManager.normalColor());
-	for(var i = 0; i < descriptor2.length; i++) {
-		if(descriptor2[i] === "") continue;
-		if(descriptor2[i] === '\\n') {
-			y += this.lineHeight();
-			lines++;
-			x = 0;
-			continue;
-		}
-		var tempWidth = this.textWidth(descriptor2[i] + " ");
-		if(tempWidth + x > this.contents.width) {
-			if(tempWidth <= this.contents.width) {
-				y += this.lineHeight();
-				lines++;
-				x = 0;
-			}
-		}
-		this.drawText(descriptor2[i] + " ", x, y, this.contents.width-x, 'left');
-		x += tempWidth;
-	}
-	return lines + 1;
+CGMZ_Achievement_Window_Display.prototype.drawAchievementDescription = function(description, y) {
+	this.drawLabel(CGMZ.Achievements.DescriptionText, 0, y);
+	const xOffset = this.textWidth(CGMZ.Achievements.DescriptionText);
+	const outputHeight = this.CGMZ_drawText(description, 0, xOffset, y, this.contents.width, 'left');
+	return outputHeight;
 };
 //-----------------------------------------------------------------------------
 // Draw a gauge
@@ -2215,7 +1976,6 @@ CGMZ_Achievement_Window_Display.prototype.drawGauge = function(x, y, width, colo
 // Game_Party
 //-----------------------------------------------------------------------------
 // Automatic tracking for gold, steps, and items
-// modified functions: gainGold, increaseSteps, gainItem
 //=============================================================================
 //-----------------------------------------------------------------------------
 // Alias: Check achievements that have currency criteria
@@ -2223,9 +1983,7 @@ CGMZ_Achievement_Window_Display.prototype.drawGauge = function(x, y, width, colo
 const alias_CGMZ_Achievements_GameParty_gainGold = Game_Party.prototype.gainGold;
 Game_Party.prototype.gainGold = function(amount) {
     alias_CGMZ_Achievements_GameParty_gainGold.call(this, amount);
-	if(amount > 0) {
-		$cgmz.checkAchievementCurrencyCriteria();
-	}
+	if(amount > 0) $cgmz.checkAchievementCurrencyCriteria();
 };
 //-----------------------------------------------------------------------------
 // Alias: Check achievements that have steps criteria
@@ -2241,15 +1999,12 @@ Game_Party.prototype.increaseSteps = function() {
 const alias_CGMZ_Achievements_GameParty_gainItem = Game_Party.prototype.gainItem;
 Game_Party.prototype.gainItem = function(item, amount, includeEquip) {
     alias_CGMZ_Achievements_GameParty_gainItem.call(this, item, amount, includeEquip);
-	if(amount > 0) {
-		$cgmz.checkAchievementItemsCriteria();
-	}
+	if(amount > 0) $cgmz.checkAchievementItemsCriteria();
 };
 //=============================================================================
 // Game_System
 //-----------------------------------------------------------------------------
 // Automatic tracking for battles, wins, escapes, saves
-// modified functions: onBattleStart, onBattleEscape, onBattleWin, onBeforeSave
 //=============================================================================
 //-----------------------------------------------------------------------------
 // Alias: Check achievements that have battles criteria
@@ -2288,7 +2043,6 @@ Game_System.prototype.onBeforeSave = function() {
 //-----------------------------------------------------------------------------
 // Automatic tracking for playtime (Using Scene Map so playtime achievements do
 // not update in battle or mid-scene
-// modified functions: update
 //=============================================================================
 //-----------------------------------------------------------------------------
 // Alias: Check achievements that have playtime criteria
@@ -2296,15 +2050,12 @@ Game_System.prototype.onBeforeSave = function() {
 const alias_CGMZ_Achievements_SceneMap_update = Scene_Map.prototype.update;
 Scene_Map.prototype.update = function() {
 	alias_CGMZ_Achievements_SceneMap_update.call(this);
-	if(Graphics.frameCount % 60 == 0) {
-        $cgmz.checkAchievementPlaytimeCriteria();
-    }
+	if(Graphics.frameCount % 60 == 0) $cgmz.checkAchievementPlaytimeCriteria();
 };
 //=============================================================================
 // Game_Switches
 //-----------------------------------------------------------------------------
 // Automatic tracking for switches
-// modified functions: onChange
 //=============================================================================
 //-----------------------------------------------------------------------------
 // Alias: Check achievements that have switch criteria
@@ -2318,7 +2069,6 @@ Game_Switches.prototype.onChange = function() {
 // Game_Variables
 //-----------------------------------------------------------------------------
 // Automatic tracking for variables
-// modified functions: onChange
 //=============================================================================
 //-----------------------------------------------------------------------------
 // Alias: Check achievements that have variable criteria

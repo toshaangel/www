@@ -11,10 +11,10 @@
  * Become a Patron to get access to beta/alpha plugins plus other goodies!
  * https://www.patreon.com/CasperGamingRPGM
  * ============================================================================
- * Version: 1.5.2
+ * Version: 1.6.0
  * ----------------------------------------------------------------------------
  * Compatibility: Only tested with my CGMZ plugins.
- * Made for RPG Maker MZ 1.2.0
+ * Made for RPG Maker MZ 1.3.2
  * ----------------------------------------------------------------------------
  * Description: This is the core CGMZ plugin which is used extensively
  * by other CGMZ plugins and is likely to be required.
@@ -22,15 +22,12 @@
  * Documentation:
  * This plugin can automatically check if any CGMZ plugin you have is out of
  * date. To see out of date plugins, open the console while playtesting by
- * pressing F8.
- *
+ * pressing F8. The game will not check for updates in deployed games.
+ * -------------------------Plugin Commands------------------------------------
  * The following plugin commands are supported:
- * CGMZ Init   # Re-initializes the CGMZ Core. Only use this if you know what
- *             # you are doing! Erases CGMZ data.
- *
- * Version History:
- * 1.0 - Initial release
- *
+ * Initialize   # Re-initializes the CGMZ Core. Only use this if you know what
+ *              # you are doing! Erases CGMZ data.
+ * -------------------------Version History------------------------------------
  * 1.1:
  * - Added function to automatically check if any CGMZ plugin is out of date
  * - Added function to split a string into multiple lines if the string is too
@@ -74,8 +71,18 @@
  * - More concise error reporting
  * - Bugfix for font size changes throwing off line wrap when drawing text with text codes
  *
+ * 1.5.3:
+ * - Added function for getting file info
+ * - Removed deprecated code (if getting crash after update, update crashing plugin)
+ *
+ * 1.6.0:
+ * - Added support for subfolders for images
+ * - Added more customizable selectable window with categories
+ * - Added function to draw a divider on windows
+ * - Added support for spritesheet animations on map
+ * - Various bug fixes for text code drawing in unusual cases
+ *
  * @command Initialize
- * @text Initialize
  * @desc Re-initializes some CGMZ Classes. Only call this if you know what you
  * are doing. Will reset all CGMZ Data as if you started a new game.
  *
@@ -108,7 +115,7 @@ var Imported = Imported || {};
 Imported.CGMZ_Core = true;
 var CGMZ = CGMZ || {};
 CGMZ.Versions = CGMZ.Versions || {};
-CGMZ.Versions["CGMZ Core"] = "1.5.2";
+CGMZ.Versions["CGMZ Core"] = "1.6.0";
 CGMZ.Core = CGMZ.Core || {};
 CGMZ.Core.parameters = PluginManager.parameters('CGMZ_Core');
 CGMZ.Core.CheckForUpdates = (CGMZ.Core.parameters["Check for Updates"] === "true");
@@ -129,6 +136,7 @@ function CGMZ_Temp() {
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.initialize = function() {
 	this._inputCurrentState = {};
+	this._animationQueue = [];
 	this.createPluginData();
 	this.createMappedFunctions();
 	this.registerPluginCommands();
@@ -213,6 +221,15 @@ CGMZ_Temp.prototype.pluginCommandReinitialize = function() {
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.reportError = function(error, origin, suggestion = "Update Plugins") {
 	console.warn("Error in plugin: " + origin + "\nError description: " + error + "\nPossible solution: " + suggestion);
+};
+//-----------------------------------------------------------------------------
+// Takes a filepath of folder+filename and returns object with separate folder+filename
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.getImageData = function(imageLoc) {
+	const splitPath = imageLoc.split("/");
+	const file = splitPath.pop();
+	const path = splitPath.join("/");
+	return {folder: "img/" + path + "/", filename: file};
 };
 //-----------------------------------------------------------------------------
 // Takes a number and returns it's toLocaleString value
@@ -364,57 +381,6 @@ CGMZ_Temp.prototype.lookupItem = function(type, id) {
 	return null;
 };
 //-----------------------------------------------------------------------------
-// Split string based on width and if the next word will fit in that line
-// Deprecated. TO-DO: Remove in future version
-//-----------------------------------------------------------------------------
-CGMZ_Temp.prototype.wrapText = function(string, contents, xOffset = 0, firstLineXOffset = 0, separator = " ") {
-	let lines = [];
-	let tempLine = "";
-	let newString = this.convertEscapeCharacters(string);
-	let words = newString.split(" ");
-	let x = xOffset + firstLineXOffset;
-	for(let i = 0; i < words.length; i++) {
-		if(i === words.length - 1) {
-			separator = "";
-		}
-		let tempWidth = contents.measureTextWidth(words[i] + separator);
-		if(tempWidth + x > contents.width && tempWidth <= contents.width) {
-			lines.push(tempLine);
-			tempLine = "";
-			x = xOffset;
-		}
-		x += tempWidth;
-		tempLine = tempLine + words[i] + separator;
-	}
-	if(tempLine !== "") {
-		lines.push(tempLine);
-	}
-	return lines
-};
-//-----------------------------------------------------------------------------
-// Copy of escape code replacement from Window Base - temporary
-// Deprecated. TO-DO: Remove in future version
-//-----------------------------------------------------------------------------
-CGMZ_Temp.prototype.convertEscapeCharacters = function(text) {
-    /* eslint no-control-regex: 0 */
-    text = text.replace(/\\/g, "\x1b");
-    text = text.replace(/\x1b\x1b/g, "\\");
-    text = text.replace(/\x1bV\[(\d+)\]/gi, (_, p1) =>
-        $gameVariables.value(parseInt(p1))
-    );
-    text = text.replace(/\x1bV\[(\d+)\]/gi, (_, p1) =>
-        $gameVariables.value(parseInt(p1))
-    );
-    text = text.replace(/\x1bN\[(\d+)\]/gi, (_, p1) =>
-        this.actorName(parseInt(p1))
-    );
-    text = text.replace(/\x1bP\[(\d+)\]/gi, (_, p1) =>
-        this.partyMemberName(parseInt(p1))
-    );
-    text = text.replace(/\x1bG/gi, TextManager.currencyUnit);
-    return text;
-};
-//-----------------------------------------------------------------------------
 // Request a response from an API using fetch, and output response to custom
 // function
 //-----------------------------------------------------------------------------
@@ -470,8 +436,8 @@ CGMZ_Temp.prototype.refreshForKeysUp = function() {
 //-----------------------------------------------------------------------------
 // is Key Pressed?
 //-----------------------------------------------------------------------------
-CGMZ_Temp.prototype.isKeyPressed = function(keyCode) {
-	return this._inputCurrentState[keyCode];
+CGMZ_Temp.prototype.isKeyPressed = function(key) {
+	return this._inputCurrentState[key];
 };
 //-----------------------------------------------------------------------------
 // Create mapped functions
@@ -487,6 +453,26 @@ CGMZ_Temp.prototype.callMappedFunctions = function(funcName, args) {
 	if(func) {
 		func.call(this, args);
 	}
+};
+//-----------------------------------------------------------------------------
+// Request a map animation
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.requestMapAnimation = function(imageData, x, y, frameWidth, frameHeight, animationSpeed, options = {}) {
+	const request = {};
+	request.bitmap = imageData;
+	request.x = x;
+	request.y = y;
+	request.frameWidth = frameWidth;
+	request.frameHeight = frameHeight;
+	request.animationSpeed = animationSpeed;
+	request.options = options;
+	this._animationQueue.push(request);
+};
+//-----------------------------------------------------------------------------
+// Retrieve a map animation request
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.retrieveMapAnimationRequest = function() {
+	return this._animationQueue.shift();
 };
 //=============================================================================
 // CGMZ_Core
@@ -648,7 +634,7 @@ DataManager.makeSaveContents = function() {
 const CGMZ_Core_extractSaveContents = DataManager.extractSaveContents;
 DataManager.extractSaveContents = function(contents) {
     CGMZ_Core_extractSaveContents.call(this, contents);
-	contents.cgmz ? $cgmz = contents.cgmz : console.log("Could not load CGMZ data!");
+	contents.cgmz ? $cgmz = contents.cgmz : console.warn("Could not load CGMZ data!");
 };
 //-----------------------------------------------------------------------------
 // After setting things up, check for out of date CGMZ plugins
@@ -996,6 +982,204 @@ CGMZ_Window_Scrollable.prototype.isCancelEnabled = function() {
     return this.isHandled('cancel');
 };
 //=============================================================================
+// CGMZ_Window_Selectable
+//-----------------------------------------------------------------------------
+// Window used by CGMZ Scripts to allow for categories within a selectable
+// window which are expandable/minimizable. It also allows each item to
+// define its own width/height, which may vary per item.
+//=============================================================================
+function CGMZ_Window_Selectable() {
+    this.initialize(...arguments);
+}
+CGMZ_Window_Selectable.prototype = Object.create(Window_Selectable.prototype);
+CGMZ_Window_Selectable.prototype.constructor = CGMZ_Window_Selectable;
+//-----------------------------------------------------------------------------
+// Initialize
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.initialize = function(rect) {
+    Window_Selectable.prototype.initialize.call(this, rect);
+	this._category = null;
+	this._data = [];
+};
+//-----------------------------------------------------------------------------
+// Current item
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.item = function() {
+	if(this._data && this.index() >= 0) return this._data[this.index()];
+	return null;
+};
+//-----------------------------------------------------------------------------
+// Level Adjustment for width / x offset
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.levelAdjustment = function(level) {
+	return level * 8;
+};
+//-----------------------------------------------------------------------------
+// Change width by index
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.itemWidth = function(index) {
+	if(this._data[index] && this._data[index].hasOwnProperty("width")) {
+		return this._data[index].width;
+	}
+	if(this._data[index] && this._data[index].hasOwnProperty("level")) {
+		return Window_Selectable.prototype.itemWidth.call(this) - this.levelAdjustment(this._data[index].level);
+	}
+    return Window_Selectable.prototype.itemWidth.call(this);
+};
+//-----------------------------------------------------------------------------
+// Change height by index
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.itemHeight = function(index = -1) {
+	if(index >= 0 && this._data && this._data[index] && this._data[index].hasOwnProperty("height")) {
+		return this._data[index].height;
+	}
+	if(index >= 0 && this._data && this._data[index] && this._data[index].hasOwnProperty("heightMultiplier")) {
+		return Window_Scrollable.prototype.itemHeight.call(this) * this._data[index].heightMultiplier + 8;
+	}
+    return Window_Scrollable.prototype.itemHeight.call(this) + 8;
+};
+//-----------------------------------------------------------------------------
+// Get item height of previous entries
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.itemHeightOfIndex = function(index) {
+	let height = 0;
+	for(i = 0; i < index; i++) {
+		height += this.itemHeight(i);
+	}
+	return height;
+};
+//-----------------------------------------------------------------------------
+// Get contents height
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.contentsHeight = function() {
+    return this.innerHeight + this.itemHeight() * 2;
+};
+//-----------------------------------------------------------------------------
+// Get overall height
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.overallHeight = function() {
+    return this.itemHeightOfIndex(this.maxItems());
+};
+//-----------------------------------------------------------------------------
+// Get top row
+// TODO: Make this better, right now kind of hackish
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.topRow = function() {
+	return Math.max(0, (Math.floor(this.scrollY() / this.itemHeight()) - 5));
+};
+//-----------------------------------------------------------------------------
+// Get item rect
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.itemRect = function(index) {
+	const level = (this._data && this._data[index] && this._data[index].hasOwnProperty('level')) ? this._data[index].level : 0;
+    const maxCols = this.maxCols();
+    const itemWidth = this.itemWidth(index);
+    const itemHeight = this.itemHeight(index);
+    const colSpacing = this.colSpacing();
+    const rowSpacing = this.rowSpacing();
+    const col = index % maxCols;
+    const row = Math.floor(index / maxCols);
+    const x = (col * itemWidth + colSpacing / 2 - this.scrollBaseX()) + this.levelAdjustment(level);
+    const y = this.itemHeightOfIndex(index) + rowSpacing / 2 - this.scrollBaseY();
+    const width = itemWidth - colSpacing;
+    const height = itemHeight - rowSpacing;
+    return new Rectangle(x, y, width, height);
+};
+//-----------------------------------------------------------------------------
+// Ensure Cursor is Visible
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.ensureCursorVisible = function(smooth) {
+    if (this._cursorAll) {
+        this.scrollTo(0, 0);
+    } else if (this.innerHeight > 0 && this.row() >= 0) {
+        const scrollY = this.scrollY();
+        const itemTop = this.itemHeightOfIndex(this.index());
+        const itemBottom = itemTop + this.itemHeight(this.index());
+        const scrollMin = itemBottom - this.innerHeight;
+        if (scrollY > itemTop) {
+            if (smooth) {
+                this.smoothScrollTo(0, itemTop);
+            } else {
+                this.scrollTo(0, itemTop);
+            }
+        } else if (scrollY < scrollMin) {
+            if (smooth) {
+                this.smoothScrollTo(0, scrollMin);
+            } else {
+                this.scrollTo(0, scrollMin);
+            }
+        }
+    }
+};
+//-----------------------------------------------------------------------------
+// Pass index to drawing background rect for color differentiation
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.drawItemBackground = function(index) {
+    const rect = this.itemRect(index);
+    this.drawBackgroundRect(rect, index);
+};
+//-----------------------------------------------------------------------------
+// Look for color property on index
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.drawBackgroundRect = function(rect, index) {
+	const item = this.getPreviousCategoryItem(index);
+	this.setNewCategory(item);
+	if(!this._category) {
+		Window_Selectable.prototype.drawBackgroundRect.call(this, rect);
+		return;
+	}
+    const c1 = this._category._color1;
+    const c2 = this._category._color2;
+    const x = rect.x;
+    const y = rect.y;
+    const w = rect.width;
+    const h = rect.height;
+    this.contentsBack.gradientFillRect(x, y, w, h, c1, c2, true);
+    this.contentsBack.strokeRect(x, y, w, h, c1);
+};
+//-----------------------------------------------------------------------------
+// Get the closest category with index smaller than current index
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.getPreviousCategoryItem = function(index) {
+    for(let i = index; i >= 0; i--) {
+		const item = this._data[i];
+		if(item && item.isCategory) {
+			return item;
+		}
+	}
+	return null;
+};
+//-----------------------------------------------------------------------------
+// Get the closest category with index smaller than current index
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.processOk = function() {
+	const item = this.item();
+	if(item && item.isCategory) {
+		this.handleCategorySelection(item);
+		this.playOkSound();
+	} else {
+		Window_Selectable.prototype.processOk.call(this);
+	}
+};
+//-----------------------------------------------------------------------------
+// Set new category. Used by individual instances to set category.
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.setNewCategory = function(item) {
+    this._category = item;
+};
+//-----------------------------------------------------------------------------
+// Handling for when category is selected and OK press occurs
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.handleCategorySelection = function(item) {
+    // Used by plugins to minimize / expand category
+};
+//-----------------------------------------------------------------------------
+// Always handle OK
+//-----------------------------------------------------------------------------
+CGMZ_Window_Selectable.prototype.isOkEnabled = function() {
+    return true;
+};
+//=============================================================================
 // Window_Base
 //-----------------------------------------------------------------------------
 // Adding functions for CGMZ Windows. Drawing gauges and text processing
@@ -1010,6 +1194,24 @@ Window_Base.prototype.CGMZ_drawGauge = function(rect, rate, color1, color2, colo
     this.contents.gradientFillRect(rect.x + 1, rect.y + 1, fillW, fillH, color1, color2);
 };
 //-----------------------------------------------------------------------------
+// Draw Header
+//-----------------------------------------------------------------------------
+Window_Base.prototype.CGMZ_drawHeader = function(header, y, color1 = 1, color2 = 0) {
+	const textWidth = this.textWidth(header);
+	const divWidth = this.contents.width / 2 - textWidth / 2 - $gameSystem.windowPadding() * 2;
+	const rect1 = new Rectangle($gameSystem.windowPadding(), y + this.lineHeight() / 2, divWidth, 2);
+	const rect2 = new Rectangle(this.contents.width / 2 + textWidth / 2 + $gameSystem.windowPadding(), y + this.lineHeight() / 2, divWidth, 2);
+	this.CGMZ_drawDivider(rect1, ColorManager.textColor(color1), ColorManager.textColor(color2));
+	this.CGMZ_drawDivider(rect2, ColorManager.textColor(color2), ColorManager.textColor(color1));
+	this.drawText(header, 0, y, this.contents.width, 'center');
+};
+//-----------------------------------------------------------------------------
+// Draw a divider / hr
+//-----------------------------------------------------------------------------
+Window_Base.prototype.CGMZ_drawDivider = function(rect, color1 = ColorManager.gaugeBackColor(), color2 = ColorManager.gaugeBackColor()) {
+    this.contents.gradientFillRect(rect.x, rect.y, rect.width, rect.height, color1, color2);
+};
+//-----------------------------------------------------------------------------
 // Draw a string of text with text codes and word wrapping.
 // It can also handle a first-line offset.
 // Returns the overall output height
@@ -1020,22 +1222,26 @@ Window_Base.prototype.CGMZ_drawText = function(string, x, firstLineX, y, width, 
 	textState.drawing = false;
 	textState.x = firstLineX;
 	textState.lastSpaceIndex = 0;
+	let additionalWidth = 0;
 	while (textState.index < textState.text.length) {
 		const c = textState.text[textState.index++];
 		const tempFS = this.contents.fontSize;
-		let neededWidth = textState.x + this.textWidth(textState.buffer) + this.textSizeEx(c).width * (c !== ' ');
+		let neededWidth = additionalWidth + this.textWidth(textState.buffer) + this.textSizeEx(c).width * (c !== ' ');
 		this.contents.fontSize = tempFS; // reset font size since textSizeEx resets font size.
-		if(neededWidth > textState.width && textState.lastSpaceIndex > 0) {
+		if(neededWidth > width && textState.lastSpaceIndex > 0) {
 			textState.text = textState.text.substring(0, textState.lastSpaceIndex) + '\n' + textState.text.substring(textState.lastSpaceIndex + 1);
-			textState.x = textState.startX;
+			textState.x = x;
+			additionalWidth = 0;
 		}
 		if (c.charCodeAt(0) < 0x20) {
 			this.flushTextState(textState);
 			this.processControlCharacter(textState, c);
+			additionalWidth = textState.x - x;
 		} else if(c === " ") {
 			textState.buffer += c;
 			this.flushTextState(textState);
 			textState.lastSpaceIndex = textState.index - 1;
+			additionalWidth = textState.x - x;
 		} else {
 			textState.buffer += c;
 		}
@@ -1052,10 +1258,14 @@ Window_Base.prototype.CGMZ_drawText = function(string, x, firstLineX, y, width, 
 			let firstLine = true;
 			const lines = textState.text.split("\n");
 			for(line of lines) {
-				let textState2 = this.createTextState(line, x, y + totalHeight, width);
-				let textWidth = this.textSizeEx(line).width;
-				textState2.x = width + textState2.x - textWidth;
-				if(alignment === "center") textState2.x = (textState2.x / 2) + (firstLineX * firstLine / 2);
+				const textState2 = this.createTextState(line, x, y + totalHeight, width);
+				const color = this.contents.textColor;
+				const fs = this.contents.fontSize;
+				const textWidth = this.textSizeEx(line).width;
+				this.contents.textColor = color;
+				this.contents.fontSize = fs;
+				if(alignment === "right") textState2.x = width + textState2.x - textWidth;
+				if(alignment === "center") textState2.x += (width - textWidth) / 2;
 				if(firstLine && (firstLineX > textState2.x)) textState2.x = firstLineX;
 				firstLine = false;
 				this.processAllText(textState2);
@@ -1086,6 +1296,185 @@ Window_Base.prototype.CGMZ_drawTextLine = function(string, x, y, width, alignmen
 	}
 	this.processAllText(textState);
 	return textState.outputHeight;
+};
+//=============================================================================
+// Spriteset_Map
+//-----------------------------------------------------------------------------
+// Add cgmz animations
+//=============================================================================
+//-----------------------------------------------------------------------------
+// Alias. Also init cgmz animation array
+//-----------------------------------------------------------------------------
+const alias_CGMZ_Core_Spriteset_Map_initialize = Spriteset_Map.prototype.initialize;
+Spriteset_Map.prototype.initialize = function() {
+    alias_CGMZ_Core_Spriteset_Map_initialize.call(this);
+    this._cgmzAnimations = [];
+};
+//-----------------------------------------------------------------------------
+// Alias. Also Update cgmz animations
+//-----------------------------------------------------------------------------
+const alias_CGMZ_Core_Spriteset_Map_update = Spriteset_Map.prototype.update;
+Spriteset_Map.prototype.update = function() {
+    alias_CGMZ_Core_Spriteset_Map_update.call(this);
+    this.updateCGMZAnimations();
+};
+//-----------------------------------------------------------------------------
+// Alias. Also remove all cgmz animations
+//-----------------------------------------------------------------------------
+const alias_CGMZ_Core_Spriteset_Map_destroy = Spriteset_Map.prototype.destroy;
+Spriteset_Map.prototype.destroy = function(options) {
+    this.removeAllCGMZAnimations();
+    alias_CGMZ_Core_Spriteset_Map_destroy.call(this, options);
+};
+//-----------------------------------------------------------------------------
+// Update cgmz animations
+//-----------------------------------------------------------------------------
+Spriteset_Map.prototype.updateCGMZAnimations = function() {
+    for(const sprite of this._cgmzAnimations) {
+        if (!sprite.isPlaying()) {
+            this.removeCGMZAnimation(sprite);
+        }
+    }
+    this.processCGMZAnimationRequests();
+};
+//-----------------------------------------------------------------------------
+// Process new animation requests
+//-----------------------------------------------------------------------------
+Spriteset_Map.prototype.processCGMZAnimationRequests = function() {
+    for(;;) {
+        const request = $cgmzTemp.retrieveMapAnimationRequest();
+        if (request) {
+            this.createCGMZAnimation(request);
+        } else {
+            break;
+        }
+    }
+};
+//-----------------------------------------------------------------------------
+// Create a new CGMZ animation
+//-----------------------------------------------------------------------------
+Spriteset_Map.prototype.createCGMZAnimation = function(request) {
+	const sprite = new Sprite_CGMZ_MapAnimation(request);
+	this._effectsContainer.addChild(sprite);
+	this._cgmzAnimations.push(sprite);
+};
+//-----------------------------------------------------------------------------
+// Remove a CGMZ animation
+//-----------------------------------------------------------------------------
+Spriteset_Map.prototype.removeCGMZAnimation = function(sprite) {
+    this._cgmzAnimations.remove(sprite);
+    this._effectsContainer.removeChild(sprite);
+    sprite.destroy();
+};
+//-----------------------------------------------------------------------------
+// Remove all CGMZ animations
+//-----------------------------------------------------------------------------
+Spriteset_Map.prototype.removeAllCGMZAnimations = function() {
+    for(const sprite of this._cgmzAnimations.clone()) {
+        this.removeCGMZAnimation(sprite);
+    }
+};
+//=============================================================================
+// Sprite_CGMZ_MapAnimation
+//-----------------------------------------------------------------------------
+// Sprite class for basic map animations
+//=============================================================================
+function Sprite_CGMZ_MapAnimation() {
+    this.initialize(...arguments);
+}
+Sprite_CGMZ_MapAnimation.prototype = Object.create(Sprite.prototype);
+Sprite_CGMZ_MapAnimation.prototype.constructor = Sprite_CGMZ_MapAnimation;
+//-----------------------------------------------------------------------------
+// Initialize the sprite
+// request should have:
+// bitmap - Object with folder and filename properties to load the image with
+// x - x coordinate (tile) of animation center
+// y - y coordinate (tile) of animation center
+// frameWidth - width of 1 animation cell
+// frameHeight - height of 1 animation cell
+// animationSpeed - how many frames to wait before swapping animation cells
+// options - custom options to alter sprite behavior
+//-----------------------------------------------------------------------------
+Sprite_CGMZ_MapAnimation.prototype.initialize = function(request) {
+    Sprite.prototype.initialize.call(this);
+	this._isPlaying = true;
+	this._needsUpdate = false;
+	this._waitCounter = 0;
+	this._currentFrame = 0;
+	this._maxFrames = 0;
+	this.anchor.x = 0.5;
+    this.anchor.y = 0.5;
+	this._request = request;
+	this.startBitmapLoad(request.bitmap);
+};
+//-----------------------------------------------------------------------------
+// Start loading the bitmap
+//-----------------------------------------------------------------------------
+Sprite_CGMZ_MapAnimation.prototype.startBitmapLoad = function(bitmap) {
+	this._bitmap = ImageManager.loadBitmap(bitmap.folder, bitmap.filename);
+	this._bitmap.addLoadListener(this.onImageLoaded.bind(this));
+};
+//-----------------------------------------------------------------------------
+// After bitmap is loaded
+//-----------------------------------------------------------------------------
+Sprite_CGMZ_MapAnimation.prototype.onImageLoaded = function() {
+	this.calculateMaxFrames();
+	this._needsUpdate = true;
+	const pw = this._request.frameWidth;
+	const ph = this._request.frameHeight;
+	const sx = 0;
+	const sy = 0;
+    this.setFrame(sx, sy, pw, ph);
+};
+//-----------------------------------------------------------------------------
+// Calculate max amount of frames
+//-----------------------------------------------------------------------------
+Sprite_CGMZ_MapAnimation.prototype.calculateMaxFrames = function() {
+	this._maxFrames = Math.floor(this._bitmap.width / this._request.frameWidth);
+};
+//-----------------------------------------------------------------------------
+// Check if sprite is still playing
+//-----------------------------------------------------------------------------
+Sprite_CGMZ_MapAnimation.prototype.isPlaying = function() {
+	return this._isPlaying;
+};
+//-----------------------------------------------------------------------------
+// Update sprite
+//-----------------------------------------------------------------------------
+Sprite_CGMZ_MapAnimation.prototype.update = function() {
+    Sprite.prototype.update.call(this);
+	if(this._needsUpdate) {
+		this.updateFrame();
+		this.updatePosition();
+	}
+};
+//-----------------------------------------------------------------------------
+// Update frame of animation
+//-----------------------------------------------------------------------------
+Sprite_CGMZ_MapAnimation.prototype.updateFrame = function() {
+	this._waitCounter++;
+	if(this._waitCounter > this._request.animationSpeed) {
+		if(this._currentFrame + 1 > this._maxFrames) {
+			this._isPlaying = false;
+			return;
+		}
+		this._waitCounter = 0;
+		this._currentFrame++;
+		const pw = this._request.frameWidth;
+		const ph = this._request.frameHeight;
+		const sx = this._currentFrame * pw;
+		const sy = 0;
+        this.setFrame(sx, sy, pw, ph);
+	}
+};
+//-----------------------------------------------------------------------------
+// Update position of sprite on screen
+//-----------------------------------------------------------------------------
+Sprite_CGMZ_MapAnimation.prototype.updatePosition = function() {
+	const tw = $gameMap.tileWidth();
+	const th = $gameMap.tileHeight();
+	this.x = Math.floor($gameMap.adjustX(this._request.x) * tw + tw / 2);
+    this.y = Math.floor($gameMap.adjustY(this._request.y) * th + th / 2);
 };
 //=============================================================================
 // Input

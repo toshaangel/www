@@ -14,10 +14,10 @@
  * Become a Patron to get access to beta/alpha plugins plus other goodies!
  * https://www.patreon.com/CasperGamingRPGM
  * ============================================================================
- * Version: 1.1.0
+ * Version: 1.2.2
  * ----------------------------------------------------------------------------
  * Compatibility: Only tested with my CGMZ plugins.
- * Made for RPG Maker MZ 1.0.0
+ * Made for RPG Maker MZ 1.3.1
  * ----------------------------------------------------------------------------
  * Description: Adds a crafting system to your game that works well with CGMZ
  * Professions. It can handle item requirements (consumed on craft), tool
@@ -61,32 +61,52 @@
  *
  * The JS to call the scene is: SceneManager.push(CGMZ_Scene_Crafting);
  * You can also prepare the crafting scene to show only certain recipes with:
- * SceneManager.prepareNextScene(type);
+ * SceneManager.prepareNextScene(["Type", "Type2"]);
  *
  * Update History:
  * Version 1.0.0 - Initial Release
  *
  * Version 1.0.1:
- * Made it easier to select items/armors/weapons for crafting recipes
- * Fixed crash if recipe had no toast SE but Toast Manager was imported
+ * - Made it easier to select items/armors/weapons for crafting recipes
+ * - Fixed crash if recipe had no toast SE but Toast Manager was imported
  *
  * Version 1.0.2:
- * Added option to hide the percentage text on the progress window
- * Made the recipe list refresh after every craft
+ * - Added option to hide the percentage text on the progress window
+ * - Made the recipe list refresh after every craft
  *
  * Version 1.0.3:
- * Added option to show the current supply of ingredients in craft window
+ * - Added option to show the current supply of ingredients in craft window
  *
  * Version 1.0.4:
- * Rearranged the recipe parameter to show the name first
+ * - Rearranged the recipe parameter to show the name first
  *
  * Version 1.1.0:
- * Added ability to make the windows transparent
- * Added ability to use your own background image for the scene
- * Added option to close crafting scene on profession level up
- * Added ability to increase success chance by profession level
- * Added ability to increase success change by equipment
- * Added ability to use gold as ingredient, tool, fail product, or product
+ * - Added ability to make the windows transparent
+ * - Added ability to use your own background image for the scene
+ * - Added option to close crafting scene on profession level up
+ * - Added ability to increase success chance by profession level
+ * - Added ability to increase success change by equipment
+ * - Added ability to use gold as ingredient, tool, fail product, or product
+ *
+ * Version 1.2.0:
+ * - Descriptions and item names now compatible with text codes such as \c[x]
+ * - Added ability to use custom icon image in place of big icon in display
+ *   window
+ * - Added option to show a confirmation window before crafting
+ * - Added option to change label text color
+ * - Added plugin command to set a recipe's description
+ * - The display window now shows the current profession level
+ * - Changed the Call Scene plugin command. You can now input multiple
+ *   professions to include more than 1 type in the scene
+ * - New recipes should be automatically recognized on saved game load
+ * - Compatibility with CGMZ Profession profession level buffs
+ *
+ * Version 1.2.1:
+ * - Fixed bug with click to craft for windows that don't scroll
+ *
+ * Version 1.2.2:
+ * - Fixed bug when using cgmz professions but a recipe doesn't have a profession
+ * - Fixed bug with back button on non-scrolling display window
  *
  * @command discover
  * @text Discover
@@ -104,25 +124,30 @@
  * @desc Whether to discover or undiscover the recipe
  * @default true
  *
- * @command callScene
- * @text Call Scene
+ * @command Call Scene
  * @desc Calls the crafting scene
  *
  * @arg type
- * @type text
+ * @type text[]
  * @text Type
- * @desc The type of recipes to include. Leave this as "all" to include all discovered recipes
- * @default all
+ * @desc The type of recipes to include. Leave this blank to include all discovered recipes
+ * @default []
  *
- * @command reinitialize
- * @text Reinitialize
+ * @command Set Description
+ * @desc Set a recipe's description
+ *
+ * @arg name
+ * @text Recipe Name
+ * @desc The name of the recipe to change description (case sensitive)
+ *
+ * @arg description
+ * @text Description
+ * @type note
+ * @default ""
+ * @desc The new description
+ *
+ * @command Reinitialize
  * @desc Resets all crafting data. Use for saved games to recognize changed data
- *
- * @arg reinitialize
- * @type boolean
- * @text Reinitialize
- * @desc Resets all crafting data as if you started a new game. No functionality if false.
- * @default true
  *
  * @param Recipes
  * @type struct<Recipe>[]
@@ -148,7 +173,6 @@
  * @type number
  * @min 0
  * @desc speed at which the recipe window display scrolls (if needed)
- * Default: 1
  * @default 1
  *
  * @param ScrollWait
@@ -156,7 +180,6 @@
  * @type number
  * @min 0
  * @desc amount of time (in frames) to wait before beginning to scroll
- * Default: 300
  * @default 300
  *
  * @param Scroll Deceleration
@@ -180,92 +203,126 @@
  * @default true
  * @desc Show the current amount of ingredients the player has?
  *
- * @param Success Rate Text
+ * @param Show Confirm Window
  * @parent Window Options
+ * @type boolean
+ * @desc Determine if there should be an additional confirmation window before starting to craft
+ * @default false
+ *
+ * @param Text Options
+ *
+ * @param Description Alignment
+ * @parent Text Options
+ * @type select
+ * @option left
+ * @option center
+ * @option right
+ * @desc The alignment of the description text.
+ * @default left
+ *
+ * @param Success Rate Text
+ * @parent Text Options
  * @desc Text to show to describe the success rate of a recipe
- * @default Success Rate
+ * @default Success Rate: 
  *
  * @param Times Crafted Text
- * @parent Window Options
+ * @parent Text Options
  * @desc Text to show to describe the amount of times a recipe has been crafted
- * @default Times Crafted
+ * @default Times Crafted: 
  *
  * @param Description Text
- * @parent Window Options
+ * @parent Text Options
  * @desc Text to show to describe the description field of a recipe
- * @default Description
+ * @default Description: 
  *
  * @param Experience Text
- * @parent Window Options
+ * @parent Text Options
  * @desc Text to show to describe the experience gained for crafting the recipe (Requires CGMZ Professions)
- * @default Exp Gain
+ * @default Exp Gain: 
  *
  * @param Level Requirement Text
- * @parent Window Options
+ * @parent Text Options
  * @desc Text to show to describe the level required to craft the recipe (Requires CGMZ Professions)
- * @default Level Req
+ * @default Level Req: 
+ *
+ * @param Current Level Text
+ * @parent Text Options
+ * @desc Text to show to describe the current level of the required profession (Requires CGMZ Professions)
+ * @default Level: 
  *
  * @param Level Abbreviation Text
- * @parent Window Options
+ * @parent Text Options
  * @desc Text to abbreviate level requirement to (Requires CGMZ Professions)
  * @default Lv.
  *
  * @param Produces Text
- * @parent Window Options
+ * @parent Text Options
  * @desc Text to show to describe the product items that a craft produces
  * @default Produces
  *
  * @param Tools Text
- * @parent Window Options
+ * @parent Text Options
  * @desc Text to show to describe the tool items that a craft requires
  * @default Tools Needed
  *
  * @param Ingredients Text
- * @parent Window Options
+ * @parent Text Options
  * @desc Text to show to describe the ingredient items that a craft requires
  * @default Ingredient List
  *
+ * @param Craft Confirm Text
+ * @parent Text Options
+ * @desc Text to show to describe the command for crafting
+ * @default Craft
+ *
+ * @param Craft Cancel Text
+ * @parent Text Options
+ * @desc Text to show to describe the command for cancelling a craft
+ * @default Cancel
+ *
  * @param Progress Text
- * @parent Window Options
+ * @parent Text Options
  * @desc Text to show to describe the progress of the currently crafting recipe
- * @default Progress
+ * @default Progress: 
  *
  * @param Success Text
- * @parent Window Options
+ * @parent Text Options
  * @desc Text to show to describe a successful craft
  * @default Craft Success!
  *
  * @param Failure Text
- * @parent Window Options
+ * @parent Text Options
  * @desc Text to show to describe a failed craft
  * @default Craft Failed!
+ *
+ * @param Label Text Color
+ * @parent Text Options
+ * @desc The color of the text labels in the crafting scene
+ * @min 0
+ * @default 16
  *
  * @param Progress Color1
  * @parent Window Options
  * @desc First color of the progress bar using Windowskin colors
  * @min 0
- * @max 31
  * @default 28
  *
  * @param Progress Color2
  * @parent Window Options
  * @desc Second color of the progress bar using Windowskin colors
  * @min 0
- * @max 31
  * @default 29
  *
  * @param Success Color
- * @parent Window Options
+ * @parent Text Options
  * @desc Color of the Successful Craft Text using Windowskin colors
  * @min 0
- * @max 31
  * @default 29
  *
  * @param Failure Color
- * @parent Window Options
+ * @parent Text Options
  * @desc Color of the Failure Craft Text using Windowskin colors
  * @min 0
- * @max 31
  * @default 18
  *
  * @param Show Progress Percentage
@@ -334,6 +391,11 @@
  * @type boolean
  * @default false
  * @desc Determine whether the recipe is discovered at the beginning of the game.
+ *
+ * @param Picture
+ * @type file
+ * @dir img/pictures
+ * @desc The image to use for the recipe in place of the big icon (recommended size: 64x64). Leave blank to not use.
  * 
  * @param Icon
  * @type number
@@ -433,32 +495,34 @@ var Imported = Imported || {};
 Imported.CGMZ_Crafting = true;
 var CGMZ = CGMZ || {};
 CGMZ.Versions = CGMZ.Versions || {};
-CGMZ.Versions["Crafting"] = "1.1.0";
+CGMZ.Versions["Crafting"] = "1.2.2";
 CGMZ.Crafting = CGMZ.Crafting || {};
 CGMZ.Crafting.parameters = PluginManager.parameters('CGMZ_Crafting');
 CGMZ.Crafting.Recipes = JSON.parse(CGMZ.Crafting.parameters["Recipes"]);
-CGMZ.Crafting.SceneBackgroundImage = CGMZ.Crafting.parameters["Background Image"] || "";
-CGMZ.Crafting.DescriptionText = CGMZ.Crafting.parameters["Description Text"] || "Description";
-CGMZ.Crafting.SuccessRateText = CGMZ.Crafting.parameters["Success Rate Text"] || "Success Rate";
-CGMZ.Crafting.TimesCraftedText = CGMZ.Crafting.parameters["Times Crafted Text"] || "Times Crafted";
-CGMZ.Crafting.ExpText = CGMZ.Crafting.parameters["Experience Text"] || "Exp Gain";
-CGMZ.Crafting.LevelReqText = CGMZ.Crafting.parameters["Level Requirement Text"] || "Level Req";
-CGMZ.Crafting.LevelAbbrText = CGMZ.Crafting.parameters["Level Abbreviation Text"] || "Lv.";
-CGMZ.Crafting.ProduceText = CGMZ.Crafting.parameters["Produces Text"] || "Produces";
-CGMZ.Crafting.IngredientsText = CGMZ.Crafting.parameters["Ingredients Text"] || "Ingredient List";
-CGMZ.Crafting.ToolsText = CGMZ.Crafting.parameters["Tools Text"] || "Tools Needed";
-CGMZ.Crafting.ProgressText = CGMZ.Crafting.parameters["Progress Text"] || "Progress";
-CGMZ.Crafting.SuccessText = CGMZ.Crafting.parameters["Success Text"] || "Craft Success!";
-CGMZ.Crafting.FailureText = CGMZ.Crafting.parameters["Failure Text"] || "Craft Failed!";
-CGMZ.Crafting.ScrollSpeed = Number(CGMZ.Crafting.parameters["ScrollSpeed"]) || 1;
-CGMZ.Crafting.ScrollWait = Number(CGMZ.Crafting.parameters["ScrollWait"]) || 300;
-CGMZ.Crafting.ScrollDeceleration = parseFloat(CGMZ.Crafting.parameters["Scroll Deceleration"]) || 0.92;
+CGMZ.Crafting.SceneBackgroundImage = CGMZ.Crafting.parameters["Background Image"];
+CGMZ.Crafting.DescriptionText = CGMZ.Crafting.parameters["Description Text"];
+CGMZ.Crafting.SuccessRateText = CGMZ.Crafting.parameters["Success Rate Text"];
+CGMZ.Crafting.TimesCraftedText = CGMZ.Crafting.parameters["Times Crafted Text"];
+CGMZ.Crafting.ExpText = CGMZ.Crafting.parameters["Experience Text"];
+CGMZ.Crafting.LevelReqText = CGMZ.Crafting.parameters["Level Requirement Text"];
+CGMZ.Crafting.CurrentLevelText = CGMZ.Crafting.parameters["Current Level Text"];
+CGMZ.Crafting.LevelAbbrText = CGMZ.Crafting.parameters["Level Abbreviation Text"];
+CGMZ.Crafting.ProduceText = CGMZ.Crafting.parameters["Produces Text"];
+CGMZ.Crafting.IngredientsText = CGMZ.Crafting.parameters["Ingredients Text"];
+CGMZ.Crafting.ToolsText = CGMZ.Crafting.parameters["Tools Text"];
+CGMZ.Crafting.ProgressText = CGMZ.Crafting.parameters["Progress Text"];
+CGMZ.Crafting.SuccessText = CGMZ.Crafting.parameters["Success Text"];
+CGMZ.Crafting.FailureText = CGMZ.Crafting.parameters["Failure Text"];
+CGMZ.Crafting.LabelColor = Number(CGMZ.Crafting.parameters["Label Text Color"]);
+CGMZ.Crafting.ScrollSpeed = Number(CGMZ.Crafting.parameters["ScrollSpeed"]);
+CGMZ.Crafting.ScrollWait = Number(CGMZ.Crafting.parameters["ScrollWait"]);
+CGMZ.Crafting.ScrollDeceleration = parseFloat(CGMZ.Crafting.parameters["Scroll Deceleration"]);
 CGMZ.Crafting.AutoScroll = (CGMZ.Crafting.parameters["Auto Scroll"] === "true");
-CGMZ.Crafting.ProgressColor1 = Number(CGMZ.Crafting.parameters["Progress Color1"]) || 28;
-CGMZ.Crafting.ProgressColor2 = Number(CGMZ.Crafting.parameters["Progress Color2"]) || 29;
-CGMZ.Crafting.FailureColor = Number(CGMZ.Crafting.parameters["Failure Color"]) || 18;
-CGMZ.Crafting.SuccessColor = Number(CGMZ.Crafting.parameters["Success Color"]) || 29;
-CGMZ.Crafting.ToastText = CGMZ.Crafting.parameters["Toast Text"] || "Learned Recipe: ";
+CGMZ.Crafting.ProgressColor1 = Number(CGMZ.Crafting.parameters["Progress Color1"]);
+CGMZ.Crafting.ProgressColor2 = Number(CGMZ.Crafting.parameters["Progress Color2"]);
+CGMZ.Crafting.FailureColor = Number(CGMZ.Crafting.parameters["Failure Color"]);
+CGMZ.Crafting.SuccessColor = Number(CGMZ.Crafting.parameters["Success Color"]);
+CGMZ.Crafting.ToastText = CGMZ.Crafting.parameters["Toast Text"];
 CGMZ.Crafting.ShowLearnToast = (CGMZ.Crafting.parameters["Show Learn Toast"] === "true");
 CGMZ.Crafting.AlwaysAwardExp = (CGMZ.Crafting.parameters["Always Award Exp"] === "true");
 CGMZ.Crafting.AlwaysShowRecipes = (CGMZ.Crafting.parameters["Always Show Recipes"] === "true");
@@ -466,6 +530,10 @@ CGMZ.Crafting.ShowProgressPercentage = (CGMZ.Crafting.parameters["Show Progress 
 CGMZ.Crafting.ShowIngredientAmount = (CGMZ.Crafting.parameters["Show Ingredient Amount"] === "true");
 CGMZ.Crafting.WindowTransparency = (CGMZ.Crafting.parameters["Transparent Windows"] === "true");
 CGMZ.Crafting.PopSceneOnLevel = (CGMZ.Crafting.parameters["Close On Level Up"] === "true");
+CGMZ.Crafting.DescriptionAlignment = CGMZ.Crafting.parameters["Description Alignment"];
+CGMZ.Crafting.CraftConfirmText = CGMZ.Crafting.parameters["Craft Confirm Text"];
+CGMZ.Crafting.CraftCancelText = CGMZ.Crafting.parameters["Craft Cancel Text"];
+CGMZ.Crafting.ShowConfirmationWindow = (CGMZ.Crafting.parameters["Show Confirm Window"] === "true");
 //=============================================================================
 // CGMZ_Recipe
 //-----------------------------------------------------------------------------
@@ -484,10 +552,11 @@ CGMZ_Recipe.prototype.initialize = function(recipe) {
 	this._successRate = Number(recipe["Success Rate"]);
 	this._time = Number(recipe.Time);
 	this._profession = recipe.Profession;
+	this._image = recipe.Picture;
 	this._levelRequirement = Number(recipe["Level Requirement"]);
 	this._addedSuccessPerLevel = Number(recipe["Success Rate Per Level"]);
 	this._iconIndex = Number(recipe.Icon);
-	this._description = JSON.parse(recipe.Description.replace(/\\n/g, " \\\\n "));
+	this._description = JSON.parse(recipe.Description);
 	this._toastSE = recipe["Toast Sound Effect"];
 	this._craftSE = {name: recipe["Craft Sound Effect"], pan: 0, pitch: 100, volume: 100};
 	this._failSE = {name: recipe["Fail Sound Effect"], pan: 0, pitch: 100, volume: 100};
@@ -533,6 +602,12 @@ CGMZ_Recipe.prototype.changeDiscoveredStatus = function(discovered) {
 	this._discovered = discovered;
 };
 //-----------------------------------------------------------------------------
+// Set new description
+//-----------------------------------------------------------------------------
+CGMZ_Recipe.prototype.setDescription = function(description) {
+	this._description = JSON.parse(description);
+};
+//-----------------------------------------------------------------------------
 // Set up learn toast (Requires CGMZ ToastManager)
 //-----------------------------------------------------------------------------
 CGMZ_Recipe.prototype.setupLearnToast = function() {
@@ -571,7 +646,7 @@ CGMZ_Recipe.prototype.meetsLevelRequirements = function() {
 	if(!Imported.CGMZ_Professions) return true;
 	let profession = $cgmz.getProfession(this._profession);
 	if(profession) {
-		return this._levelRequirement <= profession._level;
+		return this._levelRequirement <= profession.getBuffedLevel();
 	}
 	return true;
 };
@@ -654,7 +729,7 @@ CGMZ_Recipe.prototype.calculateSuccessRate = function() {
 	if(Imported.CGMZ_Professions) {
 		const profession = $cgmz.getProfession(this._profession);
 		if(profession) {
-			successRate += this._addedSuccessPerLevel * (profession._level - this._levelRequirement);
+			successRate += this._addedSuccessPerLevel * (profession.getBuffedLevel() - this._levelRequirement);
 		}
 		for(const actor of $gameParty.members()) {
 			for(const equip of actor.equips()) {
@@ -687,7 +762,7 @@ CGMZ_Core.prototype.initializeRecipeData = function(reinitialize) {
 		this.setupRecipeVariables();
 	}
 	for(let i = 0; i < CGMZ.Crafting.Recipes.length; i++) {
-		var recipe = new CGMZ_Recipe(JSON.parse(CGMZ.Crafting.Recipes[i]));
+		const recipe = new CGMZ_Recipe(JSON.parse(CGMZ.Crafting.Recipes[i]));
 		if(!this.getRecipe(recipe._name)) this._recipes.push(recipe);
 	}
 };
@@ -696,6 +771,14 @@ CGMZ_Core.prototype.initializeRecipeData = function(reinitialize) {
 //-----------------------------------------------------------------------------
 CGMZ_Core.prototype.setupRecipeVariables = function() {
 	this._recipes = [];
+};
+//-----------------------------------------------------------------------------
+// Alias. Check for new recipes after loading saved game
+//-----------------------------------------------------------------------------
+const alias_CGMZ_Crafting_onAfterLoad = CGMZ_Core.prototype.onAfterLoad;
+CGMZ_Core.prototype.onAfterLoad = function() {
+	alias_CGMZ_Crafting_onAfterLoad.call(this);
+	this.initializeRecipeData(false);
 };
 //-----------------------------------------------------------------------------
 // Returns array of all recipes
@@ -764,16 +847,15 @@ const alias_CGMZ_Crafting_registerPluginCommands = CGMZ_Temp.prototype.registerP
 CGMZ_Temp.prototype.registerPluginCommands = function() {
 	alias_CGMZ_Crafting_registerPluginCommands.call(this);
 	PluginManager.registerCommand("CGMZ_Crafting", "discover", this.pluginCommandCraftingDiscover);
-	PluginManager.registerCommand("CGMZ_Crafting", "callScene", this.pluginCommandCraftingCallScene);
-	PluginManager.registerCommand("CGMZ_Crafting", "reinitialize", this.pluginCommandCraftingReinitialize);
+	PluginManager.registerCommand("CGMZ_Crafting", "Call Scene", this.pluginCommandCraftingCallScene);
+	PluginManager.registerCommand("CGMZ_Crafting", "Set Description", this.pluginCommandCraftingSetDescription);
+	PluginManager.registerCommand("CGMZ_Crafting", "Reinitialize", this.pluginCommandCraftingReinitialize);
 };
 //-----------------------------------------------------------------------------
 // Reinitialize the crafting data
 //-----------------------------------------------------------------------------
-CGMZ_Temp.prototype.pluginCommandCraftingReinitialize = function(args) {
-	if(args.reinitialize === "true") {
-		$cgmz.initializeRecipeData(true);
-	}
+CGMZ_Temp.prototype.pluginCommandCraftingReinitialize = function() {
+	$cgmz.initializeRecipeData(true);
 };
 //-----------------------------------------------------------------------------
 // Discover a recipe by name
@@ -786,7 +868,16 @@ CGMZ_Temp.prototype.pluginCommandCraftingDiscover = function(args) {
 //-----------------------------------------------------------------------------
 CGMZ_Temp.prototype.pluginCommandCraftingCallScene = function(args) {
 	SceneManager.push(CGMZ_Scene_Crafting);
-	SceneManager.prepareNextScene(args.type);
+	SceneManager.prepareNextScene(JSON.parse(args.type));
+};
+//-----------------------------------------------------------------------------
+// Set a recipe's description
+//-----------------------------------------------------------------------------
+CGMZ_Temp.prototype.pluginCommandCraftingSetDescription = function(args) {
+	const recipe = $cgmz.getRecipe(args.name);
+	if(recipe) {
+		recipe.setDescription(args.description);
+	}
 };
 //=============================================================================
 // CGMZ_Scene_Crafting
@@ -801,23 +892,15 @@ CGMZ_Scene_Crafting.prototype.constructor = CGMZ_Scene_Crafting;
 //-----------------------------------------------------------------------------
 // Initialize
 //-----------------------------------------------------------------------------
-CGMZ_Scene_Crafting.prototype.initialize = function(craftType) {
-	if(craftType) {
-		this._craftType = craftType;
-	} else {
-		this._craftType = "all";
-	}
+CGMZ_Scene_Crafting.prototype.initialize = function(craftType = null) {
+	this._craftType = (craftType) ? craftType : [];
     Scene_MenuBase.prototype.initialize.call(this);
 };
 //-----------------------------------------------------------------------------
 // Prepare
 //-----------------------------------------------------------------------------
 CGMZ_Scene_Crafting.prototype.prepare = function(craftType = null) {
-	if(craftType) {
-		this._craftType = craftType;
-	} else {
-		this._craftType = "all";
-	}
+	this._craftType = (craftType) ? craftType : [];
 };
 //-----------------------------------------------------------------------------
 // Create crafting windows
@@ -827,6 +910,7 @@ CGMZ_Scene_Crafting.prototype.create = function() {
 	this.createListWindow();
 	this.createDisplayWindow();
 	this.createProgressWindow();
+	this.createConfirmationWindow();
 };
 //-----------------------------------------------------------------------------
 // Update scene - check for pop on level up
@@ -853,7 +937,7 @@ CGMZ_Scene_Crafting.prototype.createListWindow = function() {
 //-----------------------------------------------------------------------------
 CGMZ_Scene_Crafting.prototype.listWindowRect = function() {
 	const x = 0;
-	const y = this.mainAreaTop();
+	const y = this.buttonAreaHeight();
 	const height = Graphics.boxHeight - y;
 	const width = Graphics.boxWidth / 3;
     return new Rectangle(x, y, width, height);
@@ -902,6 +986,28 @@ CGMZ_Scene_Crafting.prototype.progressWindowRect = function() {
     return new Rectangle(x, y, width, height);
 };
 //-----------------------------------------------------------------------------
+// Create progress window
+//-----------------------------------------------------------------------------
+CGMZ_Scene_Crafting.prototype.createConfirmationWindow = function() {
+	const rect = this.confirmationWindowRect();
+    this._confirmationWindow = new CGMZ_Window_CraftConfirmation(rect);
+	this._confirmationWindow.setHandler('craft', this.onCraftConfirm.bind(this));
+	this._confirmationWindow.setHandler('cancel', this.onCraftCancel.bind(this));
+	this._confirmationWindow.deactivate();
+	this._confirmationWindow.hide();
+    this.addWindow(this._confirmationWindow);
+};
+//-----------------------------------------------------------------------------
+// Get rectangle for progress window
+//-----------------------------------------------------------------------------
+CGMZ_Scene_Crafting.prototype.confirmationWindowRect = function() {
+	const height = this.calcWindowHeight(2, true);
+	const width = Graphics.boxWidth / 4;
+	const x = Graphics.boxWidth / 2 - width / 2;
+	const y = Graphics.boxHeight / 2 - height / 2;
+    return new Rectangle(x, y, width, height);
+};
+//-----------------------------------------------------------------------------
 // On List Ok
 //-----------------------------------------------------------------------------
 CGMZ_Scene_Crafting.prototype.onListOk = function() {
@@ -923,12 +1029,35 @@ CGMZ_Scene_Crafting.prototype.onDisplayCancel = function() {
 CGMZ_Scene_Crafting.prototype.onDisplayOk = function() {
 	if(!this._progressWindow.isCrafting()) {
 		if(this._displayWindow.canCraft()) {
-			this._progressWindow.startCraft();
+			if(CGMZ.Crafting.ShowConfirmationWindow) {
+				this._displayWindow.deactivate();
+				this._confirmationWindow.activate();
+				this._confirmationWindow.show();
+			} else {
+				this._progressWindow.startCraft();
+			}
 		}
 		else {
 			SoundManager.playBuzzer();
 		}
 	}
+};
+//-----------------------------------------------------------------------------
+// On Craft Confirmation
+//-----------------------------------------------------------------------------
+CGMZ_Scene_Crafting.prototype.onCraftConfirm = function() {
+	this._displayWindow.activate();
+	this._confirmationWindow.deactivate();
+	this._confirmationWindow.hide();
+	this._progressWindow.startCraft();
+};
+//-----------------------------------------------------------------------------
+// On Craft Confirmation Cancel
+//-----------------------------------------------------------------------------
+CGMZ_Scene_Crafting.prototype.onCraftCancel = function() {
+	this._displayWindow.activate();
+	this._confirmationWindow.deactivate();
+	this._confirmationWindow.hide();
 };
 //-----------------------------------------------------------------------------
 // Add background image
@@ -963,6 +1092,17 @@ CGMZ_Window_RecipeList.prototype.initialize = function(rect, craftType) {
 	this.setBackgroundType(2 * (CGMZ.Crafting.WindowTransparency));
 };
 //-----------------------------------------------------------------------------
+// Update
+//-----------------------------------------------------------------------------
+CGMZ_Window_RecipeList.prototype.update = function() {
+    Window_Selectable.prototype.update.call(this);
+	if(Imported.CGMZ_Professions && $cgmzTemp._professionBuffRemoved) {
+		$cgmzTemp._professionBuffRemoved = false;
+		this.refresh();
+		if(this.index() > this.topIndex()) this.select(this.topIndex());
+	}
+};
+//-----------------------------------------------------------------------------
 // Max items
 //-----------------------------------------------------------------------------
 CGMZ_Window_RecipeList.prototype.maxItems = function() {
@@ -987,11 +1127,13 @@ CGMZ_Window_RecipeList.prototype.refresh = function() {
 //-----------------------------------------------------------------------------
 CGMZ_Window_RecipeList.prototype.makeItemList = function() {
 	let list = [];
-	if(this._craftType === "all") {
+	if(this._craftType.length === 0) {
 		list = $cgmz.getAllDiscoveredRecipes();
 	}
 	else {
-		list = $cgmz.getDiscoveredRecipesOfType(this._craftType);
+		for(const craftType of this._craftType) {
+			list = list.concat($cgmz.getDiscoveredRecipesOfType(craftType));
+		}
 	}
 	this._data = list.filter(this.includeRecipeInList);
 };
@@ -1001,7 +1143,6 @@ CGMZ_Window_RecipeList.prototype.makeItemList = function() {
 CGMZ_Window_RecipeList.prototype.includeRecipeInList = function(recipe) {
 	if(CGMZ.Crafting.AlwaysShowRecipes) return true;
 	return recipe.meetsLevelRequirements();
-	
 };
 //-----------------------------------------------------------------------------
 // Draw item in list
@@ -1063,7 +1204,7 @@ CGMZ_Window_RecipeDisplay.prototype.constructor = CGMZ_Window_RecipeDisplay;
 // Initialize
 //-----------------------------------------------------------------------------
 CGMZ_Window_RecipeDisplay.prototype.initialize = function(rect) {
-	const heightMultiplier = 5; // maximum of 4 windows tall of data to scroll
+	const heightMultiplier = 5; // maximum of 5 windows tall of data to scroll
     CGMZ_Window_Scrollable.prototype.initialize.call(this, rect, heightMultiplier, CGMZ.Crafting.ScrollWait, CGMZ.Crafting.ScrollSpeed, CGMZ.Crafting.AutoScroll, CGMZ.Crafting.ScrollDeceleration);
 	this._recipe = null;
 	this._largeIconWidth = ImageManager.iconWidth*2.2;
@@ -1071,6 +1212,20 @@ CGMZ_Window_RecipeDisplay.prototype.initialize = function(rect) {
 	this._iconBitmap = ImageManager.loadSystem('IconSet'); //only load this once
 	this.deactivate();
 	this.setBackgroundType(2 * (CGMZ.Crafting.WindowTransparency));
+	this._iconSprite = new Sprite();
+	this.addInnerChild(this._iconSprite);
+};
+//-----------------------------------------------------------------------------
+// Update
+//-----------------------------------------------------------------------------
+CGMZ_Window_RecipeDisplay.prototype.update = function() {
+    CGMZ_Window_Scrollable.prototype.update.call(this);
+	if(Imported.CGMZ_Professions && this._recipe) {
+		const profession = $cgmz.getProfession(this._recipe._profession);
+		if(profession && profession._needRefreshForBuff) {
+			this.requestRefresh();
+		}
+	}
 };
 //-----------------------------------------------------------------------------
 // Process Handling
@@ -1079,11 +1234,26 @@ CGMZ_Window_RecipeDisplay.prototype.processHandling = function() {
 	if(!this._progressWindow || !this._progressWindow.isCrafting()) {
 		CGMZ_Window_Scrollable.prototype.processHandling.call(this);
 	}
-    if (this.isActive()) {
-        if (this.isOkEnabled() && (Input.isRepeated('ok') || TouchInput.isRepeated())) {
-            this.processOk();
+    if(this.isActive()) {
+		if(this.shouldProcessOk()) {
+			this.processOk();
 		}
     }
+};
+//-----------------------------------------------------------------------------
+// Check if should process ok
+//-----------------------------------------------------------------------------
+CGMZ_Window_RecipeDisplay.prototype.shouldProcessOk = function() {
+    if(!this.isOkEnabled()) {
+		return false;
+	}
+	if(Input.isRepeated('ok')) {
+		return true;
+	}
+	if(TouchInput.isReleased() && (this._scrollLastTouchY === TouchInput.y || !this._scroll) && (TouchInput.y >= this.y)) {
+		return true;
+	}
+	return false;
 };
 //-----------------------------------------------------------------------------
 // Process Ok
@@ -1111,20 +1281,6 @@ CGMZ_Window_RecipeDisplay.prototype.setProgressWindow = function(progressWindow)
     this._progressWindow = progressWindow;
 };
 //-----------------------------------------------------------------------------
-// If refresh is requested from other window
-//-----------------------------------------------------------------------------
-CGMZ_Window_RecipeDisplay.prototype.requestRefresh = function() {
-	const tempScrollMode = this._scrollMode;
-	const tempScrollTimer = this._scrollTimer;
-	const tempY = this.origin.y;
-    this.refresh();
-	this._neededHeight += $gameSystem.windowPadding()*2;
-	this.checkForScroll();
-	this._scrollMode = tempScrollMode;
-	this._scrollTimer = tempScrollTimer;
-	this.origin.y = tempY;
-};
-//-----------------------------------------------------------------------------
 // Determine if the recipe shown can be crafted
 //-----------------------------------------------------------------------------
 CGMZ_Window_RecipeDisplay.prototype.canCraft = function() {
@@ -1134,41 +1290,70 @@ CGMZ_Window_RecipeDisplay.prototype.canCraft = function() {
 	return false;
 };
 //-----------------------------------------------------------------------------
-// Set the recipe to be displayed
+// Set the recipe to be displayed (do nothing if already being displayed)
 //-----------------------------------------------------------------------------
 CGMZ_Window_RecipeDisplay.prototype.setItem = function(recipe) {
+	if(this._recipe && this._recipe._name === recipe._name) return;
 	this._recipe = recipe;
-	this.refresh();
-	this._neededHeight += $gameSystem.windowPadding()*2;
-	this.checkForScroll();
+	this.setupWindowForNewEntry();
+	this.requestRefresh();
 };
 //-----------------------------------------------------------------------------
 // Refresh
 //-----------------------------------------------------------------------------
 CGMZ_Window_RecipeDisplay.prototype.refresh = function() {
 	if(!this._recipe) return;
-	this.setupWindowForNewEntry();
+	this.contents.clear();
+	this._iconSprite.hide();
 	this._neededHeight = 0;
+	this.drawRecipeName(this._recipe._name);
+	let firstLineX = 0;
+	if(this._recipe._image) {
+		this.loadRecipeImage(this._recipe);
+		return; // Draw the rest of the stuff after sprite is done loading
+	}
+	if(this._recipe._iconIndex > 0) {
+		this.drawLargeIcon(this._recipe._iconIndex);
+		firstLineX = this._largeIconWidth + 2;
+	}
+	this.drawRecipeInfo(firstLineX);
+};
+//-----------------------------------------------------------------------------
+// Load recipe custom image
+//-----------------------------------------------------------------------------
+CGMZ_Window_RecipeDisplay.prototype.loadRecipeImage = function(recipe) {
+	this._iconSprite.bitmap = ImageManager.loadPicture(recipe._image);
+	this._iconSprite.bitmap.addLoadListener(this.displayPictureBitmapOnLoad.bind(this, recipe));
+};
+//-----------------------------------------------------------------------------
+// Display recipe custom image after load
+//-----------------------------------------------------------------------------
+CGMZ_Window_RecipeDisplay.prototype.displayPictureBitmapOnLoad = function(recipe) {
+	this._iconSprite.y = this.lineHeight() + 4;
+	this._iconSprite.x = 0;
+	this._iconSprite.show();
+	this.drawRecipeInfo(this._iconSprite.width + 2);
+};
+//-----------------------------------------------------------------------------
+// Draw Recipe info after image
+//-----------------------------------------------------------------------------
+CGMZ_Window_RecipeDisplay.prototype.drawRecipeInfo = function(imageXOffset) {
 	const recipe = this._recipe;
 	const width = this.contents.width;
-	this.drawRecipeName(recipe._name);
-	let firstLineX = 0;
-	if(recipe._iconIndex > 0) {
-		this.drawLargeIcon(recipe._iconIndex);
-		firstLineX = this._largeIconWidth + 2
-	}
 	let y = this.lineHeight();
-	this.drawRecipeStandardLine(CGMZ.Crafting.TimesCraftedText + ": ", this._recipe._timesCrafted, firstLineX, y, width);
+	this.drawRecipeStandardLine(CGMZ.Crafting.TimesCraftedText, recipe._timesCrafted, imageXOffset, y, width);
 	y += this.lineHeight();
-	this.drawRecipeStandardLine(CGMZ.Crafting.SuccessRateText + ": ", this._recipe.calculateSuccessRate() + "%", firstLineX, y, width);
+	this.drawRecipeStandardLine(CGMZ.Crafting.SuccessRateText, recipe.calculateSuccessRate() + "%", imageXOffset, y, width);
 	y += this.lineHeight();
-	if(Imported.CGMZ_Professions) {
-		this.drawRecipeStandardLine(CGMZ.Crafting.ExpText + ": ", this._recipe._experience, 0, y, width);
+	if(Imported.CGMZ_Professions && recipe._profession) {
+		this.drawRecipeStandardLine(CGMZ.Crafting.ExpText, recipe._experience, 0, y, width);
 		y += this.lineHeight();
-		this.drawRecipeStandardLine(CGMZ.Crafting.LevelReqText + ": ", this._recipe._profession + " " + CGMZ.Crafting.LevelAbbrText + " " + this._recipe._levelRequirement, 0, y, width);
+		this.drawRecipeStandardLine(CGMZ.Crafting.LevelReqText, recipe._profession + " " + CGMZ.Crafting.LevelAbbrText + " " + recipe._levelRequirement, 0, y, width);
+		y += this.lineHeight();
+		this.drawRecipeStandardLine(recipe._profession + " " + CGMZ.Crafting.CurrentLevelText, $cgmz.getProfession(recipe._profession).getBuffedLevel(), 0, y, width);
 		y += this.lineHeight();
 	}
-	y = this.drawRecipeDescription(recipe._description, y);
+	y += this.drawRecipeDescription(recipe._description, y);
 	let showAmounts = false;
 	let isProduct = true;
 	y = this.drawRecipeItems(CGMZ.Crafting.ProduceText, recipe._products, y, width, isProduct, showAmounts);
@@ -1176,7 +1361,8 @@ CGMZ_Window_RecipeDisplay.prototype.refresh = function() {
 	y = this.drawRecipeItems(CGMZ.Crafting.ToolsText, recipe._tools, y, width, isProduct, showAmounts);
 	showAmounts = true;
 	y = this.drawRecipeItems(CGMZ.Crafting.IngredientsText, recipe._ingredients, y, width, isProduct, showAmounts);
-	this._neededHeight = y;
+	this._neededHeight += y;
+	this.checkForScroll();
 };
 //-----------------------------------------------------------------------------
 // Draw Name of recipe
@@ -1187,41 +1373,19 @@ CGMZ_Window_RecipeDisplay.prototype.drawRecipeName = function(name) {
 	this.contents.fontBold = false;
 };
 //-----------------------------------------------------------------------------
-// Draw recipe description - returns y-value of line below last line drawn
+// Draw recipe description - returns height needed for description
 //-----------------------------------------------------------------------------
-CGMZ_Window_RecipeDisplay.prototype.drawRecipeDescription = function(description, yVal) {
-	const descriptor1 = CGMZ.Crafting.DescriptionText + ": ";
-	const descriptor2 = description.split(" ");
+CGMZ_Window_RecipeDisplay.prototype.drawRecipeDescription = function(description, y) {
 	let x = 0;
-	let y = yVal;
-	this.changeTextColor(ColorManager.systemColor());
-	this.drawText(descriptor1, x, y, this.contents.width, 'left');
-	x += this.textWidth(descriptor1);
-	this.changeTextColor(ColorManager.normalColor());
-	for(let i = 0; i < descriptor2.length; i++) {
-		if(descriptor2[i] === "") continue;
-		if(descriptor2[i] === '\\n') {
-			y += this.lineHeight();
-			x = 0;
-			continue;
-		}
-		var tempWidth = this.textWidth(descriptor2[i] + " ");
-		if(tempWidth + x > this.contents.width) {
-			if(tempWidth <= this.contents.width) {
-				y += this.lineHeight();
-				x = 0;
-			}
-		}
-		this.drawText(descriptor2[i] + " ", x, y, this.contents.width-x, 'left');
-		x += tempWidth;
-	}
-	return y + this.lineHeight();
+	this.drawRecipeStandardLine(CGMZ.Crafting.DescriptionText, "", x, y, this.contents.width);
+	let firstLineOffset = this.textWidth(CGMZ.Crafting.DescriptionText);
+	return this.CGMZ_drawText(description, x, firstLineOffset, y, this.contents.width, CGMZ.Crafting.DescriptionAlignment);
 };
 //-----------------------------------------------------------------------------
 // Draws a standard line (blue system text: white text)
 //-----------------------------------------------------------------------------
 CGMZ_Window_RecipeDisplay.prototype.drawRecipeStandardLine = function(descriptor1, descriptor2, x, y, width) {
-	this.changeTextColor(ColorManager.systemColor());
+	this.changeTextColor(ColorManager.textColor(CGMZ.Crafting.LabelColor));
 	this.drawText(descriptor1, x, y, width-x, 'left');
 	x += this.textWidth(descriptor1);
 	this.changeTextColor(ColorManager.normalColor());
@@ -1256,11 +1420,10 @@ CGMZ_Window_RecipeDisplay.prototype.drawIcon = function(iconIndex, x, y) {
 //-----------------------------------------------------------------------------
 // Draw Item Lists
 //-----------------------------------------------------------------------------
-CGMZ_Window_RecipeDisplay.prototype.drawRecipeItems = function(descriptorText, itemArray, yVal, width, product, showAmount) {
-	if(itemArray.length === 0) return yVal;
-	let y = yVal;
+CGMZ_Window_RecipeDisplay.prototype.drawRecipeItems = function(descriptorText, itemArray, y, width, product, showAmount) {
+	if(itemArray.length === 0) return y;
 	let x = 0;
-	this.changeTextColor(ColorManager.systemColor());
+	this.changeTextColor(ColorManager.textColor(CGMZ.Crafting.LabelColor));
 	this.drawText(descriptorText, x, y, width, 'center');
 	this.changeTextColor(ColorManager.normalColor());
 	for(let i = 0; i < itemArray.length; i++) {
@@ -1268,21 +1431,13 @@ CGMZ_Window_RecipeDisplay.prototype.drawRecipeItems = function(descriptorText, i
 			y += this.lineHeight();
 			let currentSupply = $gameParty.gold();
 			let amount = itemArray[i].Amount + TextManager.currencyUnit;
-			if(!product && itemArray[i].Amount > currentSupply) {
-				this.changePaintOpacity(false);
-			} else {
-				this.changePaintOpacity(true);
-			}
+			this.changePaintOpacity(product || itemArray[i].Amount <= currentSupply);
 			let currentAmount = "";
 			if(showAmount && CGMZ.Crafting.ShowIngredientAmount) {
 				currentAmount = " (" + currentSupply + ")";
 			}
-			let totalWidth = this.textWidth(amount) + this.textWidth(currentAmount);
-			x = (width-totalWidth)/2;
-			this.drawText(amount, x, y, width-x, 'left');
-			x += this.textWidth(amount);
-			this.drawText(currentAmount, x, y, width-x, 'left');
-			this.changePaintOpacity(true);
+			const string = amount + currentAmount;
+			this.CGMZ_drawText(string, 0, 0, y, this.contents.width, 'center');
 		} else {
 			let item = $cgmzTemp.lookupItem(itemArray[i].Type, itemArray[i].ID);
 			if(item) {
@@ -1291,28 +1446,17 @@ CGMZ_Window_RecipeDisplay.prototype.drawRecipeItems = function(descriptorText, i
 				let amount = itemArray[i].Amount + "x ";
 				let name = item.name;
 				let iconIndex = item.iconIndex;
-				if(!product && itemArray[i].Amount > currentSupply) {
-					this.changePaintOpacity(false);
-				} else {
-					this.changePaintOpacity(true);
-				}
+				this.changePaintOpacity(product || itemArray[i].Amount <= currentSupply);
 				let currentAmount = "";
 				if(showAmount && CGMZ.Crafting.ShowIngredientAmount) {
 					currentAmount = " (" + currentSupply + ")";
 				}
-				let totalWidth = this.textWidth(amount) + this.textWidth(name) + ImageManager.iconWidth + this.textWidth(currentAmount);
-				x = (width-totalWidth)/2;
-				this.drawText(amount, x, y, width-x, 'left');
-				x += this.textWidth(amount);
-				this.drawIcon(iconIndex, x, y);
-				x += ImageManager.iconWidth;
-				this.drawText(name, x, y, width-x, 'left');
-				x += this.textWidth(name);
-				this.drawText(currentAmount, x, y, width-x, 'left');
-				this.changePaintOpacity(true);
+				const string = amount + "\\i[" + iconIndex + "]" + name + currentAmount;
+				this.CGMZ_drawText(string, 0, 0, y, this.contents.width, 'center');
 			}
 		}
 	}
+	this.changePaintOpacity(true);
 	return y + this.lineHeight();
 };
 //=============================================================================
@@ -1403,10 +1547,10 @@ CGMZ_Window_RecipeProgress.prototype.stopCraft = function() {
 	this.checkOtherWindowsForRefresh();
 	this.refresh(0);
 	if(this._craftingSuccess) {
-		AudioManager.playStaticSe(this._recipe._successSE);
+		AudioManager.playSe(this._recipe._successSE);
 	}
 	else {
-		AudioManager.playStaticSe(this._recipe._failSE);
+		AudioManager.playSe(this._recipe._failSE);
 	}
 	if(Imported.CGMZ_Professions && CGMZ.Crafting.PopSceneOnLevel) {
 		const profession = $cgmz.getProfession(this._recipe._profession);
@@ -1463,7 +1607,7 @@ CGMZ_Window_RecipeProgress.prototype.refresh = function(rate) {
 	}
 	else {
 		this.changeTextColor(ColorManager.systemColor());
-		var descriptor = CGMZ.Crafting.ProgressText + ": "
+		var descriptor = CGMZ.Crafting.ProgressText;
 		this.drawText(descriptor, 0, 0, width, 'left');
 		this.changeTextColor(ColorManager.normalColor());
 		var color1 = ColorManager.textColor(CGMZ.Crafting.ProgressColor1);
@@ -1494,6 +1638,52 @@ CGMZ_Window_RecipeProgress.prototype.setListWindow = function(listWindow) {
 CGMZ_Window_RecipeProgress.prototype.checkOtherWindowsForRefresh = function() {
     if(this._listWindow) this._listWindow.requestRefresh();
 	if(this._displayWindow) this._displayWindow.requestRefresh();
+};
+//=============================================================================
+// CGMZ_Window_CraftConfirmation
+//-----------------------------------------------------------------------------
+// Handle CGMZ Recipe Toasts
+//=============================================================================
+function CGMZ_Window_CraftConfirmation() {
+    this.initialize(...arguments);
+}
+CGMZ_Window_CraftConfirmation.prototype = Object.create(Window_Command.prototype);
+CGMZ_Window_CraftConfirmation.prototype.constructor = CGMZ_Window_CraftConfirmation;
+//-----------------------------------------------------------------------------
+// Initialize
+//-----------------------------------------------------------------------------
+CGMZ_Window_CraftConfirmation.prototype.initialize = function(rect) {
+    Window_Command.prototype.initialize.call(this, rect);
+	this._waitTime = 10;
+};
+//-----------------------------------------------------------------------------
+// Add commands
+//-----------------------------------------------------------------------------
+CGMZ_Window_CraftConfirmation.prototype.makeCommandList = function() {
+	this.addCommand(CGMZ.Crafting.CraftConfirmText, "craft", true);
+	this.addCommand(CGMZ.Crafting.CraftCancelText, "cancel", true);
+};
+//-----------------------------------------------------------------------------
+// Add a wait period before being active after show
+//-----------------------------------------------------------------------------
+CGMZ_Window_CraftConfirmation.prototype.show = function() {
+	Window_Command.prototype.show.call(this);
+	this._waitTime = 5;
+};
+//-----------------------------------------------------------------------------
+// Only allow OK trigger after wait time is over to prevent instant selection
+//-----------------------------------------------------------------------------
+CGMZ_Window_CraftConfirmation.prototype.isOkTriggered = function() {
+	const triggered = Window_Command.prototype.isOkTriggered.call(this);
+    return triggered && this._waitTime <= 0;
+};
+//-----------------------------------------------------------------------------
+// Determine if OK is actually triggered
+//-----------------------------------------------------------------------------
+CGMZ_Window_CraftConfirmation.prototype.update = function() {
+	Window_Command.prototype.update.call(this);
+    this._waitTime--;
+	if(this._waitTime < 0) this._waitTime = 0;
 };
 //=============================================================================
 // CGMZ_Window_Toast

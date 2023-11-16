@@ -9,8 +9,20 @@
         <link rel="apple-touch-icon" href="icon/icon.png">
         <link rel="stylesheet" type="text/css" href="css/game.css">
         <title>Return to the last Kingdom</title>
+        
+        <!-- Вставьте следующий код для подключения Yandex Games SDK -->
+        <script src="https://yandex.ru/games/sdk/v2"></script>
     </head>
     <body style="background-color: black">
         <script type="text/javascript" src="js/main.js"></script>
+        
+        <!-- Инициализация SDK после загрузки страницы -->
+        <script>
+            YaGames.init().then(ysdk => {
+                console.log('Yandex SDK initialized');
+                window.ysdk = ysdk;
+                // Дополнительный код инициализации, если необходимо
+            });
+        </script>
     </body>
 </html>

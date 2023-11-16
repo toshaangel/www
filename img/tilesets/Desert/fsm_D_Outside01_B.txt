@@ -1,0 +1,256 @@
+﻿Transparent|透明
+Ledge A (Shadow)|段差A（影）
+Ledge A (Shadow)|段差A（影）
+Boulder A|岩A
+Boulder B|岩B
+Ledge A (Sand, Top)|段差A（砂地・上端）
+Ledge A (Sand, Top)|段差A（砂地・上端）
+Ledge A (Sand, Top)|段差A（砂地・上端）
+Ledge A (Sand, Top)|段差A（砂地・上端）
+Ledge A (Sand, Top)|段差A（砂地・上端）
+Ledge A (Sand, Top)|段差A（砂地・上端）
+Boulder A|岩A
+Boulder B|岩B
+Ledge A|段差A
+Ledge A (Shadow)|段差A（影）
+Ledge A|段差A
+Ledge A|段差A
+Ledge A (Shadow)|段差A（影）
+Ledge A|段差A
+Ledge A|段差A
+Ledge A|段差A
+Ledge A|段差A
+Ledge A|段差A
+Ledge A|段差A
+Ledge A|段差A
+Ledge A|段差A
+Ledge A|段差A
+Ledge A|段差A
+Ledge A|段差A
+Ledge A (Rocky Soil A, Top)|段差A（岩地A・上端）
+Ledge A (Rocky Soil A, Top)|段差A（岩地A・上端）
+Ledge A (Rocky Soil A, Top)|段差A（岩地A・上端）
+Criff|崖
+Criff|崖
+Criff|崖
+Shadow|影
+Criff (Bottom)|崖（下端）
+Ledge A (Rocky Soil A, Top)|段差A（岩地A・上端）
+Ledge A (Rocky Soil A, Top)|段差A（岩地A・上端）
+Ledge A (Rocky Soil A, Top)|段差A（岩地A・上端）
+Criff|崖
+Criff|崖
+Criff|崖
+Shadow (Criff)|崖の影
+Cliff Decoration (Right)|崖装飾（右）
+Ledge A (Meadow A, Top)|段差A（草地A・上端）
+Ledge A (Meadow A, Top)|段差A（草地A・上端）
+Ledge A (Meadow A, Top)|段差A（草地A・上端）
+Criff (Water Edge)|水際の崖
+Criff (Water Edge)|水際の崖
+Criff (Water Edge)|水際の崖
+Shadow (Criff, Water Edge)|影（水際の崖）
+Cliff Decoration (Right)|崖装飾（右）
+Ledge A (Meadow A, Top)|段差A（草地A・上端）
+Ledge A (Meadow A, Top)|段差A（草地A・上端）
+Ledge A (Meadow A, Top)|段差A（草地A・上端）
+Criff (Water Edge)|水際の崖
+Criff (Water Edge)|水際の崖
+Criff (Water Edge)|水際の崖
+Shadow (Criff, Water Edge)|影（水際の崖）
+Cliff Decoration (Right)|崖装飾（右）
+Ledge A (Rocky Soil B, Top)|段差A（岩地B・上端）
+Ledge A (Rocky Soil B, Top)|段差A（岩地B・上端）
+Ledge A (Rocky Soil B, Top)|段差A（岩地B・上端）
+Criff|崖
+Criff|崖
+Criff|崖
+Cliff Decoration (Left)|崖装飾（左）
+Cliff Decoration (Right, Shadow)|崖装飾（右・影）
+Ledge A (Rocky Soil B, Top)|段差A（岩地B・上端）
+Ledge A (Rocky Soil B, Top)|段差A（岩地B・上端）
+Ledge A (Rocky Soil B, Top)|段差A（岩地B・上端）
+Criff|崖
+Criff|崖
+Criff|崖
+Cliff Decoration (Left)|崖装飾（左）
+Cliff Decoration (Right, Shadow)|崖装飾（右・影）
+Little Ledge (Ledge A, Sand, Bottom)|低い段差（段差A・砂地・下端）
+Little Ledge (Ledge A, Sand, Bottom)|低い段差（段差A・砂地・下端）
+Little Ledge (Ledge A, Sand, Bottom)|低い段差（段差A・砂地・下端）
+Criff|崖
+Criff|崖
+Criff|崖
+Cliff Decoration (Left)|崖装飾（左）
+Cliff Decoration (Right, Shadow)|崖装飾（右・影）
+Little Ledge (Ledge A, Rocky Soil A, Bottom)|低い段差（段差A・岩地A・下端）
+Little Ledge (Ledge A, Rocky Soil A, Bottom)|低い段差（段差A・岩地A・下端）
+Little Ledge (Ledge A, Rocky Soil A, Bottom)|低い段差（段差A・岩地A・下端）
+Little Ledge (Ledge A)|低い段差（段差A）
+Shadow (Little Ledge)|低い段差の影
+Little Ledge (Ledge A)|低い段差（段差A）
+Little Ledge (Ledge A)|低い段差（段差A）
+Little Ledge (Ledge A)|低い段差（段差A）
+Little Ledge (Ledge A, Meadow A, Bottom)|低い段差（段差A・草地A・下端）
+Little Ledge (Ledge A, Meadow A, Bottom)|低い段差（段差A・草地A・下端）
+Little Ledge (Ledge A, Meadow A, Bottom)|低い段差（段差A・草地A・下端）
+Little Ledge (Ledge A)|低い段差（段差A）
+Little Ledge (Ledge A)|低い段差（段差A）
+Little Ledge (Ledge A)|低い段差（段差A）
+Little Ledge (Ledge A)|低い段差（段差A）
+Little Ledge (Ledge A)|低い段差（段差A）
+Little Ledge (Ledge A, Rocky Soil B, Bottom)|低い段差（段差A・岩地B・下端）
+Little Ledge (Ledge A, Rocky Soil B, Bottom)|低い段差（段差A・岩地B・下端）
+Little Ledge (Ledge A, Rocky Soil B, Bottom)|低い段差（段差A・岩地B・下端）
+Ledge B (Sand, Top)|段差B（砂地・上端）
+Ledge B (Sand, Top)|段差B（砂地・上端）
+Ledge B (Sand, Top)|段差B（砂地・上端）
+Ledge B|段差B
+Ledge B|段差B
+Ledge B (Rocky Soil A, Top)|段差B（岩地A・上端）
+Ledge B (Rocky Soil A, Top)|段差B（岩地A・上端）
+Ledge B (Rocky Soil A, Top)|段差B（岩地A・上端）
+Ledge B|段差B
+Stair (Little Ledge)|階段（低い段差）
+Ledge B|段差B
+Ledge B|段差B
+Ledge B|段差B
+Ledge B (Meadow A, Top)|段差A（草地B・上端）
+Ledge B (Meadow A, Top)|段差A（草地B・上端）
+Ledge B (Meadow A, Top)|段差A（草地B・上端）
+Ledge B|段差B
+Ledge B|段差B
+Ledge B|段差B
+Ledge B (Shadow)|段差B（影）
+Ledge B (Shadow)|段差B（影）
+Ledge B (Rocky Soil B, Top)|段差B（岩地B・上端）
+Ledge B (Rocky Soil B, Top)|段差B（岩地B・上端）
+Ledge B (Rocky Soil B, Top)|段差B（岩地B・上端）
+Shadow|影
+Bush A|茂みA
+Bush A|茂みA
+Bush B|茂みB
+Bush B|茂みB
+Meadow B|草地B
+Meadow B|草地B
+Bone A|骨A
+Entrance|入口
+Bush A|茂みA
+Bush A|茂みA
+Bush B|茂みB
+Bush B|茂みB
+Meadow B|草地B
+Meadow B|草地B
+Bone B|骨B
+Entrance|入口
+Bush A|茂みA
+Bush A|茂みA
+Bush B|茂みB
+Bush B|茂みB
+Meadow B|草地B
+Meadow B|草地B
+Dead Tree A|枯れ木A
+Palm Tree A|ヤシの木A
+Palm Tree A|ヤシの木A
+Palm Tree A|ヤシの木A
+Weed A|草A
+Shadow|影
+Curb A (Flower Bed)|縁石A（花壇）
+Dead Tree B|枯れ木B
+Dead Tree C|枯れ木C
+Palm Tree A|ヤシの木A
+Palm Tree A|ヤシの木A
+Palm Tree A|ヤシの木A
+Weed B|草B
+Curb B (Flower Bed)|縁石B（花壇）
+Weed C|草C
+Weed D|草D
+Weed E|草E
+Palm Tree A|ヤシの木A
+Palm Tree A|ヤシの木A
+Palm Tree A|ヤシの木A
+Cactus A|サボテンA
+Cactus B|サボテンB
+Cactus C|サボテンC
+Tree A|木A
+Tree A|木A
+Palm Tree A|ヤシの木A
+Palm Tree A|ヤシの木A
+Palm Tree A|ヤシの木A
+Dead Tree D|枯れ木D
+Dead Tree D|枯れ木D
+Dead Tree D|枯れ木D
+Tree A|木A
+Tree A|木A
+Cactus D|サボテンD
+Palm Tree B|ヤシの木B
+Flower A|花A
+Dead Tree D|枯れ木D
+Dead Tree D|枯れ木D
+Dead Tree D|枯れ木D
+Dead Tree E|枯れ木E
+Dead Tree E|枯れ木E
+Cactus D|サボテンD
+Palm Tree B|ヤシの木B
+Cactus E|サボテンE
+Dead Tree D|枯れ木D
+Dead Tree D|枯れ木D
+Dead Tree D|枯れ木D
+Dead Tree E|枯れ木E
+Dead Tree E|枯れ木E
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Flower B|花B
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Iron Fence (Back)|鉄柵（奥）
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost D|柵D
+Fencepost E|柵E
+Fencepost F|柵F
+Iron Fence (Back)|鉄柵（奥）
+Iron Fence (Back)|鉄柵（奥）
+Iron Fence (Back)|鉄柵（奥）
+Iron Fence (Back)|鉄柵（奥）
+Iron Fence|鉄柵
+Iron Fence|鉄柵
+Fencepost E|柵E
+Iron Fence (Back)|鉄柵（奥）
+Iron Fence (Front)|鉄柵（手前）
+Iron Fence (Back)|鉄柵（奥）
+Iron Fence (Back)|鉄柵（奥）
+Iron Fence (Back)|鉄柵（奥）
+Iron Fence|鉄柵
+Iron Fence|鉄柵
+Iron Fence|鉄柵
+Iron Fence (Back)|鉄柵（奥）
+Iron Fence (Back)|鉄柵（奥）
+Iron Fence|鉄柵
+Barricade A|バリケードA
+Iron Fence|鉄柵
+Iron Fence|鉄柵
+Iron Fence|鉄柵
+Iron Fence|鉄柵
+Iron Fence|鉄柵
+Iron Fence (Back)|鉄柵（奥）
+Iron Fence (Front)|鉄柵（手前）
+Iron Fence (Front)|鉄柵（手前）
+Iron Fence (Front)|鉄柵（手前）
+Iron Fence|鉄柵
+Iron Fence|鉄柵
+Iron Fence|鉄柵
+Iron Fence (Front)|鉄柵（手前）
+Iron Fence (Front)|鉄柵（手前）

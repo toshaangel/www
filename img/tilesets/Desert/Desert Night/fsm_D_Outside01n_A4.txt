@@ -1,0 +1,48 @@
+﻿Ledge A (Sand)|段差A（砂地）
+Ledge A (Rocky Soil A)|段差A（岩地A）
+Ledge A (Meadow A)|段差A（草地A）
+Ledge A (Rocky Soil B)|段差A（岩地B）
+Ledge B (Sand)|段差B（砂地）
+Ledge B (Rocky Soil A)|段差B（岩地A）
+Ledge B (Meadow A)|段差B（草地A）
+Ledge B (Rocky Soil B)|段差B（岩地B）
+Criff|崖
+Criff (Sand)|崖（砂）
+Criff (Grass)|崖（草）
+Hole (Criff)|穴（崖）
+Criff (Sand)|崖（砂地）
+Criff (Rocky Soil A)|崖（岩地A）
+Criff (Meadow A)|崖（草地A）
+Criff (Rocky Soil B)|崖（岩地B）
+Building A|建物A
+Wall A|壁A
+Building B|建物B
+Building C|建物C
+Building D|建物D
+Building D (Iron Fence)|建物D（鉄柵）
+Building E|建物E
+Building E (Stone Floor B)|建物E（石床B）
+Outer Wall A1|外壁A1
+Wall A|壁A
+Outer Wall A2|外壁A2
+Outer Wall B|外壁B
+Outer Wall C1|外壁C1
+Outer Wall C2|外壁C2
+Outer Wall D1|外壁D1
+Outer Wall D2|外壁D2
+Building H|建物H
+Building H (Stone Floor B)|建物H（石床B）
+Building I|建物I
+Wall B|壁B
+Wall C|壁C
+Building J|建物J
+Building K|建物K
+Building L|建物L
+Outer Wall E|外壁E
+Outer Wall F|外壁F
+Outer Wall G|外壁G
+Wall B|壁B
+Wall C|壁C
+Outer Wall H1|外壁H1
+Outer Wall H2|外壁H2
+Outer Wall H3|外壁H3

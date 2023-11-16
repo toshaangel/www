@@ -1,0 +1,32 @@
+﻿Sand|砂地
+Deep Sand|濃い砂地
+Stone Floor A (Sand)|石床A（砂地）
+Stone Floor B (Sand)|石床B（砂地）
+Bush A|茂みA
+Bush B|茂みB
+Meadow B|草地B
+Hedge A|生け垣A
+Stone Floor A|石床A
+Stone Floor A (Pattern)|石床A（紋様）
+Stone Floor A (Curb)|石床A（縁石）
+Stone Floor A (Crack)|石床A（ひび割れ）
+Sand|砂地
+Meadow A|草地A
+Bush C|茂みC
+Hedge B|生け垣B
+Meadow A|草地A
+Deep Meadow A|濃い草地A
+Stone Floor A (Meadow A)|石床A（草地A）
+Stone Floor B (Meadow A)|石床B（草地A）
+Curb A|縁石A
+Curb B|縁石B
+Canal B (No Water)|水路B（水なし）
+Partition Planter Box|仕切り（プランター）
+Stone Floor B|石床B
+Stone Floor B (Curb)|石床B（縁石）
+Stone Floor A (Meadow A)|石床A（草地A）
+Stone Floor B (Meadow A)|石床B（草地A）
+Ledge (Stone Floor A)|段差（石床A）
+Stone Floor A|石床A
+Stone Floor B|石床B
+Fencepost D|柵D

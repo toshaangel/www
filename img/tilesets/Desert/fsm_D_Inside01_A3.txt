@@ -1,0 +1,32 @@
+﻿Wall 1|壁1
+Wall 2|壁2
+Wall 3|壁3
+Wall 4|壁4
+Wall 5|壁5
+Wall 6|壁6
+Wall 7|壁7
+Wall 8|壁8
+Wall 9|壁9
+Wall 10|壁10
+Wall 11|壁11
+Wall 12|壁12
+Wall 13|壁13
+Wall 14|壁14
+Wall 15|壁15
+Wall 16|壁16
+Wall 17|壁17
+Wall 18|壁18
+Wall 19|壁19
+Wall 20|壁20
+Wall 21|壁21
+Wall 22|壁22
+Wall 23|壁23
+Wall 24|壁24
+Outside View A|外の景色A
+Outside View B|外の景色B
+Outside View C|外の景色C
+Outside View D|外の景色D
+Darkness|暗闇
+Darkness|暗闇
+Darkness|暗闇
+Darkness|暗闇

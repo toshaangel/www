@@ -1,0 +1,32 @@
+﻿Wood Floor A|木の床A
+Dirt (Wood Floor A)|土（木の床A）
+Wood Floor A'|木の床A'
+Hole (Wood Floor A)|穴（木の床A）
+Rush Mat A|ござA
+Rush Mat B|ござB
+Dark Floor|暗い床
+Table A|テーブルA
+Wood Floor B|木の床B
+Dirt (Wood Floor B)|土（木の床B）
+Wood Floor B'|木の床B'
+Hole (Wood Floor B)|穴（木の床B）
+Dirt|土
+Wood Edge|木の縁
+Whiteish Floor|白みがかった床
+Table B|テーブルB
+Wood Floor C|木の床C
+Dirt (Wood Floor C)|土（木の床C）
+Wood Floor C'|木の床C'
+Wood Floor C (Edge)|木の床C（縁あり）
+Moss A|苔A
+Moss B|苔B
+Water|水場
+|
+Wood Floor D|木の床D
+Dirt (Wood Floor D)|土（木の床D）
+Wood Floor D'|木の床D'
+Wood Floor D (Edge)|木の床D（縁あり）
+|
+|
+|
+|

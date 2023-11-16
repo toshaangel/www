@@ -1,0 +1,128 @@
+﻿Darkness|暗闇
+Ground A|床A
+Stone Floor A|石床A
+Stone Floor B|石床B
+Ground B|床B
+Wood Floor A|木の床A
+Wood Floor B|木の床B
+Stone Floor G|石床G
+Transparent|透明
+Dark Ground A|暗い床A
+Dark Stone Floor A|暗い石床A
+Dark Stone Floor B|暗い石床B
+Dark Ground B|暗い床B
+Dark Wood Floor A|暗い木の床A
+Dark Wood Floor B|暗い木の床B
+Dark Stone Floor G|暗い石床G
+Sand Ground|砂床
+Dark Sand Ground|暗い砂床
+Stone Floor C|石床C
+Dark Stone Floor C|暗い石床C
+Decorative Floor A (Stone Floor H)|装飾床A（石床H）
+Decorative Floor B (Stone Floor H)|装飾床B（石床H）
+Decorative Floor C (Stone Floor H)|装飾床C（石床H）
+Stone Floor D|石床D
+Stone Floor D (Sand Ground)|石床D（砂床）
+Stone Floor D (Sand Ground)|石床D（砂床）
+Stone Floor D (Sand Ground)|石床D（砂床）
+Step (Sand Ground)|段差（砂床）
+Step (Sand Ground)|段差（砂床）
+Step (Sand Ground)|段差（砂床）
+Stone Floor H|石床H
+Dark Stone Floor D|暗い石床D
+Stone Floor D (Sand Ground)|石床D（砂床）
+Stone Floor D|石床D
+Stone Floor D (Sand Ground)|石床D（砂床）
+Step (Sand Ground)|段差（砂床）
+Sand Ground|砂床
+Step (Sand Ground)|段差（砂床）
+Step (Sand Ground)|段差（砂床）
+Step (Sand Ground)|段差（砂床）
+Stone Floor D (Sand Ground)|石床D（砂床）
+Stone Floor D (Sand Ground)|石床D（砂床）
+Stone Floor D (Sand Ground)|石床D（砂床）
+Step (Sand Ground)|段差（砂床）
+Step (Sand Ground)|段差（砂床）
+Step (Sand Ground)|段差（砂床）
+Step (Sand Ground)|段差（砂床）
+Step (Sand Ground)|段差（砂床）
+Stone Floor D (Sand Ground)|石床D（砂床）
+Stone Floor D (Sand Ground)|石床D（砂床）
+Window (Tent Wall)|窓（テントの壁）
+Decorative Wall (Tend Wall)|装飾壁（テントの壁）
+Decorative Wall (Tend Wall)|装飾壁（テントの壁）
+Window (Wall R)|窓（壁R）
+Decorative Wall (Wall R)|装飾壁（壁R）
+Decorative Wall (Wall R)|装飾壁（壁R）
+Stone Floor D (Sand Ground)|石床D（砂床）
+Stone Floor D (Sand Ground)|石床D（砂床）
+Window (Tent Wall)|窓（テントの壁）
+Decorative Wall (Tend Wall)|装飾壁（テントの壁）
+Decorative Wall (Tend Wall)|装飾壁（テントの壁）
+Window (Wall R)|窓（壁R）
+Decorative Wall (Wall R)|装飾壁（壁R）
+Decorative Wall (Wall R)|装飾壁（壁R）
+Tent Wall|テントの壁
+Tent Wall|テントの壁
+Tent Wall|テントの壁
+Decorative Wall (Wall 1)|装飾壁（壁1）
+Decorative Wall (Wall 1)|装飾壁（壁1）
+Decorative Wall (Wall 1)|装飾壁（壁1）
+Decorative Wall (Wall 1)|装飾壁（壁1）
+Decorative Wall (Wall 2)|装飾壁（壁2）
+Tent Wall|テントの壁
+Tent Wall|テントの壁
+Tent Wall|テントの壁
+Decorative Wall (Wall 1)|装飾壁（壁1）
+Decorative Wall (Wall 1)|装飾壁（壁1）
+Decorative Wall (Wall 1)|装飾壁（壁1）
+Decorative Wall (Wall 1)|装飾壁（壁1）
+Decorative Wall (Wall 2)|装飾壁（壁2）
+Decorative Wall (Wall A)|装飾壁（壁A）
+Decorative Wall (Wall B)|装飾壁（壁B）
+Decorative Wall (Wall C)|装飾壁（壁C）
+Decorative Wall (Wall D)|装飾壁（壁D）
+Decorative Wall (Wall E)|装飾壁（壁E）
+Decorative Wall (Wall F)|装飾壁（壁F）
+Decorative Wall (Wall G)|装飾壁（壁G）
+Decorative Wall (Wall H)|装飾壁（壁H）
+Decorative Wall (Wall A)|装飾壁（壁A）
+Decorative Wall (Wall B)|装飾壁（壁B）
+Decorative Wall (Wall C)|装飾壁（壁C）
+Decorative Wall (Wall D)|装飾壁（壁D）
+Decorative Wall (Wall E)|装飾壁（壁E）
+Decorative Wall (Wall F)|装飾壁（壁F）
+Decorative Wall (Wall G)|装飾壁（壁G）
+Decorative Wall (Wall H)|装飾壁（壁H）
+Decorative Wall (Wall I)|装飾壁（壁I）
+Decorative Wall (Wall J)|装飾壁（壁J）
+Decorative Wall (Wall K)|装飾壁（壁K）
+Decorative Wall (Wall L)|装飾壁（壁L）
+Decorative Wall (Wall M)|装飾壁（壁M）
+Decorative Wall (Wall N)|装飾壁（壁N）
+Decorative Wall (Wall O)|装飾壁（壁O）
+Decorative Wall (Wall P)|装飾壁（壁P）
+Decorative Wall (Wall I)|装飾壁（壁I）
+Decorative Wall (Wall J)|装飾壁（壁J）
+Decorative Wall (Wall K)|装飾壁（壁K）
+Decorative Wall (Wall L)|装飾壁（壁L）
+Decorative Wall (Wall M)|装飾壁（壁M）
+Decorative Wall (Wall N)|装飾壁（壁N）
+Decorative Wall (Wall O)|装飾壁（壁O）
+Decorative Wall (Wall P)|装飾壁（壁P）
+Decorative Wall (Criff A)|装飾壁（崖A）
+Decorative Wall (Criff B)|装飾壁（崖B）
+Decorative Wall (Wall R)|装飾壁（壁R）
+Decorative Wall (Wall S)|装飾壁（壁S）
+Decorative Wall (Wall T)|装飾壁（壁T）
+Decorative Wall (Wall U)|装飾壁（壁U）
+Decorative Wall (Wall V)|装飾壁（壁V）
+Decorative Wall (Wall W)|装飾壁（壁W）
+Decorative Wall (Criff A)|装飾壁（崖A）
+Decorative Wall (Criff B)|装飾壁（崖B）
+Decorative Wall (Wall R)|装飾壁（壁R）
+Decorative Wall (Wall S)|装飾壁（壁S）
+Decorative Wall (Wall T)|装飾壁（壁T）
+Decorative Wall (Wall U)|装飾壁（壁U）
+Decorative Wall (Wall V)|装飾壁（壁V）
+Decorative Wall (Wall W)|装飾壁（壁W）

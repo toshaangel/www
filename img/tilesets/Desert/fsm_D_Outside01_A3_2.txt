@@ -1,0 +1,32 @@
+﻿Distant Sky (Top)|遠景の空（上）
+Distant Night Sky (Top)|遠景の夜空（上）
+Distant Desert (Front)|遠景の砂漠（手前）
+|
+|
+|
+|
+|
+Distant Sky (Bottom)|遠景の空（下）
+Distant Night Sky (Bottom)|遠景の夜空（下）
+Distant Desert (Night, Front)|遠景の砂漠（夜・手前）
+|
+|
+|
+|
+|
+Horizon|地平線
+Horizon (Night)|地平線（夜）
+|
+|
+|
+|
+|
+|
+Distant Desert (Back)|遠景の砂漠（奥）
+Distant Desert (Night, Back)|遠景の砂漠（夜・奥）
+|
+|
+|
+|
+|
+|

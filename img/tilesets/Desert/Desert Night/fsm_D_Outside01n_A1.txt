@@ -1,0 +1,16 @@
+﻿Water A (Sand Ground)|水場A（砂地）
+Deep Water|深い水場
+Water Plant|水草
+Rocky Soil (Underwater)|水底の岩地
+Water B (Meadow)|水場B（草地）
+Waterfall A (Wall B)|滝A（壁B）
+Water B|水場B
+Waterfall A (Outer Wall C)|滝B（外壁C）
+Water B (Sand Ground)|水場B（砂地）
+Waterfall C (Criff)|滝C（崖）
+Water B (Rocky Soil A)|水場B（岩地A）
+Sandfall (Criff)|砂の滝（崖）
+Canal A|水路A
+Waterfall D (Outer Wall D)|滝D（外壁D）
+Canal B|水路B
+Waterfall E (Outer Wall H)|滝E（外壁H）

@@ -1,0 +1,32 @@
+﻿Roof A|屋根A
+Roof B|屋根B
+Roof C|屋根C
+Roof C (Moss A)|屋根C（苔A）
+Roof C (Moss B)|屋根C（苔B）
+Roof D|屋根D
+Roof D (Dull Color A)|屋根D（くすんだ色A）
+Roof D (Moss A)|屋根D（苔A）
+Outer Wall A|外壁A
+Outer Wall B|外壁B
+Outer Wall C|外壁C
+Outer Wall C (Moss A)|外壁C（苔A）
+Outer Wall C (Moss B)|外壁C（苔B）
+Outer Wall D|外壁D
+Outer Wall D (Dull Color A)|外壁D（くすんだ色A）
+Outer Wall D (Moss A)|外壁D（苔A）
+Roof A (Dull Color)|屋根A（くすんだ色）
+Roof B (Dull Color)|屋根B（くすんだ色）
+Roof A (Moss)|屋根E（苔）
+Roof B (Moss)|屋根F（苔）
+Roof C (Dull Color)|屋根C（くすんだ色）
+Roof C (Moss C)|屋根C（苔C）
+Roof D (Moss B)|屋根D（苔B）
+Roof D (Dull Color B)|屋根D（くすんだ色B）
+Outer Wall A (Dull Color)|外壁A（くすんだ色）
+Outer Wall B (Dull Color)|外壁B（くすんだ色）
+Outer Wall A (Moss)|外壁A（苔）
+Outer Wall B (Moss)|外壁B（苔）
+Outer Wall C (Dull Color)|外壁C（くすんだ色）
+Outer Wall C (Moss C)|外壁C（苔C）
+Outer Wall D (Moss B)|外壁D（苔B）
+Outer Wall D (Dull Color B)|外壁C（くすんだ色B）

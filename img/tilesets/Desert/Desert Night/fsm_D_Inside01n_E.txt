@@ -1,0 +1,256 @@
+﻿Shadow|影
+Boulder A|岩A
+Boulder B|岩B
+Wall Q|壁Q
+Wall Q|壁Q
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground)|段差A（砂床）
+Wall Q|壁Q
+Wall Q|壁Q
+Wall Q|壁Q
+Wall Q|壁Q
+Wall Q|壁Q
+Ledge A (Sand Ground)|段差A（砂床）
+Boulder C|岩C
+Ledge A (Sand Ground)|段差A（砂床）
+Wall Q|壁Q
+Wall Q|壁Q
+Wall Q|壁Q
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground)|段差A（砂床）
+Wall Q|壁Q
+Wall Q|壁Q
+Wall Q|壁Q
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground)|段差A（砂床）
+Criff (Top)|崖（上）
+Criff (Top)|崖（上）
+Criff (Top)|崖（上）
+Criff (Top)|崖（上）
+Criff (Top)|崖（上）
+Criff (Top)|崖（上）
+Entrance (Criff)|入口（崖）
+Exit (Criff)|出口（崖）
+Criff (Center)|崖（中）
+Criff (Center)|崖（中）
+Criff (Center)|崖（中）
+Criff (Bottom)|崖（下）
+Criff (Bottom)|崖（下）
+Criff (Bottom)|崖（下）
+Entrance (Criff)|入口（崖）
+Exit (Criff)|出口（崖）
+Criff (Bottom)|崖（下）
+Criff (Bottom)|崖（下）
+Criff (Bottom)|崖（下）
+Wall Q|壁Q
+Wall Q|壁Q
+Wall Q|壁Q
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground)|段差A（砂床）
+Wall Q (Shadow)|壁Q（影）
+Wall Q (Shadow)|壁Q（影）
+Wall Q|壁Q
+Criff|崖
+Wall Q|壁Q
+Ledge A (Sand Ground)|段差A（砂床）
+Boulder D|岩D
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground, Shadow)|段差A（砂床・影）
+Ledge A (Sand Ground, Shadow)|段差A（砂床・影）
+Wall Q|壁Q
+Wall Q|壁Q
+Wall Q|壁Q
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground)|段差A（砂床）
+Ledge A (Sand Ground)|段差A（砂床）
+Hole (Criff, Top)|穴（崖・上）
+Hole (Criff, Top)|穴（崖・上）
+Stairs A (Crag)|階段A（岩）
+Stairs A (Crag)|階段A（岩）
+Stairs A (Crag)|階段A（岩）
+Shadow (Stairs)|階段の影
+Stairs B (Crag)|階段B（岩）
+Hole (Criff, Top)|穴（崖・上）
+Hole (Criff, Top)|穴（崖・上）
+Hole (Criff, Top)|穴（崖・上）
+Stairs A (Crag)|階段A（岩）
+Stairs A (Crag)|階段A（岩）
+Stairs A (Crag)|階段A（岩）
+Shadow (Stairs)|階段の影
+Stairs B (Crag)|階段B（岩）
+Hole (Criff, Bottom)|穴（崖・下）
+Hole (Criff, Bottom)|穴（崖・下）
+Hole (Criff, Bottom)|穴（崖・下）
+Stairs A (Crag)|階段A（岩）
+Stairs A (Crag)|階段A（岩）
+Stairs A (Crag)|階段A（岩）
+Shadow (Stairs)|階段の影
+Stairs B (Crag)|階段B（岩）
+Ledge B (Sand Ground)|段差B（砂床）
+Ledge B (Sand Ground)|段差B（砂床）
+Ledge B (Sand Ground)|段差B（砂床）
+Stairs A (Crag, Up)|上り階段A（岩）
+Stairs A (Crag, Up)|上り階段A（岩）
+Stairs A (Crag, Up)|上り階段A（岩）
+Stairs B (Crag, Up)|上り階段B（岩）
+Boulder E|岩E
+Ledge B (Sand Ground)|段差B（砂床）
+Hole|穴
+Ledge B (Sand Ground)|段差B（砂床）
+Stairs A (Crag, Down)|下り階段A（岩）
+Stairs A (Crag, Down)|下り階段A（岩）
+Stairs A (Crag, Down)|下り階段A（岩）
+Stairs B (Crag, Down)|下り階段B（岩）
+Boulder E|岩E
+Ledge B (Sand Ground)|段差B（砂床）
+Ledge B (Sand Ground)|段差B（砂床）
+Ledge B (Sand Ground)|段差B（砂床）
+Ledge C (Sand Ground)|段差C（砂床）
+Ledge C (Sand Ground)|段差C（砂床）
+Ledge C (Sand Ground)|段差C（砂床）
+Ledge B (Sand Ground)|段差B（砂床）
+Ledge B (Sand Ground)|段差B（砂床）
+Criff (Bottom, Sand)|崖（下・砂）
+Criff (Bottom, Sand)|崖（下・砂）
+Criff (Bottom, Sand)|崖（下・砂）
+Ledge C (Sand Ground)|段差C（砂床）
+Sand Ground|砂床
+Ledge C (Sand Ground)|段差C（砂床）
+Ledge B (Sand Ground)|段差B（砂床）
+Ledge B (Sand Ground)|段差B（砂床）
+Ledge B (Sand Ground)|段差B（砂床）
+Ledge B (Sand Ground)|段差B（砂床）
+Ledge B (Sand Ground)|段差B（砂床）
+Ledge C (Sand Ground)|段差C（砂床）
+Ledge C (Sand Ground)|段差C（砂床）
+Ledge C (Sand Ground)|段差C（砂床）
+Ledge C (Sand Ground)|段差C（砂床）
+Ledge C (Sand Ground)|段差C（砂床）
+Criff (Bottom, Sand)|崖（下・砂）
+Criff (Bottom, Sand)|崖（下・砂）
+Criff (Bottom, Sand)|崖（下・砂）
+Slope A (Leage C, Top)|坂A（段差C・上向き）
+Slope A (Leage C, Left)|坂A（段差C・左向き）
+Slope A (Leage C, Right)|坂A（段差C・右向き）
+Ledge C (Sand Ground)|段差C（砂床）
+Ledge C (Sand Ground)|段差C（砂床）
+Slope B (Leage B, Top)|坂B（段差B・上向き）
+Slope B (Leage B, Top)|坂B（段差B・上向き）
+Slope B (Leage B, Top)|坂B（段差B・上向き）
+Slope A (Leage C, Bottom)|坂A（段差C・下向き）
+Slope B (Leage B, Left)|坂B（段差B・左向き）
+Slope B (Leage B, Left)|坂B（段差B・左向き）
+Slope B (Leage B, Right)|坂B（段差B・右向き）
+Slope B (Leage B, Right)|坂B（段差B・右向き）
+Slope B (Leage B, Top)|坂B（段差B・上向き）
+Slope B (Leage B, Top)|坂B（段差B・上向き）
+Slope B (Leage B, Top)|坂B（段差B・上向き）
+Wall Decoration A (Wall L)|壁装飾A（壁L）
+Slope B (Leage B, Left)|坂B（段差B・左向き）
+Slope B (Leage B, Left)|坂B（段差B・左向き）
+Slope B (Leage B, Right)|坂B（段差B・右向き）
+Slope B (Leage B, Right)|坂B（段差B・右向き）
+Slope B (Leage B, Bottom)|坂B（段差B・下向き）
+Slope B (Leage B, Bottom)|坂B（段差B・下向き）
+Slope B (Leage B, Bottom)|坂B（段差B・下向き）
+Wall Decoration A (Wall L)|壁装飾A（壁L）
+Wall Decoration A (Wall L)|壁装飾A（壁L）
+Wall Decoration B (Wall L)|壁装飾B（壁L）
+Wall Decoration C (Wall L)|壁装飾C（壁L）
+Wall Decoration C (Wall L)|壁装飾C（壁L）
+Slope B (Leage B, Bottom)|坂B（段差B・下向き）
+Slope B (Leage B, Bottom)|坂B（段差B・下向き）
+Slope B (Leage B, Bottom)|坂B（段差B・下向き）
+Wall Decoration A (Wall L)|壁装飾A（壁L）
+Wall Decoration D (Wall L)|壁装飾D（壁L）
+Wall Decoration B (Wall L)|壁装飾B（壁L）
+Wall Decoration C (Wall L)|壁装飾C（壁L）
+Stairs (Leage D, Left)|階段（段差D・左向き）
+Stairs (Leage D, Left)|階段（段差D・左向き）
+Stairs (Leage D, Right)|階段（段差D・右向き）
+Stairs (Leage D, Right)|階段（段差D・右向き）
+Entrance (Wall L)|入口（壁L）
+Entrance (Wall L)|入口（壁L）
+Entrance (Wall L)|入口（壁L）
+Wall Decoration C (Wall L)|壁装飾C（壁L）
+Stairs (Leage D, Left)|階段（段差D・左向き）
+Stairs (Leage D, Left)|階段（段差D・左向き）
+Stairs (Leage D, Right)|階段（段差D・右向き）
+Stairs (Leage D, Right)|階段（段差D・右向き）
+Entrance (Wall L)|入口（壁L）
+Entrance (Wall L)|入口（壁L）
+Entrance (Wall L)|入口（壁L）
+Stairs (Leage D, Left)|階段（段差D・左向き）
+Stairs (Leage D, Left)|階段（段差D・左向き）
+Stairs (Leage D, Left)|階段（段差D・左向き）
+Stairs (Leage D, Right)|階段（段差D・右向き）
+Stairs (Leage D, Right)|階段（段差D・右向き）
+Entrance (Wall L)|入口（壁L）
+Shadow|影
+Entrance (Wall L)|入口（壁L）
+Stairs (Leage D, Right)|階段（段差D・右向き）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Ladder|はしご
+Wall Decoration D (Wall L)|壁装飾D（壁L）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Shadow (Criff)|影（崖）
+Ladder|はしご
+Wall Decoration D (Wall L)|壁装飾D（壁L）
+Leage D (Stone Floor D)|段差D（石床D）
+Decorative Floor (Stone Floor D)|装飾床（石床D）
+Leage D (Stone Floor D, Shadow)|段差D（石床D・影）
+Leage D (Stone Floor D, Shadow)|段差D（石床D・影）
+Leage D (Stone Floor D)|段差D（石床D）
+Shadow (Stone Floor D)|影（段差D）
+Ladder|はしご
+Wall Decoration D (Wall L)|壁装飾D（壁L）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Shadow (Criff)|影（崖）
+Leage D (Stone Floor D)|段差D（石床D）
+Shadow (Stone Floor D)|影（段差D）
+Ladder (Up)|はしご（上り）
+Ladder (Down)|はしご（下り）
+Leage D (Stone Floor D)|段差D（石床D）
+Stone Floor D|石床D
+Stone Floor D|石床D
+Stone Floor D|石床D
+Leage D (Stone Floor D)|段差D（石床D）
+Shadow (Stone Floor D)|影（段差D）
+Light from Ceiling A|天井からの光A
+Light from Ceiling B|天井からの光B
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Leage D (Stone Floor D)|段差D（石床D）
+Shadow (Stone Floor D)|影（段差D）
+Light from Ceiling A|天井からの光A
+Light from Ceiling B|天井からの光B
+Stairs (Leage D, Bottom)|階段（段差D・下向き）
+Stairs (Leage D, Bottom)|階段（段差D・下向き）
+Stairs (Leage D, Bottom)|階段（段差D・下向き）
+Stairs (Leage D, Top)|階段（段差D・上向き）
+Stairs (Leage D, Top)|階段（段差D・上向き）
+Stairs (Leage D, Top)|階段（段差D・上向き）
+Light from Ceiling A|天井からの光A
+Light from Ceiling B|天井からの光B
+Stairs (Leage D, Bottom)|階段（段差D・下向き）
+Stairs (Leage D, Bottom)|階段（段差D・下向き）
+Stairs (Leage D, Bottom)|階段（段差D・下向き）
+Stairs (Leage D, Top)|階段（段差D・上向き）
+Stone Floor D|石床D
+Stairs (Leage D, Top)|階段（段差D・上向き）

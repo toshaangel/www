@@ -1,0 +1,32 @@
+﻿Sand|砂地
+Deep Sand|濃い砂地
+Rocky Soil A (Sand)|岩地A（砂地）
+Cobblestones (Sand)|石畳（砂地）
+Bush A|茂みA
+Bush B|茂みB
+Meadow B|草地B
+Fencepost A|柵A
+Rocky Soil A|岩地A
+Pebble (Rocky Soil A)|砂利（岩地A）
+Sand (Rocky Soil A)|砂地（岩地A）
+Grass (Rocky Soil A)|草（岩地A）
+Sand|砂地
+Rocky Soil A|岩地A
+Cobblestones|石畳
+Fencepost B|柵B
+Meadow A|草地A
+Deep Meadow A|濃い草地A
+Rocky Soil A (Meadow A)|岩地A（草地A）
+Cobblestones (Meadow A)|石畳（草地A）
+Canal A (No Water)|水路A（水なし）
+Curb B|縁石B
+Canal B (No Water)|水路B（水なし）
+Partition Planter Box|仕切り（プランター）
+Meadow A (Sand)|草地A（砂地）
+Rocky Soil B (Meadow A)|岩地B（草地A）
+Rocky Soil B (Sand)|岩地B（砂地）
+Rocky Soil A (Grass)|岩地A（草）
+Rug|じゅうたん
+Mat|ござ
+Stone Floor B|石床B
+Fencepost C|柵C

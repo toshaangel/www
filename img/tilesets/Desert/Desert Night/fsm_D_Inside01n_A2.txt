@@ -1,0 +1,32 @@
+﻿Ground A|床A
+Dark Ground A|暗い床A
+Stone Floor A|石床A
+Stone Floor B|石床B
+Dark Stone Floor A|暗い石床A
+Dark Stone Floor B|暗い石床B
+Mat|ござ
+Table A|テーブルA
+Ground B|床B
+Smooth Ground B|なめらかな床B
+Stone Floor (Ground B)|石床（床B）
+Dark Ground B|暗い床B
+Low Stone Floor|低い石床
+Curb|縁石
+Hole|穴
+Table B|テーブルB
+Wood Floor A|木の床A
+Wood Floor B|木の床B
+Stone Floor C|石床C
+Stone Floor D|石床D
+Rug A|じゅうたんA
+Rug B|じゅうたんB
+Rug C|じゅうたんC
+Table C|テーブルC
+Sand Ground|砂床
+Bright Sand Ground|明るい砂床
+Stone Floor E (Sand Ground)|石床E（砂床）
+Dark Sand Ground|暗い砂床
+Step (Sand Ground)|段差（砂床）
+Stone Floor E|石床E
+Stone Floor F|石床F
+Table D|テーブルD

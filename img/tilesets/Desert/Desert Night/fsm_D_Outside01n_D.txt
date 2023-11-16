@@ -1,0 +1,256 @@
+﻿|
+Boulder C|岩C
+Boulder D|岩D
+Boulder E|岩E
+Boulder F|岩F
+Boulder G|岩G
+Boulder H|岩H
+Hole|穴
+Flag A|旗A
+Flag B|旗B
+Wall A (Water Edge A)|壁A（水際A）
+Wall A (Water Edge A)|壁A（水際A）
+Wall A (Water Edge A)|壁A（水際A）
+Chimney A|煙突A
+Bonfire A|かがり火A
+Bonfire B|かがり火B
+Flag A|旗A
+Flag B|旗B
+Wall A (Water Edge A)|壁A（水際A）
+Wall A (Water Edge A)|壁A（水際A）
+Wall A (Water Edge A)|壁A（水際A）
+Chimney B|煙突B
+Bonfire A|かがり火A
+Bonfire B|かがり火B
+Tapestry A|タペストリーA
+Tapestry B|タペストリーB
+Wall A (Water Edge B)|壁A（水際B）
+Wall A (Water Edge B)|壁A（水際B）
+Wall A (Water Edge B)|壁A（水際B）
+Window H (Shutter)|窓H（雨戸）
+Street Light|街灯
+Ladder B|はしごB
+Outer Wall Decoration A|外壁装飾A
+Window (Outer Wall Decoration A)|窓（外壁装飾A）
+Outer Wall Decoration A|外壁装飾A
+Outer Wall Decoration B|外壁装飾B
+Window (Outer Wall Decoration B)|窓（外壁装飾B）
+Outer Wall Decoration B|外壁装飾B
+Street Light (Right)|街灯（右）
+Ladder B|はしごB
+Outer Wall Decoration A|外壁装飾A
+Window (Outer Wall Decoration A)|窓（外壁装飾A）
+Outer Wall Decoration A|外壁装飾A
+Outer Wall Decoration B|外壁装飾B
+Window (Outer Wall Decoration B)|窓（外壁装飾B）
+Outer Wall Decoration B|外壁装飾B
+Street Light (Left)|街灯（左）
+Ladder B|はしごB
+Outer Wall Decoration C|外壁装飾C
+Window (Outer Wall Decoration C)|窓（外壁装飾C）
+Outer Wall Decoration C|外壁装飾C
+Outer Wall Decoration D|外壁装飾D
+Window (Outer Wall Decoration D)|窓（外壁装飾D）
+Outer Wall Decoration D|外壁装飾D
+Barricade B (V)|バリケードB（縦）
+Ladder B (Down)|はしごB（下り）
+Outer Wall Decoration C|外壁装飾C
+Window (Outer Wall Decoration C)|窓（外壁装飾C）
+Outer Wall Decoration C|外壁装飾C
+Outer Wall Decoration D|外壁装飾D
+Window (Outer Wall Decoration D)|窓（外壁装飾D）
+Outer Wall Decoration D|外壁装飾D
+Barricade B (V)|バリケードB（縦）
+Barricade B (H)|バリケードB（横）
+Outer Wall Decoration E|外壁装飾E
+Window (Outer Wall Decoration E)|窓（外壁装飾E）
+Outer Wall Decoration E|外壁装飾E
+Outer Wall Decoration F|外壁装飾F
+Window (Outer Wall Decoration F)|窓（外壁装飾F）
+Outer Wall Decoration F|外壁装飾F
+Sand Pile A|砂山A
+Sand Pile B|砂山B
+Outer Wall Decoration E|外壁装飾E
+Window (Outer Wall Decoration E)|窓（外壁装飾E）
+Outer Wall Decoration E|外壁装飾E
+Outer Wall Decoration F|外壁装飾F
+Window (Outer Wall Decoration F)|窓（外壁装飾F）
+Outer Wall Decoration F|外壁装飾F
+Sand Pile C|砂山C
+Sand Pile D|砂山D
+Fire Pit A|たき火のかまどA
+Fire Pit B|たき火のかまどB
+Bundle of Straw|藁の束
+Pier (H)|桟橋（横）
+Pier (V)|桟橋（縦）
+Boat (Left)|小舟（左）
+Boat (Left)|小舟（左）
+Boat (Left)|小舟（左）
+Tent (Back)|テント（裏）
+Tent (Back)|テント（裏）
+Tent (Back)|テント（裏）
+Pier (H)|桟橋（横）
+Pier (V)|桟橋（縦）
+Boat (Left, Water)|小舟（左・水上）
+Boat (Left, Water)|小舟（左・水上）
+Boat (Left, Water)|小舟（左・水上）
+Tent (Back)|テント（裏）
+Tent (Back)|テント（裏）
+Tent (Back)|テント（裏）
+Pier posts (Pier, H)|桟橋の支柱（桟橋・横）
+Pier (V)|桟橋（縦）
+Boat (Right)|小舟（右）
+Boat (Right)|小舟（右）
+Boat (Right)|小舟（右）
+Tent (Right-Upper)|テント（右上）
+Tent|テント
+Tent|テント
+Tent|テント
+Shadow (Tent)|テントの影
+Boat (Right, Water)|小舟（右・水上）
+Boat (Right, Water)|小舟（右・水上）
+Boat (Right, Water)|小舟（右・水上）
+Tent|テント
+Tent (Front)|テント（正面）
+Tent (Front)|テント（正面）
+Tent (Front)|テント（正面）
+Tent|テント
+Boat (Left, Land)|小舟（左・陸上）
+Boat (Left, Land)|小舟（左・陸上）
+Boat (Left, Land)|小舟（左・陸上）
+Tent|テント
+Tent (Front)|テント（正面）
+Tent (Front)|テント（正面）
+Tent (Front)|テント（正面）
+Tent|テント
+Boat (Right, Land)|小舟（右・陸上）
+Boat (Right, Land)|小舟（右・陸上）
+Boat (Right, Land)|小舟（右・陸上）
+Stair (Stone Floor C, Left)|階段（石床C・左）
+Stair (Stone Floor C, Right)|階段（石床C・右）
+Stair (Stone Floor C, Top)|階段（石床C・上）
+Stair (Stone Floor C, Top)|階段（石床C・上）
+Stair (Stone Floor C, Top)|階段（石床C・上）
+Water Fountain|噴水
+Water Fountain|噴水
+Water Fountain|噴水
+Stair (Stone Floor C, Left)|階段（石床C・左）
+Stair (Stone Floor C, Right)|階段（石床C・右）
+Stair (Stone Floor C, Bottom)|階段（石床C・下）
+Stair (Stone Floor C, Bottom)|階段（石床C・下）
+Stair (Stone Floor C, Bottom)|階段（石床C・下）
+Water Fountain|噴水
+Water Fountain|噴水
+Water Fountain|噴水
+Stair (Stone Floor C, Left)|階段（石床C・左）
+Stair (Stone Floor C, Right)|階段（石床C・右）
+Stair (Stone Floor C, Bottom)|階段（石床C・下）
+Stair (Stone Floor C, Bottom)|階段（石床C・下）
+Stair (Stone Floor C, Bottom)|階段（石床C・下）
+Water Fountain|噴水
+Water Fountain|噴水
+Water Fountain|噴水
+Pot G'|壺G'
+Pot H'|壺H'
+Net A|網A
+Drying Stand A|干物台A
+Baskets A|カゴA
+Shelf A|棚A
+Stacked Crates|積まれた木箱
+Stacked Crates|積まれた木箱
+Pot G'|壺G'
+Pot H'|壺H'
+Nets B|網B
+Drying Stand A|干物台A
+Baskets A|カゴA
+Shelf A|棚A
+Stacked Crates|積まれた木箱
+Stacked Crates|積まれた木箱
+Pot G|壺G
+Pot H|壺H
+Pot I|壺I
+Pot J|壺J
+Basket B|カゴB
+Shelf B|棚B
+Wood Frame Rack (Right)|木骨のラック（右）
+Wood Frame Rack (Left)|木骨のラック（左）
+Sand Slope A (Ledge A, Top)|砂の坂A（段差A・上）
+Sand Slope A (Ledge A, Top)|砂の坂A（段差A・上）
+Sand Slope A (Ledge A, Top)|砂の坂A（段差A・上）
+Sand Slope B (Ledge A, Left)|砂の坂B（段差A・左）
+Sand Slope B (Ledge A, Left)|砂の坂B（段差A・左）
+Shelf B|棚B
+Wood Frame Rack (Right)|木骨のラック（右）
+Wood Frame Rack (Left)|木骨のラック（左）
+Sand Slope A (Ledge A, Top)|砂の坂A（段差A・上）
+Sand Slope A (Ledge A, Top)|砂の坂A（段差A・上）
+Sand Slope A (Ledge A, Top)|砂の坂A（段差A・上）
+Sand Slope B (Little Ledge, Left)|砂の坂B（低い段差・左）
+Sand Slope B (Little Ledge, Left)|砂の坂B（低い段差・左）
+Rope|ロープ
+Display Shelf (Right)|商品棚（右）
+Display Shelf (Left)|商品棚（左）
+Sand Slope A (Little Ledge, Bottom)|砂の坂A（低い段差・下）
+Sand Slope A (Little Ledge, Bottom)|砂の坂A（低い段差・下）
+Sand Slope A (Little Ledge, Bottom)|砂の坂A（低い段差・下）
+Sand Slope B (Little Ledge, Bottom)|砂の坂B（低い段差・下）
+Sand Slope B (Ledge A, Top)|砂の坂B（段差A・上）
+Straw A|藁A
+Pots A (Right)|壺A（右）
+Pots A (Left)|壺A（左）
+Sand Slope A (Ledge A, Left)|砂の坂A（段差A・左）
+Sand Slope A (Ledge A, Left)|砂の坂A（段差A・左）
+Sand Slope A (Ledge A, Right)|砂の坂A（段差A・右）
+Sand Slope A (Ledge A, Right)|砂の坂A（段差A・右）
+Sand Slope B (Ledge A, Top)|砂の坂B（段差A・上）
+Straw B|藁B
+Drying Stand B|干物台B
+Bundle of Straw|藁の束
+Sand Slope A (Ledge A, Left)|砂の坂A（段差A・左）
+Sand Slope A (Ledge A, Left)|砂の坂A（段差A・左）
+Sand Slope A (Ledge A, Right)|砂の坂A（段差A・右）
+Sand Slope A (Ledge A, Right)|砂の坂A（段差A・右）
+Sand Slope B (Ledge A, Right)|砂の坂B（段差A・右）
+Sand Slope B (Ledge A, Right)|砂の坂B（段差A・右）
+Drying Stand B|干物台B
+Bundle of Straw|藁の束
+Sand Slope A (Ledge A, Left)|砂の坂A（段差A・左）
+Sand Slope A (Ledge A, Left)|砂の坂A（段差A・左）
+Sand Slope A (Ledge A, Right)|砂の坂A（段差A・右）
+Sand Slope A (Ledge A, Right)|砂の坂A（段差A・右）
+Sand Slope B (Little Ledge, Right)|砂の坂B（低い段差・右）
+Sand Slope B (Little Ledge, Right)|砂の坂B（低い段差・右）
+Sand near the Wall (Left)|壁ぎわの砂（左）
+Sand (Sand Crest)|砂（砂紋）
+Sand Slope A (Little Ledge, Left)|砂の坂A（低い段差・左）
+Sand Slope A (Little Ledge, Left)|砂の坂A（低い段差・左）
+Sand Slope A (Little Ledge, Right)|砂の坂A（低い段差・右）
+Sand Slope A (Little Ledge, Right)|砂の坂A（低い段差・右）
+Stair (Little Ledge, Sand, Bottom)|階段（低い段差・砂・下）
+Stair (Ledge A, Sand, Top)|階段（段差A・砂・上）
+Sand near the Wall (Left)|壁ぎわの砂（左）
+Sand near the Wall (Right)|壁ぎわの砂（右）
+Sand Ledge|砂の段差
+Sand Ledge|砂の段差
+Sand Ledge|砂の段差
+Footprints (Sand Ledge)|足跡（砂の段差）
+Stair (Ledge A, Sand, Left)|階段（段差A・砂・左）
+Stair (Ledge A, Sand, Right)|階段（段差A・砂・右）
+Sand near the Wall (Left)|壁ぎわの砂（左）
+Sand near the Wall (Right)|壁ぎわの砂（右）
+Sand Ledge|砂の段差
+|
+Sand Ledge|砂の段差
+Sand Ledge|砂の段差
+Sand Ledge|砂の段差
+Footprints (Sand Ledge, Left)|足跡（砂の段差・左）
+Sand near the Wall (Top half A)|壁ぎわの砂（上半分A）
+Sand near the Wall (Right)|壁ぎわの砂（右）
+Sand Ledge|砂の段差
+Sand Ledge|砂の段差
+Sand Ledge|砂の段差
+Sand Ledge|砂の段差
+Sand Ledge|砂の段差
+Footprints (Sand Ledge, Right)|足跡（砂の段差・右）
+Sand near the Wall (Bottom half)|壁ぎわの砂（下半分）
+Sand near the Wall (Top half B)|壁ぎわの砂（上半分B）

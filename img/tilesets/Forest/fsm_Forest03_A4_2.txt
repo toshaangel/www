@@ -1,0 +1,48 @@
+﻿Ledge A|段差A
+Ledge B|段差B
+Forest A|森A
+Forest B|森B
+|
+|
+|
+|
+Cliff A (Ledge A)|崖A（段差A）
+Cliff B (Ledge B)|崖B（段差B）
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|

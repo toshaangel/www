@@ -1,0 +1,16 @@
+﻿Canal A|水路A
+Bright Water Surface|明るい水面
+Water Plant A|水草A
+Water Plant B|水草B
+Canal D|水路D
+Waterfall|滝
+Water A (Ground B)|水場A（床B）
+Waterfall (Wall P)|滝（壁P）
+Canal B|水路B
+Waterfall (Wall B)|滝（壁B）
+Canal C|水路C
+Waterfall (Wall A)|滝（壁A）
+Water B (Sand Ground)|水場B（砂床）
+Waterfall (Criff)|滝（崖）
+Canal E|水路E
+Waterfall (Wall T)|滝（壁T）

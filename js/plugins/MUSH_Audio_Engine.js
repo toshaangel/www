@@ -3,7 +3,7 @@
 // *** MUSHROOMCAKE28'S AUDIO ENGINE
 //  * Author: MushroomCake28
 //  * Contact: On the official forum -> https://forums.rpgmakerweb.com/index.php?members/mushroomcake28.75234/
-//  * Version: 1.06 (2020-08-31) 
+//  * Version: 1.07 (2020-08-31) 
 //--------------------------------------------------------------------------------------------------------------
 // * INFO : This is the base engine for the MUSH Audio plugin, which will revamp the audio system in RPG Maker Mz.
 //          This will add many features and will also modify some of the existing function (this may cause some
@@ -59,7 +59,7 @@
 //--------------------------------------------------------------------------------------------------------------
 /*:
 * @target MZ
-* @plugindesc [v.1.06] Implement the Mush Audio Engine features.
+* @plugindesc [v.1.07] Implement the Mush Audio Engine features.
 * @author MushroomCake28
 * @url https://forums.rpgmakerweb.com/index.php?threads/mush-audio-engine-spatial-audio-voice-acting-new-channels-etc.128741/
 * @help 
@@ -1266,17 +1266,27 @@ AudioManager.continueBuffer = function(buffer) {
 AudioManager.initializeSpatialAudioOnStart = function(data) {
 	for (var i = 0; i < data.bgm.length; i++) {
 		const dt = data.bgm[i];
-		var bgm = {name: dt.filename, pitch: dt.pitch, volume: 0};
-		AudioManager.playMushBgm(bgm, dt.channel, true);
-		const buffer = AudioManager.getBgmFromChannel(dt.channel);
-		buffer.spatialData = dt;
+		if (dt.spatialData) {
+			var bgm = {name: dt.filename, pitch: dt.pitch, volume: 0};
+			AudioManager.playMushBgm(bgm, dt.channel, dt.autoRemover, dt.pause);
+			const buffer = AudioManager.getBgmFromChannel(dt.channel);
+			buffer.spatialData = dt;
+		} else {
+			var bgm = {name: dt.filename, pitch: dt.pitch, volume: dt.volume};
+			AudioManager.playMushBgm(bgm, dt.channel, dt.autoRemover, dt.pause);
+		}
 	}
 	for (var i = 0; i < data.bgs.length; i++) {
 		const dt = data.bgs[i];
-		var bgs = {name: dt.filename, pitch: dt.pitch, volume: 0};
-		AudioManager.playMushBgs(bgs, dt.channel, true);
-		const buffer = AudioManager.getBgsFromChannel(dt.channel);
-		buffer.spatialData = dt;
+		if (dt.spatialData) {
+			var bgs = {name: dt.filename, pitch: dt.pitch, volume: 0};
+			AudioManager.playMushBgs(bgs, dt.channel, dt.autoRemover, dt.pause);
+			const buffer = AudioManager.getBgsFromChannel(dt.channel);
+			buffer.spatialData = dt;
+		} else {
+			var bgs = {name: dt.filename, pitch: dt.pitch, volume: dt.volume};
+			AudioManager.playMushBgs(bgs, dt.channel, dt.autoRemover, dt.pause);
+		}
 	}
 };
 
@@ -2269,16 +2279,45 @@ DataManager.makeMushAudioContents = function() {
 	const audio = {bgm: [], bgs: []};
 	for (var i = 0; i < AudioManager._bgmBuffers.length; i++) {
 		const buffer = AudioManager._bgmBuffers[i];
-		if ($gamePlayer.checkAlreadyHaveAudioChannel_Container(buffer.channel, "bgm")) {
-			audio.bgm.push(buffer.spatialData);
+		console.log(buffer);
+		const data = {
+			filename: buffer.name,
+			pitch: buffer.pitch * 100,
+			volume: buffer.settingVolume,
+			channel: buffer.channel,
+			autoRemover: buffer.autoRemover,
+			pause: buffer.pause
+		}
+		if (buffer.spatialData) {
+			if ($gamePlayer.checkAlreadyHaveAudioChannel_Container(buffer.channel, "bgm")) {
+				data.spatialData = buffer.spatialData;
+				audio.bgm.push(data);
+			}
+		} else {
+			audio.bgm.push(data);
 		}
 	}
 	for (var i = 0; i < AudioManager._bgsBuffers.length; i++) {
 		const buffer = AudioManager._bgsBuffers[i];
-		if ($gamePlayer.checkAlreadyHaveAudioChannel_Container(buffer.channel, "bgs")) {
-			audio.bgs.push(buffer.spatialData);
+		console.log(buffer);
+		const data = {
+			filename: buffer.name,
+			pitch: buffer.pitch * 100,
+			volume: buffer.settingVolume,
+			channel: buffer.channel,
+			autoRemover: buffer.autoRemover,
+			pause: buffer.pause
+		}
+		if (buffer.spatialData) {
+			if ($gamePlayer.checkAlreadyHaveAudioChannel_Container(buffer.channel, "bgs")) {
+				data.spatialData = buffer.spatialData;
+				audio.bgs.push(data);
+			}
+		} else {
+			audio.bgs.push(data);
 		}
 	}
+	console.log(audio);
 	return audio;
 };
 
@@ -2682,8 +2721,12 @@ Scene_Map.prototype.start = function() {
 Mush.alias.Scene_Map_OnTransfer_002 = Scene_Map.prototype.onTransfer;
 Scene_Map.prototype.onTransfer = function() {
     Mush.alias.Scene_Map_OnTransfer_002.call(this);
-    AudioManager.generalClearMushBgms();
-    AudioManager.generalClearMushBgss();
+    const currentMapId = $gameMap.mapId();
+    const newMapId = $gamePlayer.newMapId();
+    if (newMapId != currentMapId) {
+    	AudioManager.generalClearMushBgms();
+    	AudioManager.generalClearMushBgss();
+    }
 };
 
 Mush.alias.Scene_Map_CallMenu_002 = Scene_Map.prototype.callMenu;

@@ -1,0 +1,256 @@
+﻿Shadow (Little Ledge)|低い段差の影
+Buried Pot|埋もれた壺
+Broken Crate|壊れた木箱
+Buried Crate|埋もれた木箱
+Broken Sign|壊れた立て札
+Buried Stones A|埋もれた石材A
+Buried Stones B|埋もれた石材B
+Broken Barrel|壊れた樽
+Ruins A (Building A)|廃墟A（建物A）
+Ruins A (Building A)|廃墟A（建物A）
+Ruins A (Building A)|廃墟A（建物A）
+Ruins B (Building A)|廃墟B（建物A）
+Ruins B (Building A)|廃墟B（建物A）
+Ruins B (Building A)|廃墟B（建物A）
+Broken Entrance A (Outer Wall A)|壊れた入口A（外壁A）
+Broken Window B (Outer Wall A)|壊れた窓B（外壁A）
+Ruins A (Building A)|廃墟A（建物A）
+Ruins A (Building A)|廃墟A（建物A）
+Ruins A (Building A)|廃墟A（建物A）
+Ruins B (Building A)|廃墟B（建物A）
+Ruins B (Building A)|廃墟B（建物A）
+Ruins B (Building A)|廃墟B（建物A）
+Broken Entrance A (Outer Wall A)|壊れた入口A（外壁A）
+Broken Window D (Outer Wall A)|壊れた窓D（外壁A）
+Ruins A (Building A)|廃墟A（建物A）
+Ruins A (Building A)|廃墟A（建物A）
+Ruins A (Building A)|廃墟A（建物A）
+Ruins B (Building A)|廃墟B（建物A）
+Ruins B (Building A)|廃墟B（建物A）
+Ruins B (Building A)|廃墟B（建物A）
+Broken Entrance A (Outer Wall A, Shadow)|壊れた入口A（外壁A・影）
+Broken Window B (Outer Wall A, Shadow)|壊れた窓B（外壁A・影）
+Ruins A (Outer Wall A)|廃墟A（外壁A）
+Ruins A (Outer Wall A)|廃墟A（外壁A）
+Ruins A (Outer Wall A)|廃墟A（外壁A）
+Ruins B (Outer Wall A)|廃墟B（外壁A）
+Ruins B (Outer Wall A)|廃墟B（外壁A）
+Ruins B (Outer Wall A)|廃墟B（外壁A）
+Broken Entrance A (Outer Wall A, Shadow)|壊れた入口A（外壁A・影）
+Broken Window B (Outer Wall A, Shadow)|壊れた窓B（外壁A・影）
+Ruins A (Outer Wall A)|廃墟A（外壁A）
+Ruins A (Outer Wall A)|廃墟A（外壁A）
+Ruins A (Outer Wall A)|廃墟A（外壁A）
+Ruins B (Outer Wall A)|廃墟B（外壁A）
+Ruins B (Outer Wall A)|廃墟B（外壁A）
+Ruins B (Outer Wall A)|廃墟B（外壁A）
+Ruins A (Outer Wall A, Shadow)|廃墟A（外壁A・影）
+Ruins A (Outer Wall A, Shadow)|廃墟A（外壁A・影）
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Window B (Outer Wall A, Ruins)|窓B（外壁A・廃墟）
+Ruins A (Outer Wall A, Shadow)|廃墟A（外壁A・影）
+Ruins A (Outer Wall A, Shadow)|廃墟A（外壁A・影）
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Window D (Outer Wall A, Ruins)|窓D（外壁A・廃墟）
+Ruins B (Outer Wall A, Shadow)|廃墟B（外壁A・影）
+Ruins B (Outer Wall A, Shadow)|廃墟B（外壁A・影）
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Tattered Cloth Scraps (Ruins Wall)|ボロボロの布きれ（廃墟の壁）
+Ruins B (Outer Wall A, Shadow)|廃墟B（外壁A・影）
+Ruins B (Outer Wall A, Shadow)|廃墟B（外壁A・影）
+Ruins Wall|廃墟の壁
+Entrance (Ruins Wall)|入口（廃墟の壁）
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Tattered Cloth Scraps (Ruins Wall)|ボロボロの布きれ（廃墟の壁）
+Building Debris B|建物の残骸B
+Building Debris B|建物の残骸B
+Ruins Wall|廃墟の壁
+Entrance (Ruins Wall)|入口（廃墟の壁）
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Building Debris A|建物の残骸A
+Building Debris B|建物の残骸B
+Building Debris B|建物の残骸B
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ladder A (Ruins)|はしごA（廃墟）
+Wall Hanging Shelf (Ruins)|壁掛け棚（廃墟）
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ladder A (Ruins)|はしごA（廃墟）
+Shelf (Ruins)|棚（廃墟）
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Broken Ladder A (Ruins)|壊れたはしごA（廃墟）
+Ladder A (Ruins)|はしごA（廃墟）
+Shelf (Ruins)|棚（廃墟）
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall (Shadow)|廃墟の壁（影）
+Wood Frame Rack (Ruins, Right)|木骨のラック（廃墟・右）
+Wood Frame Rack (Ruins, Left)|木骨のラック（廃墟・左）
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall|廃墟の壁
+Ruins Wall (Shadow)|廃墟の壁（影）
+Wood Frame Rack (Ruins, Right)|木骨のラック（廃墟・右）
+Wood Frame Rack (Ruins, Left)|木骨のラック（廃墟・左）
+Flag A (Ruins)|旗A（廃墟）
+Flag B (Ruins)|旗B（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Water Fountain (Ruins)|噴水（廃墟）
+Water Fountain (Ruins)|噴水（廃墟）
+Water Fountain (Ruins)|噴水（廃墟）
+Flag A (Ruins)|旗A（廃墟）
+Flag B (Ruins)|旗B（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Water Fountain (Ruins)|噴水（廃墟）
+Water Fountain (Ruins)|噴水（廃墟）
+Water Fountain (Ruins)|噴水（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Water Fountain (Ruins)|噴水（廃墟）
+Water Fountain (Ruins)|噴水（廃墟）
+Water Fountain (Ruins)|噴水（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Building C (Ruins)|建物C（廃墟）
+Stair C (Ruins)|階段C（廃墟）
+Stair C (Ruins)|階段C（廃墟）
+Stair C (Ruins)|階段C（廃墟）
+|
+|
+|
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Shadow|影
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Fencepost D (Ruins)|柵D（廃墟）
+Buried Boards|埋もれた板
+Buried Boards|埋もれた板
+Fencepost D (Ruins)|柵D（廃墟）
+Buried Palm Tree B|埋もれたヤシの木B
+Buried Palm Tree A|埋もれたヤシの木A
+Buried Palm Tree C|埋もれたヤシの木C
+Water Well (Ruins)|井戸（廃墟）
+Water Well (Ruins)|井戸（廃墟）
+Fallen Pillar (H)|倒れた柱（横）
+Fallen Pillar (H)|倒れた柱（横）
+Fallen Pillar (V)|倒れた柱（縦）
+Buried Palm Tree A|埋もれたヤシの木A
+Buried Palm Tree A|埋もれたヤシの木A
+Buried Palm Tree A|埋もれたヤシの木A
+Water Well (Ruins)|井戸（廃墟）
+Water Well (Ruins)|井戸（廃墟）
+Broken Pot|割れた壺
+Propped Boards|立てかけられた板
+Fallen Pillar (V)|倒れた柱（縦）
+Buried Palm Tree A|埋もれたヤシの木A
+Buried Palm Tree A|埋もれたヤシの木A
+Buried Palm Tree A|埋もれたヤシの木A
+Buried Weed|埋もれた草
+Buried Barricade A|埋もれたバリケードA
+Buried Basket|埋もれたカゴ
+Propped Boards|立てかけられた板
+Fallen Stone Pillar E|倒れた石の柱E
+Sun (Both Solar Eclipse)|太陽（皆既日食）
+Sun (Both Solar Eclipse)|太陽（皆既日食）
+Moon|月
+Moon|月
+Piled up Sand (Right)|積もった砂（右）
+Piled up Sand (Left)|積もった砂（左）
+Stone Pillar E (Ruins)|石の柱E（廃墟）
+Fallen Stone Pillar E|倒れた石の柱E
+Sun (Both Solar Eclipse)|太陽（皆既日食）
+Sun (Both Solar Eclipse)|太陽（皆既日食）
+Moon|月
+Moon|月
+Piled up Sand (Right)|積もった砂（右）
+Piled up Sand (Left)|積もった砂（左）
+Stone Pillar E (Ruins)|石の柱E（廃墟）
+Fallen Stone Pillar E|倒れた石の柱E
+Sand Dune A|砂丘A
+Sand Dune A|砂丘A
+Sand Dune B|砂丘B
+Sand Dune B|砂丘B
+Sand Dune B|砂丘B
+Sand Dune B|砂丘B
+Sand Dune C|砂丘C
+Sand Dune C|砂丘C
+Sand Dune A|砂丘A
+Sand Dune A|砂丘A
+Sand Dune B|砂丘B
+Sand Dune B|砂丘B
+Sand Dune B|砂丘B
+Sand Dune B|砂丘B
+Sand Dune C|砂丘C
+Sand Dune C|砂丘C
+Sand Dune D|砂丘D
+Sand Dune D|砂丘D
+Sand Dune E|砂丘E
+Sand Dune E|砂丘E
+Sand Dune E|砂丘E
+Sand Dune F|砂丘F
+Sand Dune F|砂丘F
+Sand Dune F|砂丘F
+Sand Dune G|砂丘G
+Sand Dune G|砂丘G
+Sand Dune E|砂丘E
+Sand Dune E|砂丘E
+Sand Dune E|砂丘E
+Sand Dune F|砂丘F
+Sand Dune F|砂丘F
+Sand Dune F|砂丘F

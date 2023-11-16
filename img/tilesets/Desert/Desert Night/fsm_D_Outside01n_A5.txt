@@ -1,0 +1,128 @@
+﻿Darkness|暗闇
+Sand|砂地
+Footprints (Sand, Top)|足跡（砂地・上）
+Footprints (Sand, Bottom)|足跡（砂地・下）
+Footprints (Sand, Right)|足跡（砂地・右）
+Footprints (Sand, Left)|足跡（砂地・左）
+Stone Floor C|石床C
+Stone Floor C (Crack)|石床C（ひび割れ）
+Transparent|透明
+Rocky Soil A (Sand)|岩地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Cobblestones|石畳
+Cobblestones (Sand)|石畳（砂）
+Stone Floor D|石床D
+Stone Floor B|石床B
+Stone Floor A|石床A
+Rocky Soil A (Sand)|岩地A（砂地）
+Rocky Soil A (Sand)|岩地A（砂地）
+Rocky Soil A (Sand)|岩地A（砂地）
+Rocky Soil A (Sand)|岩地A（砂地）
+Rocky Soil A (Sand)|岩地A（砂地）
+Tent Wall|テントの壁
+Tent Wall|テントの壁
+Tent Wall|テントの壁
+Rocky Soil A (Sand)|岩地A（砂地）
+Rocky Soil A|岩地A
+Rocky Soil A (Sand)|岩地A（砂地）
+Rocky Soil A (Sand)|岩地A（砂地）
+Rocky Soil A (Sand)|岩地A（砂地）
+Tent Wall|テントの壁
+Tent Wall|テントの壁
+Tent Wall|テントの壁
+Rocky Soil A (Sand)|岩地A（砂地）
+Rocky Soil A (Sand)|岩地A（砂地）
+Rocky Soil A (Sand)|岩地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Window (Tent Wall)|窓（テントの壁）
+Decorative Wall A (Tent Wall)|装飾壁A（テントの壁）
+Decorative Wall B (Tent Wall)|装飾壁B（テントの壁）
+Meadow A (Sand)|草地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Window (Tent Wall)|窓（テントの壁）
+Decorative Wall A (Tent Wall)|装飾壁A（テントの壁）
+Decorative Wall B (Tent Wall)|装飾壁B（テントの壁）
+Meadow A (Sand)|草地A（砂地）
+Meadow A|草地A
+Meadow A (Sand)|草地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Decorative Wall (Outer Wall A1)|装飾壁（外壁A1）
+Decorative Wall (Wall A)|装飾壁（壁A）
+Decorative Wall (Outer Wall A2)|装飾壁（外壁A2）
+Meadow A (Sand)|草地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Meadow A (Sand)|草地A（砂地）
+Decorative Wall (Outer Wall A1)|装飾壁（外壁A1）
+Decorative Wall (Wall A)|装飾壁（壁A）
+Decorative Wall (Outer Wall A2)|装飾壁（外壁A2）
+Ledge A (Sand)|段差A（砂地）
+Sand|砂地
+Ledge A (Sand)|段差A（砂地）
+Ledge A (Sand)|段差A（砂地）
+Sand (Rocky Soil A)|砂地（岩地A）
+Ledge A (Sand)|段差A（砂地）
+Decorative Wall (Outer Wall B)|装飾壁（外壁B）
+Decorative Wall (Outer Wall C1)|装飾壁（外壁C1）
+Ledge A (Sand)|段差A（砂地）
+Ledge A (Sand)|段差A（砂地）
+Ledge A (Sand)|段差A（砂地）
+Ledge A (Sand)|段差A（砂地）
+Ledge A (Sand)|段差A（砂地）
+Ledge A (Sand)|段差A（砂地）
+Decorative Wall (Outer Wall B)|装飾壁（外壁B）
+Decorative Wall (Outer Wall C1)|装飾壁（外壁C1）
+Ledge A (Rocky Soil A)|段差A（岩地A）
+Rocky Soil A|岩地A
+Ledge A (Rocky Soil A)|段差A（岩地A）
+Ledge A (Rocky Soil A)|段差A（岩地A）
+Dent (Rocky Soil A)|くぼみ（岩地A）
+Ledge A (Rocky Soil A)|段差A（岩地A）
+Decorative Wall (Outer Wall C2)|装飾壁（外壁C2）
+Decorative Wall (Outer Wall D1)|装飾壁（外壁D1）
+Ledge A (Rocky Soil A)|段差A（岩地A）
+Ledge A (Rocky Soil A)|段差A（岩地A）
+Ledge A (Rocky Soil A)|段差A（岩地A）
+Ledge A (Rocky Soil A)|段差A（岩地A）
+Ledge A (Rocky Soil A)|段差A（岩地A）
+Ledge A (Rocky Soil A)|段差A（岩地A）
+Decorative Wall (Outer Wall C2)|装飾壁（外壁C2）
+Decorative Wall (Outer Wall D1)|装飾壁（外壁D1）
+Ledge A (Meadow A)|段差A（草地A）
+Meadow A|草地A
+Ledge A (Meadow A)|段差A（草地A）
+Ledge A (Meadow A)|段差A（草地A）
+Dent (Meadow A)|くぼみ（草地A）
+Ledge A (Meadow A)|段差A（草地A）
+Decorative Wall (Outer Wall D2)|装飾壁（外壁D2）
+Decorative Wall (Outer Wall E)|装飾壁（外壁E）
+Ledge A (Meadow A)|段差A（草地A）
+Ledge A (Meadow A)|段差A（草地A）
+Ledge A (Meadow A)|段差A（草地A）
+Ledge A (Meadow A)|段差A（草地A）
+Ledge A (Meadow A)|段差A（草地A）
+Ledge A (Meadow A)|段差A（草地A）
+Decorative Wall (Outer Wall D2)|装飾壁（外壁D2）
+Decorative Wall (Outer Wall E)|装飾壁（外壁E）
+Ledge A (Rocky Soil B)|段差A（岩地B）
+Rocky Soil B|岩地B
+Ledge A (Rocky Soil B)|段差A（岩地B）
+Ledge A (Rocky Soil B)|段差A（岩地B）
+Dent (Rocky Soil B)|くぼみ（岩地B）
+Ledge A (Rocky Soil B)|段差A（岩地B）
+Decorative Wall (Outer Wall G)|装飾壁（外壁G）
+Decorative Wall (Outer Wall H3)|装飾壁（外壁H3）
+Ledge A (Rocky Soil B)|段差A（岩地B）
+Ledge A (Rocky Soil B)|段差A（岩地B）
+Ledge A (Rocky Soil B)|段差A（岩地B）
+Ledge A (Rocky Soil B)|段差A（岩地B）
+Ledge A (Rocky Soil B)|段差A（岩地B）
+Ledge A (Rocky Soil B)|段差A（岩地B）
+Decorative Wall (Outer Wall G)|装飾壁（外壁G）
+Decorative Wall (Outer Wall H3)|装飾壁（外壁H3）

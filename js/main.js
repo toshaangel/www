@@ -148,6 +148,9 @@ class Main {
     onEffekseerLoad() {
         this.eraseLoadingSpinner();
         SceneManager.run(Scene_Boot);
+		    Graphics._updateCanvas();
+    Graphics._paintUpperCanvas();
+}
     }
 
     onEffekseerError() {

@@ -152,7 +152,7 @@ class Main {
 
     onEffekseerError() {
         this.printError("Failed to load", effekseerWasmUrl);
-    };
+    }
 }
 
 const main = new Main();

@@ -4,8 +4,8 @@
     "chromium-args": "--force-color-profile=srgb --disable-devtools",
     "window": {
         "title": "Return to the last Kingdom",
-        "width": 4320,
-        "height": 2432,
+        "width": 1080,
+        "height": 608,
         "position": "center",
         "icon": "icon/icon.png"
     }

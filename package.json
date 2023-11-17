@@ -2,11 +2,12 @@
     "name": "rmmz-game",
     "main": "index.html",
     "chromium-args": "--force-color-profile=srgb --disable-devtools",
-    "window": {
-        "title": "Return to the last Kingdom",
-        "width": 1080,
-        "height": 608,
-        "position": "center",
-        "icon": "icon/icon.png"
-    }
+"window": {
+    "title": "Return to the last Kingdom",
+    "width": "100%",
+    "height": "100%",
+    "position": "center",
+    "icon": "icon/icon.png"
+}
+
 }

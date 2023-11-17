@@ -8,6 +8,18 @@
         <link rel="icon" href="icon/icon.png" type="image/png">
         <link rel="apple-touch-icon" href="icon/icon.png">
         <link rel="stylesheet" type="text/css" href="css/game.css">
+        <script>
+    if (/Android/i.test(navigator.userAgent)) {
+        document.addEventListener('DOMContentLoaded', function () {
+            document.body.style.margin = '0';
+            document.body.style.overflow = 'hidden';
+            var canvas = document.getElementById('gameCanvas');
+            if (canvas) {
+                canvas.style.display = 'block';
+            }
+        });
+    }
+</script>
         <style>
             body {
                 margin: 0;

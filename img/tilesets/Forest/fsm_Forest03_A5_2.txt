@@ -1,0 +1,128 @@
+﻿Darkness|暗闇
+Wood Floor A|木の床A
+Wood Floor B|木の床B
+Wood Floor C|木の床C
+Wood Floor D|木の床D
+Dirt|土
+Rush Mat|ござ
+Moss Floor|苔の床
+Transparent|透明
+Wood Floor A|木の床A
+Wood Floor B|木の床B
+Wood Floor C|木の床C
+Wood Floor D|木の床D
+Dirt|土
+Rush Mat|ござ
+Moss Floor|苔の床
+|
+Wood Floor A|木の床A
+Wood Floor B|木の床B
+Wood Floor C|木の床C
+Wood Floor D|木の床D
+Dirt|土
+Rush Mat|ござ
+Moss Floor|苔の床
+Wood Floor A (Edge)|木の床A（縁あり）
+Hole (Wood Floor A)|穴（木の床A）
+Hole (Wood Floor B)|穴（木の床B）
+Hole (Wood Floor C)|穴（木の床C）
+Hole (Wood Floor D)|穴（木の床D）
+Hole (Dirt)|穴（土）
+Rush Mat (Wood Floor A)|ござ（木の床A）
+Hole (Moss Floor)|穴（苔の床）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A|木の床A
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Wood Floor A (Edge)|木の床A（縁あり）
+Ledge|段差
+Ledge|段差
+Ledge|段差
+Ledge|段差
+Ledge|段差
+Ledge|段差
+Ledge|段差
+Ledge|段差
+Wall A|壁A
+Wall A|壁A
+Wall A|壁A
+Wall A|壁A
+Window (Wall A)|窓（壁A）
+Wall B (Ruins)|壁B（廃墟）
+Wall B (Ruins)|壁B（廃墟）
+Wall B (Ruins)|壁B（廃墟）
+Wall A|壁A
+Wall A|壁A
+Wall A|壁A
+Wall A|壁A
+Window (Wall A)|窓（壁A）
+Wall B (Ruins)|壁B（廃墟）
+Wall B (Ruins)|壁B（廃墟）
+Wall B (Ruins)|壁B（廃墟）
+Wall B|壁B
+Wall B|壁B
+Wall B|壁B
+Wall B|壁B
+Window (Wall B)|窓（壁B）
+Wall B (Ruins)|壁B（廃墟）
+Wall B (Ruins)|壁B（廃墟）
+Wall B (Ruins)|壁B（廃墟）
+Wall B|壁B
+Wall B|壁B
+Wall B|壁B
+Wall B|壁B
+Window (Wall B)|窓（壁B）
+Wall B (Ruins)|壁B（廃墟）
+Wall B (Ruins)|壁B（廃墟）
+Wall B (Ruins)|壁B（廃墟）
+Wall C|壁C
+Wall C|壁C
+Wall C|壁C
+Wall C|壁C
+Window (Wall C)|窓（壁C）
+Wall D (Ruins)|壁D（廃墟）
+Wall D (Ruins)|壁D（廃墟）
+Wall D (Ruins)|壁D（廃墟）
+Wall C|壁C
+Wall C|壁C
+Wall C|壁C
+Wall C|壁C
+Window (Wall C)|窓（壁C）
+Wall D (Ruins)|壁D（廃墟）
+Wall D (Ruins)|壁D（廃墟）
+Wall D (Ruins)|壁D（廃墟）
+Wall D|壁D
+Wall D|壁D
+Wall D|壁D
+Wall D|壁D
+Window (Wall D)|窓（壁D）
+Wall D (Ruins)|壁D（廃墟）
+Wall D (Ruins)|壁D（廃墟）
+Wall D (Ruins)|壁D（廃墟）
+Wall D|壁D
+Wall D|壁D
+Wall D|壁D
+Wall D|壁D
+Window (Wall D)|窓（壁D）
+Wall D (Ruins)|壁D（廃墟）
+Wall D (Ruins)|壁D（廃墟）
+Wall D (Ruins)|壁D（廃墟）

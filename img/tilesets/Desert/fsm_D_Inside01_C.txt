@@ -1,0 +1,256 @@
+﻿|
+Wall Decoration (Wall A)|壁装飾（壁A）
+Wall Decoration (Wall B)|壁装飾（壁B）
+Wall Decoration (Wall C)|壁装飾（壁C）
+Wall Decoration (Wall E)|壁装飾（壁E）
+Wall Lamp|壁掛けランプ
+Tapestry A|タペストリーA
+Tapestry B|タペストリーB
+Window (Wall 2)|窓（壁2）
+Window (Wall A)|窓（壁A）
+Window (Wall C)|窓（壁C）
+Window (Wall D)|窓（壁D）
+Window (Wall F)|窓（壁F）
+Window (Wall L)|窓（壁L）
+Window (Wall P)|窓（壁P）
+Window (Wall V)|窓（壁V）
+Window (Wall 2)|窓（壁2）
+Window (Wall A)|窓（壁A）
+Window (Wall C)|窓（壁C）
+Window (Wall D)|窓（壁D）
+Window (Wall F)|窓（壁F）
+Window (Wall L)|窓（壁L）
+Window (Wall P)|窓（壁P）
+Window (Wall V)|窓（壁V）
+Carpet (V)|じゅうたん（縦）
+Carpet (V)|じゅうたん（縦）
+Carpet (H)|じゅうたん（横）
+Carpet (H)|じゅうたん（横）
+Carpet (H)|じゅうたん（横）
+Gorgeous Bed|豪華なベッド
+Gorgeous Bed|豪華なベッド
+Gorgeous Bed|豪華なベッド
+Carpet (V)|じゅうたん（縦）
+Carpet (V)|じゅうたん（縦）
+Carpet (H)|じゅうたん（横）
+Carpet (H)|じゅうたん（横）
+Carpet (H)|じゅうたん（横）
+Gorgeous Bed|豪華なベッド
+Gorgeous Bed|豪華なベッド
+Gorgeous Bed|豪華なベッド
+Carpet (V)|じゅうたん（縦）
+Carpet (V)|じゅうたん（縦）
+Cushion|クッション
+Gorgeous Bed (Sneak Through)|豪華なベッド（すり抜け）
+Gorgeous Bed|豪華なベッド
+Gorgeous Bed|豪華なベッド
+Gorgeous Bed|豪華なベッド
+Gorgeous Bed|豪華なベッド
+Gorgeous Chest A|豪華なチェストA
+Gorgeous Chest B|豪華なチェストB
+Accessories (Gorgeous Chest B)|小物（豪華なチェストB）
+Vase (Gorgeous Chest B)|花瓶（豪華なチェストB）
+Gorgeous Partition|豪華なついたて
+Gorgeous Partition|豪華なついたて
+Gorgeous Partition|豪華なついたて
+Long Chair (V)|ロングチェア（縦）
+Gorgeous Chest A|豪華なチェストA
+Gorgeous Chest B|豪華なチェストB
+Gorgeous Desk|豪華な机
+Scroll (Gorgeous Desk)|巻物（豪華な机）
+Gorgeous Partition|豪華なついたて
+Gorgeous Partition|豪華なついたて
+Gorgeous Partition|豪華なついたて
+Long Chair (V)|ロングチェア（縦）
+Gorgeous Throne|豪華な玉座
+Gorgeous Side Table|豪華なサイドテーブル
+Gorgeous Desk|豪華な机
+Gorgeous Stool|豪華な椅子
+Censer A|香炉A
+Censer B|香炉B
+Long Chair (H)|ロングチェア（横）
+Long Chair (H)|ロングチェア（横）
+Large Stairs (Down)|大階段（下り）
+Large Stairs (Down)|大階段（下り）
+Large Stairs (Down)|大階段（下り）
+Stairs (Down, Left)|階段（下り・左向き）
+Stairs (Down, Left)|階段（下り・左向き）
+Stairs (Down, Right)|階段（下り・右向き）
+Stairs (Down, Right)|階段（下り・右向き）
+Pillar A|柱A
+Large Stairs (Down)|大階段（下り）
+Large Stairs (Down)|大階段（下り）
+Large Stairs (Down)|大階段（下り）
+Stairs (Down, Left)|階段（下り・左向き）
+Stairs (Down, Left)|階段（下り・左向き）
+Stairs (Down, Right)|階段（下り・右向き）
+Stairs (Down, Right)|階段（下り・右向き）
+Pillar A|柱A
+Large Stairs (Up)|大階段（上り）
+Large Stairs (Up)|大階段（上り）
+Large Stairs (Up)|大階段（上り）
+Large Stairs (Down)|大階段（下り）
+Large Stairs (Down)|大階段（下り）
+Large Stairs (Down)|大階段（下り）
+Pillar A|柱A
+Pillar A|柱A
+Large Stairs|大階段
+|
+Large Stairs|大階段
+Large Stairs (Banister)|大階段（手すり）
+Large Stairs (Banister)|大階段（手すり）
+Banister (Front)|手すり（手前）
+Banister (Front)|手すり（手前）
+Banister (Front)|手すり（手前）
+Large Stairs|大階段
+Large Stairs|大階段
+Large Stairs|大階段
+Large Stairs (Banister)|大階段（手すり）
+Large Stairs (Banister)|大階段（手すり）
+Banister (Front)|手すり（手前）
+Banister (Front)|手すり（手前）
+Banister (Front)|手すり（手前）
+Large Stairs|大階段
+Large Stairs|大階段
+Large Stairs|大階段
+|
+|
+Banister (Back)|手すり（奥）
+Banister (Back)|手すり（奥）
+Banister (Back)|手すり（奥）
+Banister|手すり
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister|手すり
+Banister|手すり
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister|手すり
+Banister (Back)|手すり（奥）
+Banister (Back)|手すり（奥）
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister (Stairs, Front)|階段の手すり（手前）
+Stairs (Banister, Right)|手すり付き階段（右向き）
+Stairs (Banister, Left)|手すり付き階段（左向き）
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister|手すり
+Banister|手すり
+Banister (Stairs, Front)|階段の手すり（手前）
+Stairs (Banister, Right)|手すり付き階段（右向き）
+Stairs (Banister, Right)|手すり付き階段（右向き）
+Stairs (Banister, Left)|手すり付き階段（左向き）
+Stairs (Banister, Left)|手すり付き階段（左向き）
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister (Front)|手すり（手前）
+Banister (Front)|手すり（手前）
+Banister (Stairs)|階段の手すり
+Stairs (Banister, Right)|手すり付き階段（右向き）
+Stairs (Right)|階段（右向き）
+Stairs (Left)|階段（左向き）
+Stairs (Banister, Left)|手すり付き階段（左向き）
+Banister (Stairs)|階段の手すり
+Banister|手すり
+Banister|手すり
+Stairs (Right)|階段（右向き）
+Stairs (Right)|階段（右向き）
+Stairs (Left)|階段（左向き）
+Stairs (Left)|階段（左向き）
+Banister (Front)|手すり（手前）
+Lithography A|石版A
+Banister (Front)|手すり（手前）
+Banister (Front)|手すり（手前）
+Stairs (Right)|階段（右向き）
+Stairs (Right)|階段（右向き）
+Stairs (Left)|階段（左向き）
+Stairs (Left)|階段（左向き）
+Banister (Front)|手すり（手前）
+Stairs|階段
+Shadow (Stairs)|階段の影
+Stairs|階段
+Stairs (Right)|階段（右向き）
+Stairs (Right)|階段（右向き）
+Stairs (Left)|階段（左向き）
+Stairs (Left)|階段（左向き）
+Banister (Front)|手すり（手前）
+Stairs|階段
+Stairs|階段
+Stairs|階段
+Stairs (Right)|階段（右向き）
+Stairs (Right, Bottom)|階段（右向き・下端）
+Stairs (Left, Bottom)|階段（左向き・下端）
+Stairs (Left)|階段（左向き）
+Banister (Front)|手すり（手前）
+Stairs|階段
+Stairs|階段
+Stairs|階段
+Lithography B|石版B
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister (Stairs, Front)|階段の手すり（手前）
+Stairs (Right)|階段（右向き）
+Stairs (Left)|階段（左向き）
+Stairs (Top)|階段（上端）
+Stairs (Top)|階段（上端）
+Stairs (Top)|階段（上端）
+Banister (Front)|手すり（手前）
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister (Stairs, Front)|階段の手すり（手前）
+Stairs (Right)|階段（右向き）
+Stairs (Left)|階段（左向き）
+Stairs (Down)|下り階段
+Stairs (Down)|下り階段
+Stairs (Down)|下り階段
+Banister (Front)|手すり（手前）
+Stairs (Banister, Right)|手すり付き階段（右向き）
+Stairs (Banister, Left)|手すり付き階段（左向き）
+Stairs (Right)|階段（右向き）
+Stairs (Left)|階段（左向き）
+Stairs (Down)|下り階段
+Stairs (Down)|下り階段
+Stairs (Down)|下り階段
+Banister (Back)|手すり（奥）
+Stairs (Banister, Right)|手すり付き階段（右向き）
+Stairs (Banister, Left)|手すり付き階段（左向き）
+Stairs (Right)|階段（右向き）
+Stairs (Left)|階段（左向き）
+Stairs (Bottom)|階段（下端）
+Stairs (Bottom)|階段（下端）
+Stairs (Bottom)|階段（下端）
+Banister|手すり
+Banister|手すり
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister (Stairs, Front, Cannot Walk)|階段の手すり（手前・通行不可）
+Potted Plant|植木鉢
+Wall Decoration|壁装飾
+Pillar B|柱B
+Banister|手すり
+Banister|手すり
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister (Stairs, Front)|階段の手すり（手前）
+Banister (Stairs, Front, Cannot Walk)|階段の手すり（手前・通行不可）
+Pillar B|柱B
+Wall Decoration|壁装飾
+Pillar B|柱B
+Bonfire A|かがり火A
+Bonfire B|かがり火B
+Bonfire C|かがり火C
+Pillar of Magic Stone|魔法石の柱
+Stone Coffin A|石の棺A
+Stone Coffin A|石の棺A
+Wall Decoration|壁装飾
+Pillar B|柱B
+Bonfire A|かがり火A
+Bonfire B|かがり火B
+Bonfire C|かがり火C
+Pillar of Magic Stone|魔法石の柱
+Stone Coffin B|石の棺B
+Stone Coffin B|石の棺B
+Wall Decoration|壁装飾
+Pillar B|柱B
+Stone Statue (Bottom)|石像（下向き）
+Stone Statue (Top)|石像（上向き）
+Stone Statue (Right)|石像（右向き）
+Stone Statue (Left)|石像（左向き）
+Stone Coffin C|石の棺C
+Stone Coffin C|石の棺C
+Pillar B|柱B
+Pillar B|柱B

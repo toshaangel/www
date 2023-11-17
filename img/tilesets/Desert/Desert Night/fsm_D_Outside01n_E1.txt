@@ -1,0 +1,256 @@
+﻿Shadow (Little Ledge)|低い段差の影
+Stone Pillar A (Center)|石の柱A（中）
+Stone Pillar B (Top)|石の柱B（上）
+Stone Pillar B (Top)|石の柱B（上）
+Water Plant A|水草A
+Water Plant B|水草B
+Water Plant C|水草C
+Water Plant D|水草D
+Stone Pillar A (Top)|石の柱A（上）
+Shadow (Stone Pillar A)|影（石の柱A）
+Stone Pillar B (Top)|石の柱B（上）
+Stone Pillar B (Top)|石の柱B（上）
+Stone Plate|石の板
+Log Roller (V)|丸太のコロ（縦）
+Log Roller (H)|丸太のコロ（横）
+Stone Monument C|石碑C
+Stone Pillar A (Bottom)|石の柱A（下）
+Shadow (Stone Pillar A)|影（石の柱A）
+Stone Pillar B (Center)|石の柱B（中）
+Stone Pillar B (Center)|石の柱B（中）
+Shadow (Stone Pillar B)|影（石の柱B）
+Stone & Log Roller (V)|石材と丸太のコロ（縦）
+Stone & Log Roller (H)|石材と丸太のコロ（横）
+Stone Monument C|石碑C
+Stacked Stones|積まれた石材
+Stacked Stones|積まれた石材
+Stone Pillar B (Bottom)|石の柱B（下）
+Stone Pillar B (Bottom)|石の柱B（下）
+Shadow (Stone Pillar B)|影（石の柱B）
+Entrance (Pyramid)|ピラミッドの入口
+Entrance (Pyramid)|ピラミッドの入口
+Entrance (Pyramid)|ピラミッドの入口
+Stacked Stones|積まれた石材
+Stacked Stones|積まれた石材
+Stone Roof|石の屋根
+Stone Roof|石の屋根
+Stone|石材
+Entrance (Pyramid)|ピラミッドの入口
+Entrance (Pyramid)|ピラミッドの入口
+Entrance (Pyramid)|ピラミッドの入口
+Lion Statue|獅子像
+Lion Statue|獅子像
+Stone Roof|石の屋根
+Stone Roof|石の屋根
+Stone|石材
+Stair F|階段F
+Stair F|階段F
+Stair F|階段F
+Lion Statue|獅子像
+Lion Statue|獅子像
+Stone Roof|石の屋根
+Stone Roof|石の屋根
+Stone|石材
+Stair F|階段F
+Stair F|階段F
+Stair F|階段F
+Lion Statue|獅子像
+Lion Statue|獅子像
+Mural (Stone)|壁画（石材）
+Stone|石材
+Stone|石材
+Stair F|階段F
+Stair F|階段F
+Stair F|階段F
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Shadow (Pyramid)|ピラミッドの影
+Shadow (Pyramid)|ピラミッドの影
+Shadow (Pyramid)|ピラミッドの影
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Shadow (Pyramid)|ピラミッドの影
+Shadow (Pyramid)|ピラミッドの影
+Shadow (Pyramid)|ピラミッドの影
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Stone Monument D|石碑D
+Stone Pillar C (Shadow)|石の柱C（影）
+Stone Pillar C (Top)|石の柱C（上）
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Stone Monument D|石碑D
+Stone Pillar C (Center B)|石の柱C（中B）
+Stone Pillar C (Center A)|石の柱C（中A）
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Pyramid|ピラミッド
+Stone Monument D|石碑D
+Stone|石材
+Stone Pillar C (Bottom)|石の柱C（下）
+Stair G|階段G
+Stair G|階段G
+Stair G|階段G
+Stair H|階段H
+Stair G (Down)|階段G（下り）
+Stair G (Down)|階段G（下り）
+Stair G (Down)|階段G（下り）
+Stone Pillar D|石の柱D
+Stair G|階段G
+Stair G|階段G
+Stair G|階段G
+Stair H|階段H
+Stair G (Down)|階段G（下り）
+Stair G (Down)|階段G（下り）
+Stair G (Down)|階段G（下り）
+Stone Pillar D|石の柱D
+Stair G|階段G
+Stair G|階段G
+Stair G|階段G
+Stair H|階段H
+Stair G (Down)|階段G（下り）
+Stair G (Down)|階段G（下り）
+Stair G (Down)|階段G（下り）
+Stone Pillar E (Shadow)|石の柱E（影）
+Wall Decoration (Outer Wall D, Top)|壁装飾（外壁D・上）
+Wall Decoration (Outer Wall D, Top)|壁装飾（外壁D・上）
+Wall Decoration (Outer Wall D, Top)|壁装飾（外壁D・上）
+Wall Decoration (Outer Wall D, Bottom C)|壁装飾（外壁D・下C）
+Wall Decoration (Outer Wall D, Bottom C)|壁装飾（外壁D・下C）
+Wall Decoration (Outer Wall D, Bottom C)|壁装飾（外壁D・下C）
+Decorative Pillar (Outer Wall D)|装飾柱（外壁D）
+Stone Pillar E (Top)|石の柱E（上）
+Wall Decoration (Outer Wall D, Center A)|壁装飾（外壁D・中A）
+Wall Decoration (Outer Wall D, Center A)|壁装飾（外壁D・中A）
+Wall Decoration (Outer Wall D, Center A)|壁装飾（外壁D・中A）
+Statue of Goddess A|女神像A
+Statue of Goddess B|女神像B
+Window H|窓H
+Decorative Pillar (Outer Wall D)|装飾柱（外壁D）
+Stone Pillar E (Center)|石の柱E（中）
+Wall Decoration (Outer Wall D, Bottom A)|壁装飾（外壁D・下A）
+Wall Decoration (Outer Wall D, Bottom A)|壁装飾（外壁D・下A）
+Wall Decoration (Outer Wall D, Bottom A)|壁装飾（外壁D・下A）
+Statue of Goddess A|女神像A
+Statue of Goddess B|女神像B
+Window H|窓H
+Decorative Pillar (Outer Wall D)|装飾柱（外壁D）
+Stone Pillar E (Bottom)|石の柱E（下）
+Wall Decoration (Outer Wall D, Center B)|壁装飾（外壁D・中B）
+Wall Decoration (Outer Wall D, Center B)|壁装飾（外壁D・中B）
+Wall Decoration (Outer Wall D, Center B)|壁装飾（外壁D・中B）
+Vent (Outer Wall D, Left)|通風口（外壁D・左）
+Vent (Outer Wall D, Center)|通風口（外壁D・中）
+Vent (Outer Wall D, Right)|通風口（外壁D・右）
+Shadow (Water)|水場の影
+Stone Pillar E (Center, Water Edge)|石の柱E（中・水際）
+Wall Decoration (Outer Wall D, Bottom B)|壁装飾（外壁D・下B）
+Wall Decoration (Outer Wall D, Bottom B)|壁装飾（外壁D・下B）
+Wall Decoration (Outer Wall D, Bottom B)|壁装飾（外壁D・下B）
+Outer Wall D (Water Edge)|水際の崖（外壁D）
+Outer Wall D (Water Edge)|水際の崖（外壁D）
+Outer Wall D (Water Edge)|水際の崖（外壁D）
+Shadow (Water)|水場の影
+Stone Pillar E (Bottom, Underwater)|石の柱E（下・水中）
+Water Tray A|水受けA
+Water Tray B|水受けB
+Water Tray C|水受けC
+Stone Statue (Bottom)|石像（下向き）
+Stone Statue (Top)|石像（上向き）
+Stone Statue (Right)|石像（右向き）
+Stone Statue (Left)|石像（左向き）
+Stone Pillar E (Bottom, Ivy)|石の柱E（下・ツタ）
+Wall of Cave Temple A (Window)|岩窟寺院の壁A（窓）
+Wall of Cave Temple A (Window)|岩窟寺院の壁A（窓）
+Wall of Cave Temple A (Window)|岩窟寺院の壁A（窓）
+Entrance (Wall of Cave Temple, Top A)|岩窟寺院の入口（上A）
+Entrance (Wall of Cave Temple, Top B)|岩窟寺院の入口（上B）
+Wall of Cave Temple A|岩窟寺院の壁A
+Wall of Cave Temple A|岩窟寺院の壁A
+Wall of Cave Temple A|岩窟寺院の壁A
+Wall of Cave Temple A|岩窟寺院の壁A
+Wall of Cave Temple A|岩窟寺院の壁A
+Wall of Cave Temple A|岩窟寺院の壁A
+Entrance (Wall of Cave Temple)|岩窟寺院の入口
+Entrance (Wall of Cave Temple, Bottom B)|岩窟寺院の入口（下B）
+Wall of Cave Temple B1|岩窟寺院の壁B1
+Wall of Cave Temple B1|岩窟寺院の壁B1
+Wall of Cave Temple B1|岩窟寺院の壁B1
+Wall of Cave Temple A|岩窟寺院の壁A
+Wall of Cave Temple A|岩窟寺院の壁A
+Wall of Cave Temple A|岩窟寺院の壁A
+Entrance (Wall of Cave Temple, Bottom A)|岩窟寺院の入口（下A）
+Shadow (Stair, Wall of Cave Temple)|階段の影（岩窟寺院）
+Wall of Cave Temple B2|岩窟寺院の壁B2
+Wall of Cave Temple B2|岩窟寺院の壁B2
+Wall of Cave Temple B2|岩窟寺院の壁B2
+Wall of Cave Temple A (Bottom)|岩窟寺院の壁A（下端）
+Wall of Cave Temple A (Bottom)|岩窟寺院の壁A（下端）
+Wall of Cave Temple A (Bottom)|岩窟寺院の壁A（下端）
+Stair (Wall of Cave Temple)|岩窟寺院の階段
+Shadow (Stair, Wall of Cave Temple)|階段の影（岩窟寺院）
+Wall of Cave Temple B3|岩窟寺院の壁B3
+Wall of Cave Temple B3|岩窟寺院の壁B3
+Wall of Cave Temple B3|岩窟寺院の壁B3
+Wall of Cave Temple B1|岩窟寺院の壁B1
+Wall of Cave Temple B1|岩窟寺院の壁B1
+Wall of Cave Temple B1|岩窟寺院の壁B1
+Wall of Cave Temple B2|岩窟寺院の壁B2
+Wall of Cave Temple B2|岩窟寺院の壁B2
+Wall of Cave Temple B2|岩窟寺院の壁B2
+Wall of Cave Temple B2 (Bottom B, Center)|岩窟寺院の壁B2（下端B・中）
+Wall of Cave Temple B2 (Bottom C, Center)|岩窟寺院の壁B2（下端C・中）
+Wall of Cave Temple B1|岩窟寺院の壁B1
+Wall of Cave Temple B1|岩窟寺院の壁B1
+Wall of Cave Temple B1|岩窟寺院の壁B1
+Wall of Cave Temple B2|岩窟寺院の壁B2
+Wall of Cave Temple B2|岩窟寺院の壁B2
+Wall of Cave Temple B2|岩窟寺院の壁B2
+Wall of Cave Temple B2 (Bottom B, Left)|岩窟寺院の壁B2（下端B・左）
+Wall of Cave Temple B2 (Bottom B, Right)|岩窟寺院の壁B2（下端B・右）
+Wall of Cave Temple B1 (Bottom)|岩窟寺院の壁B1（下端）
+Wall of Cave Temple B1 (Bottom)|岩窟寺院の壁B1（下端）
+Wall of Cave Temple B1 (Bottom)|岩窟寺院の壁B1（下端）
+Wall of Cave Temple B2 (Bottom A)|岩窟寺院の壁B2（下端A）
+Wall of Cave Temple B2 (Bottom A)|岩窟寺院の壁B2（下端A）
+Wall of Cave Temple B2 (Bottom A)|岩窟寺院の壁B2（下端A）
+Wall of Cave Temple B2 (Bottom C, Left)|岩窟寺院の壁B2（下端C・左）
+Wall of Cave Temple B2 (Bottom C, Right)|岩窟寺院の壁B2（下端C・右）
+Wall of Cave Temple B3|岩窟寺院の壁B3
+Wall of Cave Temple B3|岩窟寺院の壁B3
+Wall of Cave Temple B3|岩窟寺院の壁B3
+Wall of Cave Temple C|岩窟寺院の壁C
+Wall of Cave Temple C|岩窟寺院の壁C
+Wall of Cave Temple C|岩窟寺院の壁C
+Orb|オーブ
+Stone Statue B (Wall of Cave Temple B, Bottom)|石像B（岩窟寺院の壁B・下端）
+Wall of Cave Temple B3|岩窟寺院の壁B3
+Wall of Cave Temple B3|岩窟寺院の壁B3
+Wall of Cave Temple B3|岩窟寺院の壁B3
+Wall of Cave Temple C|岩窟寺院の壁C
+Wall of Cave Temple C|岩窟寺院の壁C
+Wall of Cave Temple C|岩窟寺院の壁C
+Stone Statue A (Wall of Cave Temple B, Bottom)|石像A（岩窟寺院の壁B・下端）
+Stone Statue B (Wall of Cave Temple B, Bottom)|石像B（岩窟寺院の壁B・下端）
+Wall of Cave Temple B3 (Bottom)|岩窟寺院の壁B3（下端）
+Wall of Cave Temple B3 (Bottom)|岩窟寺院の壁B3（下端）
+Wall of Cave Temple B3 (Bottom)|岩窟寺院の壁B3（下端）
+Wall of Cave Temple C (Bottom)|岩窟寺院の壁C（下端）
+Wall of Cave Temple C (Bottom)|岩窟寺院の壁C（下端）
+Wall of Cave Temple C (Bottom)|岩窟寺院の壁C（下端）
+Stone Statue A (Wall of Cave Temple B, Bottom)|石像A（岩窟寺院の壁B・下端）
+Stone Statue B (Wall of Cave Temple B, Bottom)|石像B（岩窟寺院の壁B・下端）

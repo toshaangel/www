@@ -11,23 +11,6 @@
         <title>Return to the last Kingdom</title>
     </head>
     <body style="background-color: black">
-        <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js"></script>
-        <script>
-            vkBridge.send("VKWebAppInit", {})
-              .then((data) => {
-                if (data.result) {
-                  console.log("Приложение инициализировано успешно");
-                  // Подключение вашего main.js
-                  const script = document.createElement('script');
-                  script.src = 'js/main.js';
-                  document.body.appendChild(script);
-                } else {
-                  console.error("Ошибка инициализации приложения");
-                }
-              })
-              .catch((error) => {
-                console.error("Ошибка при отправке запроса VKWebAppInit", error);
-              });
-        </script>
+        <script type="text/javascript" src="js/main.js"></script>
     </body>
 </html>

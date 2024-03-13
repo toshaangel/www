@@ -56,8 +56,6 @@ class Main {
     }
 
     hookNwjsClose() {
-        // [Note] When closing the window, the NW.js process sometimes does
-        //   not terminate properly. This code is a workaround for that.
         if (typeof nw === "object") {
             nw.Window.get().on("close", () => nw.App.quit());
         }
@@ -131,8 +129,6 @@ class Main {
     }
 
     isPathRandomized() {
-        // [Note] We cannot save the game properly when Gatekeeper Path
-        //   Randomization is in effect.
         return (
             typeof process === "object" &&
             process.mainModule.filename.startsWith("/private/var")
@@ -147,6 +143,7 @@ class Main {
 
     onEffekseerLoad() {
         this.eraseLoadingSpinner();
+        PIXI.settings.PRECISION_FRAGMENT = PIXI.PRECISION.HIGH; // Установка высокой точности для фрагментного шейдера
         SceneManager.run(Scene_Boot);
     }
 

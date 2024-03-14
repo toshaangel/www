@@ -43,7 +43,8 @@ var $plugins =
 {"name":"DragonSmoothCamera","status":true,"description":"It provides some functions to make your game's camera smoother and more functional.","parameters":{"slideCoefficient":"960","cameraOffset":"{\"x\": \"0\", \"y\": \"0\"}","dinamicCameraOffset":"true","charDirVariableName":"_direction","cameraOffsetbyDir":"{\"1\":\"{\\\"x\\\": \\\"-60\\\", \\\"y\\\": \\\"60\\\"}\",\"2\":\"{\\\"x\\\": \\\"0\\\", \\\"y\\\": \\\"60\\\"}\",\"3\":\"{\\\"x\\\": \\\"60\\\", \\\"y\\\": \\\"60\\\"}\",\"4\":\"{\\\"x\\\": \\\"-60\\\", \\\"y\\\": \\\"0\\\"}\",\"6\":\"{\\\"x\\\": \\\"60\\\", \\\"y\\\": \\\"0\\\"}\",\"7\":\"{\\\"x\\\": \\\"-60\\\", \\\"y\\\": \\\"-60\\\"}\",\"8\":\"{\\\"x\\\": \\\"0\\\", \\\"y\\\": \\\"-60\\\"}\",\"9\":\"{\\\"x\\\": \\\"60\\\", \\\"y\\\": \\\"-60\\\"}\"}"}},
 {"name":"ButtonPicture","status":true,"description":"Makes a picture clickable.","parameters":{}},
 {"name":"AkeaBattlerPositions","status":true,"description":"Akea Battler Positions version: 1.0.0","parameters":{"posActors":"false","absActors":"{\"posX\":\"900 + index * 32\",\"posY\":\"420 + index * 48\"}"}},
-{"name":"wasdKeyMZ","status":true,"description":"Use the WASD keys to move.","parameters":{}},
+{"name":"wasdKeyMZ","status":false,"description":"Use the WASD keys to move.","parameters":{}},
 {"name":"GabeMZ_EquipRequirements","status":true,"description":"[v1.0.0] Allows to add extra requirements to the equipments.","parameters":{"hideEquip":"false"}},
-{"name":"AltSaveScreen","status":true,"description":"Alternative save/load screen layout.","parameters":{}}
+{"name":"AltSaveScreen","status":true,"description":"Alternative save/load screen layout.","parameters":{}},
+{"name":"Tosha_Control","status":true,"description":"Расширенное управление персонажем: WASD для передвижения, F для активации событий, пробел для прыжка, поддержка геймпада.","parameters":{}}
 ];

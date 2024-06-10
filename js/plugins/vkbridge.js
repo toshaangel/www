@@ -1,14 +1,18 @@
 // vkbridge.js
 console.log("VK Bridge script loaded.");
 
-vkBridge.send('VKWebAppInit');
+vkBridge.send('VKWebAppInit').then(() => {
+  console.log("VK Bridge initialized successfully.");
+}).catch(error => {
+  console.error("VK Bridge initialization failed: ", error);
+});
 
 // Функция для получения информации о пользователе
 const getUserInfo = () => {
   vkBridge.send('VKWebAppGetUserInfo')
     .then(data => {
       // Данные пользователя
-      console.log("User Info: ", data);
+      console.log("User Info received: ", data);
       // Сохраните данные пользователя для использования в игре
       const playerName = data.first_name;
       const playerAvatar = data.photo_200;
@@ -28,7 +32,7 @@ const authorize = () => {
     scope: 'friends,status'
   })
   .then(data => {
-    console.log("Auth Token: ", data.access_token);
+    console.log("Auth Token received: ", data.access_token);
     // Сохраните токен для дальнейшего использования
     const token = data.access_token;
   })
@@ -39,7 +43,7 @@ const authorize = () => {
 
 // Вызов функций при загрузке страницы
 window.onload = () => {
-  console.log("Window loaded, getting user info.");
+  console.log("Window loaded, initializing VK Bridge and getting user info.");
   getUserInfo();
   authorize();
 };

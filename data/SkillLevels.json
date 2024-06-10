@@ -1,0 +1,140 @@
+[
+{
+    "id": 18,
+    "xpType": 1,
+    "default": {
+        "mpCost": 0,
+        "tpCost": 5,
+        "tpGain": 5,
+        "damage": "b.mhp * 0.2",
+        "req": "",
+        "descr": "Восстанавливает 20% HP пользователя.",
+        "dmgMods": [],
+        "customEffects": []
+    },
+    "formulas": {
+        "mpCost": "0",
+        "tpCost": "(5 + level) * 2",
+        "tpGain": "level + 5",
+		"xp": "level * 10"
+    },
+    "levels": [
+	        null,
+        {
+            "damage": "b.mhp * 0.3",
+            "descr": "Восстанавливает 30% HP пользователя."
+        },
+        {
+            "damage": "b.mhp * 0.4",
+            "descr": "Восстанавливает 40% HP пользователя."
+        },
+        {
+            "damage": "b.mhp * 0.5",
+            "customEffects": ["ADD STATE: 15 USER"],
+            "descr": "Восстанавливает 50% HP пользователя и добавляет регенерацию 10% ХП на 2 хода."
+        },
+        {
+            "damage": "b.mhp * 0.6",
+			"customEffects": ["ADD STATE: 32 USER"],
+            "descr": "Восстанавливает 60% HP пользователя и добавляет регенерацию 20% ХП на 2 хода."
+        },
+        {
+            "damage": "b.mhp * 0.7",
+            "customEffects": ["ADD STATE: 33 USER"],
+            "descr": "Восстанавливает 70% HP пользователя, добавляет регенерацию 30% ХП и добавляет Сопротивление смерти на 3 хода."
+        }
+    ]
+  },
+  {
+    "id": 13,
+    "xpType": 1,
+    "default": {
+      "mpCost": 0,
+      "tpCost": 5,
+      "tpGain": 0,
+      "damage": "a.atk * 4 - b.def * 2",
+      "req": "",
+      "descr": "Дважды атакует случайного врага.",
+      "dmgMods": [],
+      "customEffect": []
+    },
+    "formulas": {
+		        "tpCost": "10 + (level - 1) * 3"
+	},
+    "levels": [
+	null,
+      {
+        "damage": "a.atk * 4 - b.def * 2"
+      },      
+	  {
+        "damage": "a.atk * 4.5 - b.def * 2",
+        "descr": "Увеличенный урон от двойной атаки.",
+        "dmgMods": ["DAMAGE MOD: +12.5%"]
+      },
+      {
+		  "tpGain": 20,
+        "damage": "a.atk * 5 - b.def * 2",
+        "descr": "Сильно увеличенный урон от двойной атаки.",
+        "dmgMods": ["DAMAGE MOD: +25%"]
+      },
+      {
+		  "tpGain": 20,
+        "damage": "a.atk * 5.5 - b.def * 2",
+        "descr": "Очень сильно увеличенный урон от двойной атаки.",
+        "dmgMods": ["DAMAGE MOD: +50%"],
+		"customEffects": ["ADD STATE: 34 TARGETS"]
+      },
+      {
+		  "tpGain": 20,
+        "damage": "a.atk * 6 - b.def * 2",
+        "descr": "Чрезвычайно сильно увеличенный урон от двойной атаки.",
+        "dmgMods": ["DAMAGE MOD: +70%"],
+		"customEffects": ["ADD STATE: 35 TARGETS"]
+      }
+    ]
+  },
+  {
+    "id": 175,
+    "xpType": 1,
+    "default": {
+      "mpCost": 0,
+      "tpCost": 15,
+      "tpGain": 0,
+      "damage": "",
+      "req": "",
+      "descr": "Поднимает боевой дух и увеличивает атаку.",
+      "dmgMods": [],
+      "customEffect": []
+    },
+    "formulas": {	},
+    "levels": [
+	null,
+      {
+		"tpCost": 12,
+		"descr": "Увеличивает свою атаку на 25% на 5 ходов",
+		"customEffects": ["ADD STATE: 39 USER"]
+      },      
+	  {
+		"tpCost": 17,
+		"descr": "Увеличивает свою атаку на 50% на 5 ходов",
+		"customEffects": ["ADD STATE: 36 USER"]
+      },
+      {
+		"tpCost": 21,
+		"descr": "Увеличивает свою атаку на 75% на 5 ходов",
+		"customEffects": ["ADD STATE: 37 USER"]
+      },
+      {
+		"tpCost": 25,
+		"descr": "Увеличивает свою атаку на 100% на 5 ходов",
+		"customEffects": ["ADD STATE: 38 USER"]
+      },
+      {
+		"tpCost": 65,
+		"descr": "Увеличивает атаку всей команды на 100% на 5 ходов",
+		"customEffects": ["ADD STATE: 38 PARTY"]
+      }
+    ]
+  }
+]
+

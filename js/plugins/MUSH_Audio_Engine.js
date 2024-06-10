@@ -286,107 +286,98 @@
 * volume setting. 
 *
 * @param DevelopperMode
-* @text Developper Mode
-* @desc Set to false when deploying. If true, it will show error alerts to the dev.
+* @text Режим разработчика
+* @desc Включите, чтобы отображать отладочные сообщения. Отключите перед выпуском игры.
 * @type boolean
 * @default true 
 *
 * @param GeneralFeatures
-* @text General Features
-* @desc All the features that don't need their own section. 
+* @text Основные функции
+* @desc Настройки общих функций плагина.
 *
 * @param FEA_UIS
-* @text UI Sound Effects
+* @text Звуковые эффекты UI
 * @parent GeneralFeatures
-* @desc Split SE into regular SE and those that are used as UI sound effects (cursor, confirm, buzzer, etc.).
+* @desc Включает отдельный аудиоканал для звуков интерфейса пользователя (например, клик, подтверждение).
 * @type boolean
 * @default true
 *
 * @param FEA_VSC
-* @text Voice Sound Channel
+* @text Канал звука голоса
 * @parent GeneralFeatures
-* @desc Create another audio category for voices so the volume can be controlled independently from other channels.
+* @desc Создает отдельную аудиокатегорию для голосов, чтобы громкость могла контролироваться независимо от других каналов.
 * @type boolean
 * @default false
-* 
+*
 * @param FEA_SPAPAN
-* @text Pan Spacial Audio
+* @text Панорамирование пространственного аудио
 * @parent GeneralFeatures
-* @desc Set to true if you want spacial audio to pan according to player's position to the audio source.
+* @desc Установите в true, если хотите, чтобы пространственное аудио панорамировалось в зависимости от позиции игрока относительно источника звука.
 * @type boolean
 * @default true
 *
 * @param FEA_MAPAUTOPLAY
-* @text Map Parent Autoplay
+* @text Автовоспроизведение BGM карты-родителя
 * @parent GeneralFeatures
-* @desc If true, if the map doesn't have an auto BGM the game will check the parent map until it finds one.
+* @desc Если true, игра будет использовать BGM карты-родителя, если на текущей карте нет автовоспроизведения BGM.
 * @type boolean
 * @default false
 *
 * @ -------------------------------------------------------
 *
 * @param VolumeBalance
-* @text Volume Balance
-* @desc Control the volume balance across different channels. 
+* @text Баланс громкости
+* @desc Контроль баланса громкости между различными аудиоканалами.
 *
 * @param VB_BGM
-* @text BGM Volume Level
+* @text Уровень громкости BGM
 * @parent VolumeBalance
-* @desc Control the volume balance for all BGMs. This is a general value that can't be changed.
-* @type number
-* @min 0
-* @max 100
-* @default 100
-*
-* @param VB_BGM
-* @text BGM Volume Level
-* @parent VolumeBalance
-* @desc Control the volume balance for all BGMs. This is a general value that can't be changed.
+* @desc Контролирует общую громкость для всех BGM. Это общее значение, которое не может быть изменено в игре.
 * @type number
 * @min 0
 * @max 100
 * @default 100
 *
 * @param VB_BGS
-* @text BGS Volume Level
+* @text Уровень громкости BGS
 * @parent VolumeBalance
-* @desc Control the volume balance for all BGSs. This is a general value that can't be changed.
+* @desc Контролирует общую громкость для всех BGS. Это общее значение, которое не может быть изменено в игре.
 * @type number
 * @min 0
 * @max 100
 * @default 100
 *
 * @param VB_ME
-* @text ME Volume Level
+* @text Уровень громкости ME
 * @parent VolumeBalance
-* @desc Control the volume balance for all MEs. This is a general value that can't be changed.
+* @desc Контролирует общую громкость для всех ME. Это общее значение, которое не может быть изменено в игре.
 * @type number
 * @min 0
 * @max 100
 * @default 100
 *
 * @param VB_SE
-* @text SE Volume Level
+* @text Уровень громкости SE
 * @parent VolumeBalance
-* @desc Control the volume balance for all SEs. This is a general value that can't be changed.
+* @desc Контролирует общую громкость для всех SE. Это общее значение, которое не может быть изменено в игре.
 * @type number
 * @min 0
 * @max 100
 * @default 100
 *
 * @param VB_UIS
-* @text UIS Volume Level
+* @text Уровень громкости UIS
 * @parent VolumeBalance
-* @desc Control the volume balance for all UI Sound Effects. This is a general value that can't be changed.
+* @desc Контролирует общую громкость для всех звуковых эффектов пользовательского интерфейса. Это общее значение, которое не может быть изменено в игре.
 * @type number
 * @min 0
 * @max 100
 * @default 100
 *
 * @param VB_VSC
-* @text VSC Volume Level
+* @text Уровень громкости VSC
 * @parent VolumeBalance
-* @desc Control the volume balance for the Voice Sound Channel. This is a general value that can't be changed.
+* @desc Контролирует общую громкость для канала звуков голоса. Это общее значение, которое не может быть изменено в игре.
 * @type number
 * @min 0
 * @max 100
@@ -395,85 +386,85 @@
 * @ -------------------------------------------------------
 *
 * @param SeUisVarFeatures
-* @text SE/UIS Variance Features
-* @desc Control the settings on the SE and UIS sound variation. 
+* @text Настройки вариаций SE/UIS
+* @desc Управление настройками вариации звуков SE и UIS.
 *
 * @param StaticFollowSe
-* @text Static Follow Se
+* @text Статическое следование за SE
 * @parent SeUisVarFeatures
-* @desc If the UIS feature is OFF, set if UI sounds should follow SE in the variance feature.
+* @desc Если функция UIS отключена, установите, должны ли звуки UI следовать за вариацией SE.
 * @type boolean
 * @default true
 *
 * @param SeVarFeatures
-* @text SE variance features
+* @text Функции вариации SE
 * @parent SeUisVarFeatures
-* @desc Control the variance settings for SE. If the UIS feature is Off, this will apply to UIS too. 
+* @desc Управление настройками вариации для SE. Если функция UIS отключена, это также будет применяться к UIS.
 * 
 * @param SePitchVarFeature
-* @text SE Pitch Variation Feature
+* @text Функция вариации тона SE
 * @parent SeVarFeatures
-* @desc This feature will make SE have a slight pitch variation every time they are played. 
+* @desc Эта функция будет создавать небольшую вариацию тона каждый раз при воспроизведении SE.
 * @type boolean
 * @default true
 *
 * @param SePitchVarRange
-* @text SE Pitch Variation Range
+* @text Диапазон вариации тона SE
 * @parent SeVarFeatures
-* @desc Set the range of the pitch variation every time an SE is played. The range is +/- the number.  
+* @desc Установите диапазон вариации тона для каждого воспроизведения SE. Диапазон +/- указанного числа.
 * @type number
 * @default 5
 * @min 0
 * @max 50
 *
 * @param SeVolumeVarFeature
-* @text SE Volume Variation Feature
+* @text Функция вариации громкости SE
 * @parent SeVarFeatures
-* @desc This feature will make SE have a slight volume variation every time they are played. 
+* @desc Эта функция будет создавать небольшую вариацию громкости каждый раз при воспроизведении SE.
 * @type boolean
 * @default true
 *
 * @param SeVolumeVarRange
-* @text SE Volume Variation Range
+* @text Диапазон вариации громкости SE
 * @parent SeVarFeatures
-* @desc Set the range of the volume variation every time an SE is played. The range is +/- the number.  
+* @desc Установите диапазон вариации громкости для каждого воспроизведения SE. Диапазон +/- указанного числа.
 * @type number
 * @default 3
 * @min 0
 * @max 50
 *
 * @param UisVarFeatures
-* @text UIS variance features
+* @text Функции вариации UIS
 * @parent SeUisVarFeatures
-* @desc Control the variance settings for UIS. If the UIS feature is Off, this will do nothing. 
+* @desc Управление настройками вариации для UIS. Если функция UIS отключена, это не будет иметь эффекта.
 * 
 * @param UisPitchVarFeature
-* @text UIS Pitch Variation Feature
+* @text Функция вариации тона UIS
 * @parent UisVarFeatures
-* @desc This feature will make UIS have a slight pitch variation every time they are played. 
+* @desc Эта функция будет создавать небольшую вариацию тона каждый раз при воспроизведении UIS.
 * @type boolean
 * @default true
 *
 * @param UisPitchVarRange
-* @text UIS Pitch Variation Range
+* @text Диапазон вариации тона UIS
 * @parent UisVarFeatures
-* @desc Set the range of the pitch variation every time an UIS is played. The range is +/- the number.  
+* @desc Установите диапазон вариации тона для каждого воспроизведения UIS. Диапазон +/- указанного числа.
 * @type number
 * @default 5
 * @min 0
 * @max 50
 *
 * @param UisVolumeVarFeature
-* @text UIS Volume Variation Feature
+* @text Функция вариации громкости UIS
 * @parent UisVarFeatures
-* @desc This feature will make UIS have a slight volume variation every time they are played. 
+* @desc Эта функция будет создавать небольшую вариацию громкости каждый раз при воспроизведении UIS.
 * @type boolean
 * @default true
 *
 * @param UisVolumeVarRange
-* @text UIS Volume Variation Range
+* @text Диапазон вариации громкости UIS
 * @parent UisVarFeatures
-* @desc Set the range of the volume variation every time an UIS is played. The range is +/- the number.  
+* @desc Установите диапазон вариации громкости для каждого воспроизведения UIS. Диапазон +/- указанного числа.
 * @type number
 * @default 3
 * @min 0
@@ -482,62 +473,62 @@
 * @ -------------------------------------------------------
 *
 * @param MenuOptions
-* @text Menu Options Changes
-* @desc This section controls changes to the Menu Options to match the new features
+* @text Изменения опций меню
+* @desc Этот раздел управляет изменениями в опциях меню, чтобы соответствовать новым функциям.
 *
 * @param MasterOptions
-* @text Master Section
+* @text Раздел мастер-громкости
 * @parent MenuOptions
-* @desc All the parameters concerning the additional Master Volume in the Menu Options.
+* @desc Все параметры, касающиеся дополнительной мастер-громкости в опциях меню.
 *
 * @param OptMasterFeature
-* @text Add Master Volume Option
+* @text Добавить опцию мастер-громкости
 * @parent MasterOptions
-* @desc Set to true if you want to add an option for Master volume control in the Options Window.
+* @desc Установите в true, если хотите добавить опцию управления мастер-громкостью в окне опций.
 * @type boolean
 * @default true
 *
 * @param OptMasterText
-* @text Master Option Text
+* @text Текст опции мастер-громкости
 * @parent MasterOptions
-* @desc Set the text that will appear in the Option Windows for the Master option.
-* @default Master Volume
+* @desc Установите текст, который будет отображаться в окне опций для мастер-громкости.
+* @default Мастер-громкость
 *
 * @param UisOptions
-* @text UIS Section
+* @text Раздел опций UIS
 * @parent MenuOptions
-* @desc All the parameters concerning the additional UIS section in the Menu Options.
+* @desc Все параметры, касающиеся дополнительного раздела UIS в опциях меню.
 *
 * @param OptUisFeature
-* @text Add UIS Volume Option
+* @text Добавить опцию громкости UIS
 * @parent UisOptions
-* @desc Set to true if you want to add an option for UIS volume control in the Options Window.
+* @desc Установите в true, если хотите добавить опцию управления громкостью UIS в окне опций.
 * @type boolean
 * @default true
 *
 * @param OptUisText
-* @text UIS Option Text
+* @text Текст опции громкости UIS
 * @parent UisOptions
-* @desc Set the text that will appear in the Option Windows for the UIS option.
-* @default UIS Volume
+* @desc Установите текст, который будет отображаться в окне опций для громкости UIS.
+* @default Громкость UIS
 *
 * @param VscOptions
-* @text VSC Section
+* @text Раздел опций VSC
 * @parent MenuOptions
-* @desc All the parameters concerning the additional VSC section in the Menu Options.
+* @desc Все параметры, касающиеся дополнительного раздела VSC в опциях меню.
 *
 * @param OptVscFeature
-* @text Add VSC Volume Option
+* @text Добавить опцию громкости VSC
 * @parent VscOptions
-* @desc Set to true if you want to add an option for VSC volume control in the Options Window.
+* @desc Установите в true, если хотите добавить опцию управления громкостью VSC в окне опций.
 * @type boolean
 * @default false
 *
 * @param OptVscText
-* @text VSC Option Text
+* @text Текст опции громкости VSC
 * @parent VscOptions
-* @desc Set the text that will appear in the Option Windows for the VSC option.
-* @default VSC Volume
+* @desc Установите текст, который будет отображаться в окне опций для громкости VSC.
+* @default Громкость VSC
 * 
 * 
 * @--------------------------------------------------
@@ -545,85 +536,85 @@
 * @--------------------------------------------------
 *
 * @command AddSpacialBgm
-* @text Add Spacial BGM
-* @desc Add a non-dynamic spacial BGM.
+* @text Добавить пространственный BGM
+* @desc Добавляет нединамический пространственный BGM.
 *
 * @arg Filename
-* @text Filename
-* @desc Select the BGM filename.
+* @text Имя файла
+* @desc Выберите имя файла BGM.
 * @type file
 * @dir audio/bgm
 *
 * @arg Pitch
-* @text Pitch
-* @desc Set the BGM's pitch.
+* @text Тон
+* @desc Установите тон BGM.
 * @type number
 * @min 1
 * @max 200
 * @default 100
 *
 * @arg Channel
-* @text Channel
-* @desc Select the BGM's audio channel.
+* @text Канал
+* @desc Выберите аудиоканал для BGM.
 * @type number
 * @min 1
 * @default 1
 *
 * @arg Dynamic
-* @text Dynamic
-* @desc Set either the source(s) of the BGM is dynamic or not.
+* @text Динамичность
+* @desc Указывает, является ли источник BGM динамическим или нет.
 * @type boolean
 * @default false
 * 
 * @arg ReduceMain
-* @text Cross Fade
-* @desc If true, reduce the volume of the main BGM the louder this spacial BGM gets.
+* @text Кроссфейд
+* @desc Если установлено в true, уменьшает громкость основного BGM по мере увеличения громкости этого пространственного BGM.
 * @type boolean
 * @default true
 *
 * @arg MaxVolume
-* @text Max Volume
-* @desc Set the max volume of the BGM (the volume when the player is closest to the audio source).
+* @text Максимальная громкость
+* @desc Установите максимальную громкость BGM (громкость, когда игрок находится ближе всего к источнику звука).
 * @type number
 * @min 0
 * @max 100
 * @default 90
 * 
 * @arg Radius
-* @text Radius
-* @desc Set the radius of the BGM. 0 will make the radius as big as the map.
+* @text Радиус
+* @desc Установите радиус BGM. 0 сделает радиус таким же большим, как и карта.
 * @type number
 * @min 0
 * @default 8
 *
 * @arg Strength
-* @text Strength
-* @desc Set the strength of the BGM. The higher the number, the slower the volume will fade away.
+* @text Сила
+* @desc Установите силу BGM. Чем выше число, тем медленнее будет уменьшаться громкость.
 * @type number
 * @min 1
 * @max 1000
 * @default 100
 *
 * @arg Pan
-* @text Pan Type
-* @desc Set the panning type of the audio source.
+* @text Тип панорамирования
+* @desc Установите тип панорамирования для источника звука.
 * @type select
-* @option Origin Expand
-* @option Linear Scaling
-* @option None
-* @default Origin Expand
+* @option Расширение от источника
+* @option Линейное масштабирование
+* @option Нет
+* @default Расширение от источника
 *
 * @arg PanSt
-* @text Pan Start Distance
-* @desc **Only if pan is set to Origin Expand** Set the distance before audio starts gradually panning.
+* @text Начальное расстояние панорамирования
+* @desc **Только если панорамирование установлено в Расширение от источника** Установите расстояние, после которого начинается постепенное панорамирование.
 * @type number
 * @min 1
 * @max 999
 * @default 3
 * 
 * @arg PanLd
-* @text Pan Length Distance
-* @desc **Only if pan is set to Origin Expand** Set the distance for the audio to be fully panned. 
+* @text Длина расстояния панорамирования
+* @desc **Только если панорамирование установлено в Расширение от источника** Установите расстояние, на котором аудио будет полностью панорамировано.
 * @type number
 * @min 1
 * @max 999
@@ -632,79 +623,79 @@
 * @ ------------------------------------------------
 *
 * @command AddSpacialBgs
-* @text Add Spacial BGS
-* @desc Add a non-dynamic spacial BGS.
+* @text Добавить пространственный BGS
+* @desc Добавляет нединамический пространственный BGS.
 *
 * @arg Filename
-* @text Filename
-* @desc Select the BGS filename.
+* @text Имя файла
+* @desc Выберите имя файла BGS.
 * @type file
 * @dir audio/bgs
 *
 * @arg Pitch
-* @text Pitch
-* @desc Set the BGS's pitch.
+* @text Тон
+* @desc Установите тон BGS.
 * @type number
 * @min 1
 * @max 200
 * @default 100
 *
 * @arg Channel
-* @text Channel
-* @desc Select the BGS's audio channel.
+* @text Канал
+* @desc Выберите аудиоканал для BGS.
 * @type number
 * @min 1
 * @default 1
 *
 * @arg Dynamic
-* @text Dynamic
-* @desc Set either the source(s) of the BGS is dynamic or not.
+* @text Динамичность
+* @desc Указывает, является ли источник BGS динамическим или нет.
 * @type boolean
 * @default false
 *
 * @arg MaxVolume
-* @text Max Volume
-* @desc Set the max volume of the BGS (the volume when the player is closest to the audio source).
+* @text Максимальная громкость
+* @desc Установите максимальную громкость BGS (громкость, когда игрок находится ближе всего к источнику звука).
 * @type number
 * @min 0
 * @max 100
 * @default 90
 * 
 * @arg Radius
-* @text Radius
-* @desc Set the radius of the BGS. 0 will make the radius as big as the map.
+* @text Радиус
+* @desc Установите радиус BGS. 0 сделает радиус таким же большим, как и карта.
 * @type number
 * @min 0
 * @default 8
 *
 * @arg Strength
-* @text Strength
-* @desc Set the strength of the BGS. The higher the number, the slower the volume will fade away.
+* @text Сила
+* @desc Установите силу BGS. Чем выше число, тем медленнее будет уменьшаться громкость.
 * @type number
 * @min 1
 * @max 1000
 * @default 100
 *
 * @arg Pan
-* @text Pan Type
-* @desc Set the panning type of the audio source.
+* @text Тип панорамирования
+* @desc Установите тип панорамирования для источника звука.
 * @type select
-* @option Origin Expand
-* @option Linear Scaling
-* @option None
-* @default Origin Expand
+* @option Расширение от источника
+* @option Линейное масштабирование
+* @option Нет
+* @default Расширение от источника
 *
 * @arg PanSt
-* @text Pan Start Distance
-* @desc **Only if pan is set to Origin Expand** Set the distance before audio starts gradually panning.
+* @text Начальное расстояние панорамирования
+* @desc **Только если панорамирование установлено в Расширение от источника** Установите расстояние, после которого начинается постепенное панорамирование.
 * @type number
 * @min 1
 * @max 999
 * @default 3
 * 
 * @arg PanLd
-* @text Pan Length Distance
-* @desc **Only if pan is set to Origin Expand** Set the distance for the audio to be fully panned. 
+* @text Длина расстояния панорамирования
+* @desc **Только если панорамирование установлено в Расширение от источника** Установите расстояние, на котором аудио будет полностью панорамировано.
 * @type number
 * @min 1
 * @max 999
@@ -713,169 +704,167 @@
 * @ ------------------------------------------------
 *
 * @command PlayBgm
-* @text Play BGM
-* @desc Play a BGM with the new channel system.
+* @text Воспроизвести BGM
+* @desc Воспроизводит BGM с использованием новой системы каналов.
 * 
 * @arg Filename
-* @text Filename
-* @desc Select the BGM to play.
+* @text Имя файла
+* @desc Выберите BGM для воспроизведения.
 * @type file
 * @dir audio/bgm
 *
 * @arg Channel
-* @text Channel
-* @desc Select the channel in which the BGM will be played. 
+* @text Канал
+* @desc Выберите канал, в котором будет воспроизводиться BGM.
 * @type number
 * @min 1
 * @default 1
 *
 * @arg AutoRemover
-* @text Auto Remover
-* @desc If true, the game will stop and remove the BGM automatically. If false, you have to stop it manually.
+* @text Автоудаление
+* @desc Если true, игра автоматически остановит и удалит BGM. Если false, вам нужно будет остановить его вручную.
 * @type boolean
 * @default true
 * 
 * @arg Pitch
-* @text Pitch
-* @desc Set the pitch of the BGM.
+* @text Тон
+* @desc Установите тон BGM.
 * @type number
 * @min 1
 * @max 200
 * @default 100
 *
 * @arg Volume
-* @text Volume
-* @desc Set the volume of the BGM.
+* @text Громкость
+* @desc Установите громкость BGM.
 * @type number
 * @min 0
 * @max 100
 * @default 90
 * 
 * @arg Pan
-* @text Pan
-* @desc Set the pan of the BGM.
+* @text Панорамирование
+* @desc Установите панорамирование BGM.
 * @type number 
 * @min -100
 * @max 100
 * @default 0
 *
 * @arg FadeIn
-* @text Fade In
-* @desc Set a fade in duration in number of seconds. Leave it at 0 if you don't want any fade in.
+* @text Появление
+* @desc Установите длительность появления в секундах. Оставьте 0, если не нужно появление.
 * @type number
 * @min 0
 * @default 0
 *
 * @arg Interrupt
-* @text Interrupt 
-* @desc Select the behavior when the BGM is interrupted (battle).
+* @text Прерывание
+* @desc Выберите поведение при прерывании BGM (например, в бою).
 * @type select
-* @option Ignore
-* @option Stop
-* @option Pause
-* @default Pause
+* @option Игнорировать
+* @option Остановить
+* @option Пауза
+* @default Пауза
 *
 * @ ------------------------------------------------
 *
 * @command PlayBgs
-* @text Play BGS
-* @desc Play a BGS with the new channel system.
+* @text Воспроизвести BGS
+* @desc Воспроизводит BGS с использованием новой системы каналов.
 * 
 * @arg Filename
-* @text Filename
-* @desc Select the BGS to play.
+* @text Имя файла
+* @desc Выберите BGS для воспроизведения.
 * @type file
 * @dir audio/bgs
 *
 * @arg Channel
-* @text Channel
-* @desc Select the channel in which the BGS will be played. 
+* @text Канал
+* @desc Выберите канал, в котором будет воспроизводиться BGS.
 * @type number
 * @min 1
 * @default 1
 *
 * @arg AutoRemover
-* @text Auto Remover
-* @desc If true, the game will stop and remove the BGM automatically. If false, you have to stop it manually.
+* @text Автоудаление
+* @desc Если true, игра автоматически остановит и удалит BGS. Если false, вам нужно будет остановить его вручную.
 * @type boolean
 * @default true
 * 
 * @arg Pitch
-* @text Pitch
-* @desc Set the pitch of the BGS.
+* @text Тон
+* @desc Установите тон BGS.
 * @type number
 * @min 1
 * @max 200
 * @default 100
 *
 * @arg Volume
-* @text Volume
-* @desc Set the volume of the BGS.
+* @text Громкость
+* @desc Установите громкость BGS.
 * @type number
 * @min 0
 * @max 100
 * @default 90
 * 
 * @arg Pan
-* @text Pan
-* @desc Set the pan of the BGS.
+* @text Панорамирование
+* @desc Установите панорамирование BGS.
 * @type number 
 * @min -100
 * @max 100
 * @default 0
 *
 * @arg FadeIn
-* @text Fade In
-* @desc Set a fade in duration in number of seconds. Leave it at 0 if you don't want any fade in.
+* @text Появление
+* @desc Установите длительность появления в секундах. Оставьте 0, если не нужно появление.
 * @type number
 * @min 0
 * @default 0
 *
 * @arg Interrupt
-* @text Interrupt 
-* @desc Select the behavior when the BGS is interrupted (battle).
+* @text Прерывание
+* @desc Выберите поведение при прерывании BGS (например, в бою).
 * @type select
-* @option Ignore
-* @option Stop
-* @option Pause
-* @default Pause
+* @option Игнорировать
+* @option Остановить
+* @option Пауза
+* @default Пауза
 *
 * @ ------------------------------------------------
 *
 * @command StopBgm
-* @text Stop BGM
-* @desc Stop a BGM in the new channel system.
+* @text Остановить BGM
+* @desc Останавливает BGM в новой системе каналов.
 *
 * @arg Channel
-* @text Channel
-* @desc Select the channel.
+* @text Канал
+* @desc Выберите канал.
 * @type number
 * @min 1
 * @default 1
 *
 * @arg FadeOut
-* @text Fade Out
-* @desc Set a fade out duration in number of seconds. Leave it at 0 if you don't want any fade out.
+* @text Затухание
+* @desc Установите длительность затухания в секундах. Оставьте 0, если затухание не требуется.
 * @type number
 * @min 0
 * @default 3
 *
-* @ ------------------------------------------------
-*
 * @command StopBgs
-* @text Stop BGS
-* @desc Stop a BGS in the new channel system.
+* @text Остановить BGS
+* @desc Останавливает BGS в новой системе каналов.
 *
 * @arg Channel
-* @text Channel
-* @desc Select the channel.
+* @text Канал
+* @desc Выберите канал.
 * @type number
 * @min 1
 * @default 1
 *
 * @arg FadeOut
-* @text Fade Out
-* @desc Set a fade out duration in number of seconds. Leave it at 0 if you don't want any fade out.
+* @text Затухание
+* @desc Установите длительность затухания в секундах. Оставьте 0, если затухание не требуется.
 * @type number
 * @min 0
 * @default 3
@@ -883,12 +872,12 @@
 * @ ------------------------------------------------
 *
 * @command StopAllBgm
-* @text Stop All Mush BGMs
-* @desc Stop all Mush BGMs. This does not stop the regular BGM (non Mush).
+* @text Остановить все Mush BGM
+* @desc Останавливает все Mush BGM. Не останавливает обычные BGM (не Mush).
 *
 * @arg FadeOut
-* @text Fade Out
-* @desc Set a fade out duration in number of seconds. Leave it at 0 if you don't want any fade out.
+* @text Затухание
+* @desc Установите длительность затухания в секундах. Оставьте 0, если затухание не требуется.
 * @type number
 * @min 0
 * @default 0
@@ -896,12 +885,12 @@
 * @ ------------------------------------------------
 *
 * @command StopAllBgs
-* @text Stop All Mush BGSs
-* @desc Stop all Mush BGSs. This does not stop the regular BGS (non Mush).
+* @text Остановить все Mush BGS
+* @desc Останавливает все Mush BGS. Не останавливает обычные BGS (не Mush).
 *
 * @arg FadeOut
-* @text Fade Out
-* @desc Set a fade out duration in number of seconds. Leave it at 0 if you don't want any fade out.
+* @text Затухание
+* @desc Установите длительность затухания в секундах. Оставьте 0, если затухание не требуется.
 * @type number
 * @min 0
 * @default 0
@@ -909,19 +898,19 @@
 * @ ------------------------------------------------
 *
 * @command ChangeVolumeBgm
-* @text Change BGM Volume
-* @desc Change the volume of an active MUSH BGM.
+* @text Изменить громкость BGM
+* @desc Изменяет громкость активного MUSH BGM.
 *
 * @arg Channel
-* @text Channel
-* @desc Select the channel of the BGM.
+* @text Канал
+* @desc Выберите канал BGM.
 * @type number
 * @min 1
 * @default 1
 *
 * @arg Volume
-* @text Volume
-* @desc Set the new BGM volume.
+* @text Громкость
+* @desc Установите новую громкость BGM.
 * @type number
 * @min 0
 * @default 100
@@ -929,19 +918,19 @@
 * @ ------------------------------------------------
 *
 * @command ChangeVolumeBgs
-* @text Change BGS Volume
-* @desc Change the volume of an active MUSH BGS.
+* @text Изменить громкость BGS
+* @desc Изменяет громкость активного MUSH BGS.
 *
 * @arg Channel
-* @text Channel
-* @desc Select the channel of the BGS.
+* @text Канал
+* @desc Выберите канал BGS.
 * @type number
 * @min 1
 * @default 1
 *
 * @arg Volume
-* @text Volume
-* @desc Set the new BGS volume.
+* @text Громкость
+* @desc Установите новую громкость BGS.
 * @type number
 * @min 0
 * @default 100
@@ -949,91 +938,91 @@
 * @ ------------------------------------------------
 *
 * @command PlaySpatialSe
-* @text Play Spatial SE
-* @desc Play a spacial SE from a certain position.
+* @text Воспроизвести пространственный SE
+* @desc Воспроизводит пространственный SE из определенной позиции.
 *
 * @arg Filename
-* @text Filename
-* @desc Select the SE to play.
+* @text Имя файла
+* @desc Выберите SE для воспроизведения.
 * @type file
 * @dir audio/se
 * 
 * @arg Pitch
-* @text Pitch
-* @desc Set the pitch of the SE.
+* @text Тон
+* @desc Установите тон SE.
 * @type number
 * @min 1
 * @max 200
 * @default 100
 * 
 * @arg PitchVariance
-* @text Pitch Variance
-* @desc Set the pitch variance feature independently from the general setting, unless you set this to "default".
+* @text Вариация тона
+* @desc Установите функцию вариации тона независимо от общей настройки, если не установлено значение "default".
 * @type select
-* @option Default
-* @option On
-* @option Off
-* @default Default
+* @option По умолчанию
+* @option Вкл
+* @option Выкл
+* @default По умолчанию
 *
 * @arg VolumeVariance
-* @text Volume Variance
-* @desc Set the volume variance feature independently from the general setting, unless you set this to "default".
+* @text Вариация громкости
+* @desc Установите функцию вариации громкости независимо от общей настройки, если не установлено значение "по умолчанию".
 * @type select
-* @option Default
-* @option On
-* @option Off
-* @default Default
+* @option По умолчанию
+* @option Вкл
+* @option Выкл
+* @default По умолчанию
 *
 * @arg MaxVolume
-* @text Max Volume
-* @desc Set the max volume of the SE.
+* @text Максимальная громкость
+* @desc Установите максимальную громкость SE.
 * @type number
 * @min 0
 * @max 100
 * @default 90
 * 
 * @arg EventId
-* @text Event Id
-* @desc Set the ID of the event that will act as a source for the SE.
+* @text ID события
+* @desc Установите ID события, которое будет действовать как источник для SE.
 * @type number
 * @min 1
 * @default 1
 *
 * @arg Radius
-* @text Radius
-* @desc Set the radius of the SE. 0 will make the radius as big as the map.
+* @text Радиус
+* @desc Установите радиус SE. 0 сделает радиус таким же большим, как и карта.
 * @type number
 * @min 0
 * @default 8
 *
 * @arg Strength
-* @text Strength
-* @desc Set the strength of the SE. The higher the number, the slower the volume will fade away.
+* @text Сила
+* @desc Установите силу SE. Чем выше число, тем медленнее будет уменьшаться громкость.
 * @type number
 * @min 1
 * @max 1000
 * @default 100
 *
 * @arg Pan
-* @text Pan Type
-* @desc Set the panning type of the audio source.
+* @text Тип панорамирования
+* @desc Установите тип панорамирования для источника звука.
 * @type select
-* @option Origin Expand
-* @option Linear Scaling
-* @option None
-* @default Origin Expand
+* @option Расширение от источника
+* @option Линейное масштабирование
+* @option Нет
+* @default Расширение от источника
 *
 * @arg PanSt
-* @text Pan Start Distance
-* @desc **Only if pan is set to Origin Expand** Set the distance before audio starts gradually panning.
+* @text Начальное расстояние панорамирования
+* @desc **Только если панорамирование установлено в Расширение от источника** Установите расстояние, после которого начинается постепенное панорамирование.
 * @type number
 * @min 1
 * @max 999
 * @default 3
 * 
 * @arg PanLd
-* @text Pan Length Distance
-* @desc **Only if pan is set to Origin Expand** Set the distance for the audio to be fully panned. 
+* @text Длина расстояния панорамирования
+* @desc **Только если панорамирование установлено в Расширение от источника** Установите расстояние, на котором аудио будет полностью панорамировано.
 * @type number
 * @min 1
 * @max 999
@@ -1042,54 +1031,54 @@
 * @ ------------------------------------------------
 *
 * @command PlayVsc
-* @text Play VSC
-* @desc Play a Voice Sound.
+* @text Воспроизвести VSC
+* @desc Воспроизводит звуковой эффект голоса.
 *
 * @arg Filename
-* @text Filename
-* @desc Select the file to play.
+* @text Имя файла
+* @desc Выберите файл для воспроизведения.
 * @type file
 * @dir audio/vsc
 *
 * @arg Channel
-* @text Channel
-* @desc Select the channel in which the VSC will be played. 
+* @text Канал
+* @desc Выберите канал, в котором будет воспроизводиться VSC.
 * @type number
 * @min 1
 * @default 1
 *
 * @arg Pitch
-* @text Pitch
-* @desc Set the pitch.
+* @text Тон
+* @desc Установите тон.
 * @type number
 * @min 1
 * @max 200
 * @default 100
 *
 * @arg Volume
-* @text Volume
-* @desc Set the volume.
+* @text Громкость
+* @desc Установите громкость.
 * @type number
 * @min 0
 * @max 100
 * @default 100
 *
 * @arg Pan
-* @text Pan
-* @desc Set the pan.
+* @text Панорамирование
+* @desc Установите панорамирование.
 * @type number
 * @min -100
 * @max 100
 * @default 0
 * 
 * @arg Interrupt
-* @text Interrupt
-* @desc Select the behavior when the voice sound is interrupted (switching between menu and battle).
+* @text Прерывание
+* @desc Выберите поведение при прерывании звука голоса (при переключении между меню и битвой).
 * @type select
-* @option Ignore
-* @option Stop
-* @option Pause
-* @default Ignore
+* @option Игнорировать
+* @option Остановить
+* @option Пауза
+* @default Игнорировать
 *
 */
 //==============================================================================================================

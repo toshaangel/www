@@ -5,15 +5,14 @@
 
 var TAA = TAA || {};
 TAA.skm = {};
-TAA.skm.Version = "1.3.1";
+TAA.skm.Version = "1.2.1";
 TAA.skm.PluginName = "TAA_SkillMastery";
 TAA.skm.alias = {};
-var Imported = Imported || {};
 
 /*:
  * @target MV MZ
  * 
- * @plugindesc [1.3.1] Skill Mastery
+ * @plugindesc [1.2.1] Skill Mastery
  * @author T. A. A. (taaspider)
  * @url http://taaspider.itch.io/ 
  * 
@@ -486,14 +485,6 @@ var Imported = Imported || {};
  * so that each one may level up at different times. The goal here is to
  * create a layer of unpredictability and make things a bit more interesting
  * to the player!
- *  
- * ============================================================================
- * Compatibility Warnings
- * ============================================================================
- * 
- * TAA_EnemyReinforcements
- *  Both scripts are compatible, just make sure EnemyReinforcements is placed AFTER
- *  SkillMastery in the plugin list.
  * 
  * 
  * ============================================================================
@@ -653,37 +644,6 @@ var Imported = Imported || {};
  *    the skill list;
  * Version 1.2.1:
  *  - Fixed a bug that causes the equip scene to crash on MZ;
- * Version 1.2.2:
- *  - Changed one function call to prevent crashes when using a skill not properly 
- *    initialized;
- *  - Added a condition for drawing Skill Mastery gauges to prevent compatibility issues
- *    with other plugins;
- *  - Fixed a bug that could cause the game to crash while reading skill mastery data
- *    at boot when using the Plugin Manager as datasource;
- *  - Added the variable id referencing the current skill ID when evaluating skill
- *    requirements;
- *  - Added two new parameters:
- *      * Enemy Skill Level Up: allows to disable skill leveling for enemies;
- *      * Lock Trait Skills: allows to prevent skills made available by traits from 
- *        leveling up. If enabled, only skills the actor have effectively learned can
- *        gain experience;
- * Version 1.3.0:
- *  - Fixed a compatibility issue with Fomar0153_EquipmentSkills that would cause a game
- *    crash if horizontal gauges are used;
- *  - Fixed an issue that would cause the plugin to load Plugin Manager skill data twice,
- *    causing unnecessary warning messages in the console;
- *  - Added parameters to further customize mastery gauges;
- *  - Added parameters for alternative message and animations when the skill reaches its
- *    maximum level;
- *  - Minor improvements to level up message display;
- *  - Fixed a bug with skill cost display;
- *  - Included a parameter to allow adding a separator between TP and MP costs when a skill
- *    requires both. Default engine text color for each type of cost are not changed;
- *  - Added a parameter to define skill cost formatting pattern;
- * Version 1.3.1:
- *  - Added the ability to change a skill name with level up;
- *  - Added options to allow players to execute a specific level of a skill;
- *  - Code clean up and optimizations;
  * 
  * ============================================================================
  * End of Help
@@ -835,7 +795,7 @@ var Imported = Imported || {};
  * @param JSON Config
  * @parent ---DataSource Config---
  * @type struct<JsonConfig>
- * @default {"File":"SkillLevels.json","ID Object":"id","Default Object":"default","Level Array Object":"levels","Name":"name","MP Cost Object":"mpCost","TP Cost Object":"tpCost","TP Gain Object":"tpGain","Damage Formula Object":"damage","Requirements Object":"req","Description Object":"descr","Custom Effects Object":"customEffects","Damage Modifiers Object":"dmgMods","EXP Type Object":"xpType","Formula Array Object":"formulas","EXP Formula Object":"xp"}
+ * @default {"File":"SkillLevels.json","ID Object":"id","Default Object":"default","Level Array Object":"levels","MP Cost Object":"mpCost","TP Cost Object":"tpCost","TP Gain Object":"tpGain","Damage Formula Object":"damage","Requirements Object":"req","Description Object":"descr","Custom Effects Object":"customEffects","Damage Modifiers Object":"dmgMods","EXP Type Object":"xpType","Formula Array Object":"formulas","EXP Formula Object":"xp"}
  * @desc Configure properties when using a JSON file as a datasource.
  * 
  * @param ---Default Global Config---
@@ -863,33 +823,12 @@ var Imported = Imported || {};
  * @default []
  * @desc List of skills that don't have levels and should not level up.
  * 
- * @param Lock Trait Skills
- * @parent ---Default Global Config---
- * @type boolean
- * @on YES
- * @off NO
- * @default true
- * @desc If enabled, prevent skills made available with traits from leveling up.
- * 
  * @param Skill Name Display
  * @parent ---Default Global Config---
  * @type text
  * @default %1 Lv%2
  * @desc How do we display skill name? 
  * %1 - Skill Name  %2 - Skill Level
- * 
- * @param Skill Cost Separator
- * @parent ---Default Global Config---
- * @type text
- * @default +
- * @desc Set text to separate MP and TP cost when a skill requires both.
- * 
- * @param Skill Cost Display
- * @parent ---Default Global Config---
- * @type text
- * @default %1 %2
- * @desc How do we display skill cost? 
- * %1 - Cost Value  %2 - Cost Type (TP or MP)
  * 
  * @param Default EXP Formula
  * @parent ---Default Global Config---
@@ -920,35 +859,6 @@ var Imported = Imported || {};
  * @default %1 leveled up!
  * @desc Text to be displayed on skill level up. Leave it blank to not show any messages. %1 - Skill Name %2 - Actor/Enemy name
  * 
- * @param Max Lv Custom Msg/Anim
- * @parent ---Default Global Config---
- * @type boolean
- * @on ENABLE
- * @off DISABLE
- * @default false
- * @desc Determines if the alternative message and animations are used when the skill reaches its max level.
- * 
- * @param Max Lv Animation
- * @parent ---Default Global Config---
- * @type animation
- * @require 1
- * @default 53
- * @desc Animation id to play when skill reaches maximum level.
- * 
- * @param Max Lv Message
- * @parent ---Default Global Config---
- * @type text
- * @default %1 reached its maximum potential!
- * @desc Text displayed when skill reaches max lv. Leave it blank to not show any messages. %1 - Skill Name %2 - Actor/Enemy name
- * 
- * @param Enemy Skill Level Up
- * @parent ---Default Global Config---
- * @type boolean
- * @on YES
- * @off NO
- * @default true
- * @desc Should enemy skills level up?
- * 
  * @param Enemy Level up Message
  * @parent ---Default Global Config---
  * @type boolean
@@ -964,20 +874,6 @@ var Imported = Imported || {};
  * @off NO
  * @default true
  * @desc If enabled, TAA_EnemyReinforcements will work only when tags are added as skill level custom effects.
- * 
- * @param Allow Level Choosing
- * @parent ---Default Global Config---
- * @type boolean
- * @on YES
- * @off NO
- * @default false
- * @desc If enabled and a skill is leveled above level 1, enables another window to choose which level to use.
- * 
- * @param Level Select Indicator
- * @parent ---Default Global Config---
- * @type text
- * @default >
- * @desc Text to indicate the player can select from a list of skill levels which one to use.
  * 
  * @param ---Gauge Config---
  * @default
@@ -1036,14 +932,6 @@ var Imported = Imported || {};
  * @default 5
  * @desc Mastery gauge width.
  * 
- * @param Gauge Background Color
- * @parent ---Gauge Config---
- * @type number
- * @min 0
- * @max 31
- * @default 19
- * @desc Determines the gauge background color. 
- * 
  * @param Gauge Outline
  * @parent ---Gauge Config---
  * @type boolean
@@ -1051,22 +939,6 @@ var Imported = Imported || {};
  * @off NO
  * @default true
  * @desc Draw gauge outline?
- * 
- * @param Gauge Outline Thickness
- * @parent ---Gauge Config---
- * @type number
- * @min 0
- * @max 15
- * @default 2
- * @desc Determines the gauge outline thickness, if outline is enabled. 
- * 
- * @param Gauge Outline Color
- * @parent ---Gauge Config---
- * @type number
- * @min 0
- * @max 31
- * @default 9
- * @desc Determines the gauge outline color. 
  * 
  * @param Lock Gauge on Requirements
  * @parent ---Gauge Config---
@@ -1083,55 +955,6 @@ var Imported = Imported || {};
  * @max 31
  * @default 10
  * @desc Color to be used at the border of a locked progression gauge.
- * 
- * @param ---Level Select Window---
- * @default
- * 
- * @param Level Name Display
- * @parent ---Level Select Window---
- * @type text
- * @default %1 Lv%2
- * @desc How do we display skill name? 
- * %1 - Skill Name  %2 - Skill Level
- * 
- * @param Level Window Max Rows
- * @parent ---Level Select Window---
- * @type number
- * @min 0
- * @max 10
- * @default 5
- * 
- * @param Level Window Padding
- * @parent ---Level Select Window---
- * @type number
- * @min 0
- * @max 999
- * @default 18
- * @desc Level window padding.
- * 
- * @param Level Window Standard Opacity
- * @parent ---Level Select Window---
- * @type number
- * @min 0
- * @max 255
- * @default 255
- * @desc Level window standard opacity.
- * 
- * @param Level Window Back Opacity
- * @parent ---Level Select Window---
- * @type number
- * @min 0
- * @max 255
- * @default 192
- * @desc Level window back opacity.
- * 
- * @param Level Window Skin
- * @parent ---Level Select Window---
- * @type file
- * @dir img/system
- * @require 1
- * @default window
- * @desc Determines the level window skin.
  * 
  */
 
@@ -1158,11 +981,6 @@ var Imported = Imported || {};
  * @type text
  * @default levels
  * @desc Object referencing the array with level specific data. (default: levels)
- * 
- * @param Name Object
- * @type text
- * @default name
- * @desc Object referencing the skill Name. (default: mpCost)
  * 
  * @param MP Cost Object
  * @type text
@@ -1269,10 +1087,6 @@ var Imported = Imported || {};
 // Gauge Level Configuration
 //=============================================================================
  /*~struct~SkillData:
-  * @param Name
-  * @type text
-  * @default 
-  * @desc Skill Name. If blank, the plugin will maintain the previous level value.
   * 
   * @param MP Cost
   * @type number
@@ -1426,49 +1240,28 @@ TAA.skm.Parameters.SourceType = Parameters['Source Type'];
 TAA.skm.Parameters.JsonConfig = JSON.parse(Parameters['JSON Config']);
 TAA.skm.Parameters.PMSkills = JSON.parse(Parameters['Plugin Manager Skills']);
 
-TAA.skm.Parameters.MinLevel = !isNaN(Parameters['Minimum Level']) ? parseInt(Parameters['Minimum Level']) : 1;
-TAA.skm.Parameters.MaxLevel = !isNaN(Parameters['Maximum Level']) ? parseInt(Parameters['Maximum Level']) : 5;
+TAA.skm.Parameters.MinLevel = parseInt(Parameters['Minimum Level']);
+TAA.skm.Parameters.MaxLevel = parseInt(Parameters['Maximum Level']);
 TAA.skm.Parameters.Unleveled = TAA.skm.functions.prepareUnleveledList(Parameters['Unleveled Skills']);
-TAA.skm.Parameters.LockTraitSkills = JSON.parse(Parameters['Lock Trait Skills']) == true;
 TAA.skm.Parameters.SkillName = Parameters['Skill Name Display'];
-TAA.skm.Parameters.SkillCostSeparator = Parameters['Skill Cost Separator'] === undefined || Parameters['Skill Cost Separator'] === "" ? " " : Parameters['Skill Cost Separator'];
-TAA.skm.Parameters.SkillCostDisplay = Parameters['Skill Cost Display'];
 TAA.skm.Parameters.XPFormula = Parameters['Default EXP Formula'];
 
 TAA.skm.Parameters.LvlUpAnimConfig = Parameters['Show Level up Animation'];
-TAA.skm.Parameters.LvlUpAnimation = !isNaN(Parameters['Level up Animation']) ? parseInt(Parameters['Level up Animation']) : 51;
+TAA.skm.Parameters.LvlUpAnimation = parseInt(Parameters['Level up Animation']);
 TAA.skm.Parameters.LvlUpMsg = Parameters['Level up Message'] || "";
-TAA.skm.Parameters.MaxLvMsgEnabled = JSON.parse(Parameters['Max Lv Custom Msg/Anim']) == true;
-TAA.skm.Parameters.MaxLvAnimation = !isNaN(Parameters['Max Lv Animation']) ? parseInt(Parameters['Max Lv Animation']) : 53;
-TAA.skm.Parameters.MaxLvMsg = Parameters['Max Lv Message'] || "";
-TAA.skm.Parameters.EnemyLvlUp = JSON.parse(Parameters['Enemy Skill Level Up']) == true;
 TAA.skm.Parameters.EnemyLvlUpMsg = JSON.parse(Parameters['Enemy Level up Message']) == true;
 TAA.skm.Parameters.ERTag = Parameters['Disable ER Tags'] === 'true';
-TAA.skm.Parameters.AllowLevelSelect = Parameters['Allow Level Choosing'] == 'true';
-TAA.skm.Parameters.LevelSelectIndicator = Parameters['Level Select Indicator'] || "";
 
 TAA.skm.Parameters.ShowGauge = JSON.parse(Parameters['Show Mastery Gauge']);
-TAA.skm.Parameters.GaugeColor1 = !isNaN(Parameters['Default Gauge Color 1']) ? parseInt(Parameters['Default Gauge Color 1']) : 12;
-TAA.skm.Parameters.GaugeColor2 = !isNaN(Parameters['Default Gauge Color 2']) ? parseInt(Parameters['Default Gauge Color 2']) : 4;
+TAA.skm.Parameters.GaugeColor1 = parseInt(Parameters['Default Gauge Color 1']);
+TAA.skm.Parameters.GaugeColor2 = parseInt(Parameters['Default Gauge Color 2']);
 TAA.skm.Parameters.CustomGaugeColors = JSON.parse(Parameters['Custom Gauge Colors']);
 TAA.skm.Parameters.GaugeType = Parameters['Gauge Type'] || 'Vertical';
-TAA.skm.Parameters.GaugeHeight = !isNaN(Parameters['Gauge Height']) ? parseInt(Parameters['Gauge Height']) : 32;
-TAA.skm.Parameters.GaugeWidth = !isNaN(Parameters['Gauge Width']) ? parseInt(Parameters['Gauge Width']) : 5;
-TAA.skm.Parameters.GaugeBgColor = !isNaN(Parameters['Gauge Background Color']) ? parseInt(Parameters['Gauge Background Color']) : 19;
-TAA.skm.Parameters.GaugeOutline = JSON.parse(Parameters['Gauge Outline']) == true;
-TAA.skm.Parameters.GaugeOutlineThickness = !isNaN(Parameters['Gauge Outline Thickness']) ? parseInt(Parameters['Gauge Outline Thickness']) : 2;
-TAA.skm.Parameters.GaugeOutlineColor = !isNaN(Parameters['Gauge Outline Color']) ? parseInt(Parameters['Gauge Outline Color']) : 9;
+TAA.skm.Parameters.GaugeHeight = parseInt(Parameters['Gauge Height']);
+TAA.skm.Parameters.GaugeWidth = parseInt(Parameters['Gauge Width']);
+TAA.skm.Parameters.GaugeOutline = JSON.parse(Parameters['Gauge Outline']);
 TAA.skm.Parameters.LockGaugeOnReqs = JSON.parse(Parameters['Lock Gauge on Requirements']);
-TAA.skm.Parameters.LockedGaugeColor = !isNaN(Parameters['Locked Gauge Border Color']) ? parseInt(Parameters['Locked Gauge Border Color']) : 10;
-TAA.skm.Parameters.LockedGaugeThickness = !isNaN(Parameters['Locked Gauge Border Thickness']) ? parseInt(Parameters['Locked Gauge Border Thickness']) : 2;
-
-TAA.skm.Parameters.SkillLevelWindow = {};
-TAA.skm.Parameters.SkillLevelWindow.SkillName = Parameters['Skill Name Display'];
-TAA.skm.Parameters.SkillLevelWindow.MaxRows = !isNaN(Parameters['Level Window Max Rows']) ? parseInt(Parameters['Level Window Max Rows']) : 5;
-TAA.skm.Parameters.SkillLevelWindow.Padding = !isNaN(Parameters['Level Window Padding']) ? parseInt(Parameters['Level Window Padding']) : 18;
-TAA.skm.Parameters.SkillLevelWindow.StandardOpacity = !isNaN(Parameters['Level Window Standard Opacity']) ? parseInt(Parameters['Level Window Standard Opacity']) : 255;
-TAA.skm.Parameters.SkillLevelWindow.BackOpacity = !isNaN(Parameters['Level Window Back Opacity']) ? parseInt(Parameters['Level Window Back Opacity']) : 192;
-TAA.skm.Parameters.SkillLevelWindow.WindowSkin = Parameters['Level Window Skin'] !== undefined ? Parameters['Level Window Skin'] : "window";
+TAA.skm.Parameters.LockedGaugeColor = parseInt(Parameters['Locked Gauge Border Color']);
 
 //=============================================================================
 // DataManager
@@ -1512,15 +1305,12 @@ function SkillManager() {
  * @method initialize
  */
 SkillManager.initialize = function(){
-    if(this._initialized === true)
-        return;
     if(TAA.skm.Parameters.SourceType === 'JSON File')
         this.initByJson();
     else
         this.initByPluginManager();
     
     this.customizeDataSkill();
-    this._initialized = true;
 };
 
 /**
@@ -1536,7 +1326,6 @@ SkillManager.initByJson = function(){
     this._idObject = TAA.skm.Parameters.JsonConfig['ID Object'] || "id";
     this._levelArrayObject = TAA.skm.Parameters.JsonConfig['Level Array Object'] || "levels";
     this._reqObject = TAA.skm.Parameters.JsonConfig['Requirements Object'] || "req";
-    this._nameObject = TAA.skm.Parameters.JsonConfig['Name Object'] || "name";
     this._mpCostObject = TAA.skm.Parameters.JsonConfig['MP Cost Object'] || "mpCost";
     this._tpCostObject = TAA.skm.Parameters.JsonConfig['TP Cost Object'] || "tpCost";
     this._tpGainObject = TAA.skm.Parameters.JsonConfig['TP Gain Object'] || "tpGain";
@@ -1563,7 +1352,6 @@ SkillManager.initByPluginManager = function(){
     this._idObject = "Skill ID";
     this._levelArrayObject = "Level Specific Data";
     this._reqObject = "Skill Requirements";
-    this._nameObject = "Name";
     this._mpCostObject = "MP Cost";
     this._tpCostObject = "TP Cost";
     this._tpGainObject = "TP Gain";
@@ -1593,7 +1381,7 @@ SkillManager.initByPluginManager = function(){
 SkillManager.parsePMSkillItem = function(item){
     var skillData = {};
     skillData[this._idObject] = parseInt(item[this._idObject]);
-    skillData[this._xpTypeObject] = (item[this._xpTypeObject] !== undefined && item[this._xpTypeObject] !== "") ? parseInt(item[this._xpTypeObject]) : 1;
+    skillData[this._xpTypeObject] = (item[this._xpTypeObject] !== undefined) ? parseInt(item[this._xpTypeObject]) : 1;
     var formulas = [];
     if(item[this._formulaArrayObject] !== undefined && item[this._formulaArrayObject] !== "")
         formulas = JSON.parse(item[this._formulaArrayObject]);
@@ -1605,18 +1393,14 @@ SkillManager.parsePMSkillItem = function(item){
             skillData[this._formulaArrayObject][f] = str;
         }
     }
-    var defaults = (item[this._defaultDataObject] !== "") ? JSON.parse(item[this._defaultDataObject]) : undefined;
+    var defaults = (item[this._defaultDataObject] !== undefined) ? JSON.parse(item[this._defaultDataObject]) : undefined;
     if(defaults !== undefined)
         this.parseSkillObjectGroup(defaults, this._defaultDataObject, skillData, false);
-    var levels = (item[this._levelArrayObject] !== "") ? JSON.parse(item[this._levelArrayObject]) : [];
-    if(levels !== undefined && Array.isArray(levels)){
+    var levels = (item[this._levelArrayObject] !== undefined) ? JSON.parse(item[this._levelArrayObject]) : [];
+    if(levels !== undefined && levels !== []){
         for(var i=0; i < levels.length; i++){
             this.parseSkillObjectGroup(JSON.parse(levels[i]), this._levelArrayObject, skillData, true);
         }
-    }
-
-    if((skillData[this._levelArrayObject] || []).length > 0){
-        skillData[this._levelArrayObject].unshift(null);
     }
 
     return skillData;
@@ -1641,13 +1425,13 @@ SkillManager.parseSkillObjectGroup = function(obj, key, skillData, isArray){
         else if(k === "Scope"){
             if(obj[k] !== undefined && !isNaN(obj[k])) newObj[k] = obj[k];
         }
-        else if(k === "Damage Formula" || k === "Skill Requirements" || k === "Name"){
+        else if(k === "Damage Formula" || k === "Skill Requirements"){
             newObj[k] = obj[k];
         }
         else if(k === "Description"){
             newObj[k] = JSON.parse(obj[k]);
         }
-        else if(obj[k] !== undefined && Array.isArray(JSON.parse(obj[k])) && JSON.parse(obj[k]).length > 0){
+        else if(obj[k] !== undefined && JSON.parse(obj[k]) !== []){
             newObj[k] =  newObj[k] || [];
             newObj[k] = JSON.parse(obj[k]);
         }
@@ -1694,10 +1478,6 @@ SkillManager.customizeDataSkill = function(){
     for(var i=1; i < $dataSkills.length; i++){
         var skill = $dataSkills[i];
 
-        // Custom Name
-        skill.leveledName = function(level) {
-            return SkillManager.getName(this, level);
-        };
         // Custom MP Cost
         skill.leveledMpCost = function(level) {
             return SkillManager.getMpCost(this, level);
@@ -1737,28 +1517,6 @@ SkillManager.customizeDataSkill = function(){
 
         $dataSkills[i] = skill;
     }
-};
-
-/**
- * Returns Name for a specified level
- * 
- * @static
- * @method getName
- */
-SkillManager.getName = function(skill, level){
-    var id = this.getSkillId(skill);
-    if(id === undefined) return skill.description;
-
-    var text = undefined;
-    if(level === undefined)
-        text = this.getDefault(id, 'name');
-    else
-        text = this.getParamByLevel(id, level, 'name');
-    
-    if(text !== undefined && text !== "")
-        return text;
-    else
-        return skill.name;
 };
 
 /**
@@ -1920,7 +1678,6 @@ SkillManager.getCodeData = function(skill, subject, level, type){
 SkillManager.requirementsMet = function(skill, level, subject){
     var code = undefined;
     var a = subject;
-    var id = this.getSkillId(skill);
     
     code = this.getCodeData(skill, subject, level, 'requirements');
     if(code === undefined || code === "")
@@ -1945,7 +1702,7 @@ SkillManager.getModifiers = function(skill, subject, type){
     var id = this.getSkillId(skill);
     if(id === undefined || subject._skillMastery[id] === undefined) return "";
 
-    var level = (TAA.skm.Parameters.AllowLevelSelect && !isNaN(subject._skillMastery[id].actingLevel)) ? subject._skillMastery[id].actingLevel : subject._skillMastery[id].level;
+    var level = subject._skillMastery[id].level;
     var code = this.getCodeData(skill, subject, level, type);
     return code || "";
 };
@@ -1971,9 +1728,6 @@ SkillManager.getDefault = function(id, option){
     if($dataSkillLevels[id] === undefined) return undefined;
     if($dataSkillLevels[id][this._defaultDataObject] === undefined) return undefined;
     switch(option){
-        case "name":
-            return $dataSkillLevels[id][this._defaultDataObject][this._nameObject];
-            break;
         case "mpCost":
             return $dataSkillLevels[id][this._defaultDataObject][this._mpCostObject];
             break;
@@ -2020,11 +1774,6 @@ SkillManager.getParamByLevel = function(id, level, option){
     if(skillData[this._levelArrayObject] === undefined || skillData[this._levelArrayObject].length === 0)
         return this.getDefault(id, option);
     switch(option){
-        case 'name':
-            text = this.getParamFromLevelArray(skillData, level, this._nameObject);
-            if(text === undefined) text = this.getDefault(id, option);
-            return text;
-            break;
         case 'mpCost':
             if(skillData[this._formulaArrayObject] !== undefined && skillData[this._formulaArrayObject][this._mpCostObject] !== undefined){
                 cost = this.getParamByFormula(skillData, level, this._mpCostObject);
@@ -2142,7 +1891,7 @@ SkillManager.getParamFromLevelArray = function(skillData, level, param){
     var i = 0;
     var result = undefined;
     while(i < skillData[this._levelArrayObject].length && i <= level){
-        if(skillData[this._levelArrayObject][i] !== undefined && skillData[this._levelArrayObject][i] !== null && Object.keys(skillData[this._levelArrayObject][i]).length > 0 && skillData[this._levelArrayObject][i][param] !== undefined)
+        if(skillData[this._levelArrayObject][i] !== undefined && skillData[this._levelArrayObject][i] !== null && skillData[this._levelArrayObject][i] !== {} && skillData[this._levelArrayObject][i][param] !== undefined)
             result = skillData[this._levelArrayObject][i][param];
         i++;
     }
@@ -2158,7 +1907,6 @@ SkillManager.getParamFromLevelArray = function(skillData, level, param){
 SkillManager.getDefaultMasteryObject = function(skillId){
     var obj = {};
     obj.level = TAA.skm.Parameters.MinLevel;
-    obj.actingLevel = null;
     obj.xp = 0;
     obj.uses = 0;
     obj.timesUsed = 0;
@@ -2296,13 +2044,6 @@ BattleManager.gainSkillMastery = function(){
 //=============================================================================
 // Game_System
 //=============================================================================
-
-Game_System.prototype.getSkillName = function(skillId, level){
-    if(level === undefined || level < TAA.skm.Parameters.MinLevel)
-        level = TAA.skm.Parameters.MinLevel;
-    
-    return SkillManager.getName($dataSkills[skillId], level);
-};
 
 Game_System.prototype.getSkillMpCost = function(skillId, level){
     if(level === undefined || level < TAA.skm.Parameters.MinLevel)
@@ -2564,20 +2305,6 @@ Game_BattlerBase.prototype.initMembers = function(){
     this._skillUses = [];
 };
 
-Game_BattlerBase.prototype.setSkillActingLevel = function(skillId, level){
-    if(this._skillMastery === undefined) this._skillMastery = [];
-    if(!this.isSkillKnown(skillId)) {
-        this._skillMastery[skillId] = SkillManager.getDefaultMasteryObject(skillId);
-    }
-    this._skillMastery[skillId].actingLevel = level;
-};
-
-Game_BattlerBase.prototype.clearSkillActingLevel = function(skillId){
-    if(this._skillMastery !== undefined && this._skillMastery[skillId] !== undefined){
-        this._skillMastery[skillId].actingLevel = null;
-    }
-};
-
 Game_BattlerBase.prototype.getSkillLevel = function(skillId){
     if(!this.isSkillKnown(skillId))
         return -1;
@@ -2585,19 +2312,12 @@ Game_BattlerBase.prototype.getSkillLevel = function(skillId){
         return this._skillMastery[skillId].level;
 };
 
-Game_BattlerBase.prototype.getSkillActingLevel = function(skillId){
-    if(!this.isSkillKnown(skillId))
-        return -1;
-    else
-        return (TAA.skm.Parameters.AllowLevelSelect && !isNaN(this._skillMastery[skillId].actingLevel)) ? this._skillMastery[skillId].actingLevel : this._skillMastery[skillId].level;
-};
-
 Game_BattlerBase.prototype.skillLevel = function(skillId){
     if(this._skillMastery === undefined) this._skillMastery = [];
     if(!this.isSkillKnown(skillId)) {
         this._skillMastery[skillId] = SkillManager.getDefaultMasteryObject(skillId);
     }
-    return (TAA.skm.Parameters.AllowLevelSelect && this._skillMastery[skillId].actingLevel !== null && !isNaN(this._skillMastery[skillId].actingLevel)) ? this._skillMastery[skillId].actingLevel.clamp(TAA.skm.Parameters.MinLevel, TAA.skm.Parameters.MaxLevel) : this._skillMastery[skillId].level;
+    return this._skillMastery[skillId].level;
 };
 
 Game_BattlerBase.prototype.learnSkill = function(skillId, customXp, customLevel){
@@ -2642,15 +2362,6 @@ Game_BattlerBase.prototype.gainSkillXp = function(skillId, xp){
 
 Game_BattlerBase.prototype.increaseSkillUseCount = function(skillId, timesUsed){
     this._skillMastery[skillId].timesUsed += timesUsed;
-    if(this.isEnemy() && TAA.skm.Parameters.EnemyLvlUp === false){
-        // If enemy level up skill is disabled, prevent the counter from being increased
-        return false;
-    }
-    else if(this.isActor() && TAA.skm.Parameters.LockTraitSkills && !this.isLearnedSkill(skillId)){
-        // If trait skills are locked, prevent the counter from being increased unless the
-        // actor actually knows the skill
-        return false;
-    }
     if(this._skillMastery[skillId].xpType !== undefined && this._skillMastery[skillId].xpType === 1 && !TAA.skm.Parameters.Unleveled.contains(skillId)){
         return this.gainSkillXp(skillId, timesUsed);
     }
@@ -2721,10 +2432,7 @@ Game_BattlerBase.prototype.skillMpCost = function(skill){
         return TAA.skm.alias.GameBattlerBase.skillMpCost.call(this, skill);
     if(!this.isSkillKnown(skill.id))
         this.skillLevel(skill.id);
-
-    let level = (TAA.skm.Parameters.AllowLevelSelect && this._skillMastery[skill.id].actingLevel !== null && !isNaN(this._skillMastery[skill.id].actingLevel)) ? this._skillMastery[skill.id].actingLevel : this._skillMastery[skill.id].level;
-
-    return skill.leveledMpCost(level);
+    return skill.leveledMpCost(this._skillMastery[skill.id].level);
 };
 
 TAA.skm.alias.GameBattlerBase.skillTpCost = Game_BattlerBase.prototype.skillTpCost;
@@ -2733,9 +2441,7 @@ Game_BattlerBase.prototype.skillTpCost = function(skill){
         return TAA.skm.alias.GameBattlerBase.skillTpCost.call(this, skill);
     if(!this.isSkillKnown(skill.id))
         this.skillLevel(skill.id);
-
-        let level = (TAA.skm.Parameters.AllowLevelSelect && this._skillMastery[skill.id].actingLevel !== null && !isNaN(this._skillMastery[skill.id].actingLevel)) ? this._skillMastery[skill.id].actingLevel : this._skillMastery[skill.id].level;
-    return skill.leveledTpCost(level);
+    return skill.leveledTpCost(this._skillMastery[skill.id].level);
 };
 
 TAA.skm.alias.GameBattlerBase.paySkillCost = Game_BattlerBase.prototype.paySkillCost;
@@ -2815,50 +2521,6 @@ Game_BattlerBase.prototype.getRandomParamByRange = function(lowerRange, upperRan
     else return Math.floor(Math.random() * (a - b) + b);
 };
 
-Game_BattlerBase.prototype.canPaySkillCostForLevel = function(skill, level) {
-    if(this._skillMastery[skill.id] === undefined) 
-        return this.canPaySkillCost(skill);
-
-    let tpCost = skill.leveledTpCost(level);
-    let mpCost = skill.leveledMpCost(level);
-    return (this._tp >= tpCost && this._mp >= mpCost);
-};
-
-Game_BattlerBase.prototype.canPaySkillCostForAnyLevel = function(skill) {
-    if(this._skillMastery[skill.id] === undefined) 
-        return this.canPaySkillCost(skill);
-    
-    let currentLevel = this._skillMastery[skill.id].level;
-    for(var i = TAA.skm.Parameters.MinLevel; i<=currentLevel; i++){
-        let tpCost = skill.leveledTpCost(i);
-        let mpCost = skill.leveledMpCost(i);
-
-        if(this._tp >= tpCost && this._mp >= mpCost) return true;
-    }
-
-    return false;
-};
-
-TAA.skm.alias.GameBattlerBase.meetsSkillConditions = Game_BattlerBase.prototype.meetsSkillConditions;
-Game_BattlerBase.prototype.meetsSkillConditions = function(skill) {
-    if(TAA.skm.Parameters.AllowLevelSelect !== true)
-        return TAA.skm.alias.GameBattlerBase.meetsSkillConditions.call(this, skill);
-
-    let generalConditions = (this.meetsUsableItemConditions(skill) &&
-        this.isSkillWtypeOk(skill) && !this.isSkillSealed(skill.id) && 
-        !this.isSkillTypeSealed(skill.stypeId));
-
-    return generalConditions && this.canPaySkillCostForAnyLevel(skill);
-};
-
-Game_BattlerBase.prototype.meetsSkillConditionsForLevel = function(skill, level) {
-    let generalConditions = (this.meetsUsableItemConditions(skill) &&
-        this.isSkillWtypeOk(skill) && !this.isSkillSealed(skill.id) && 
-        !this.isSkillTypeSealed(skill.stypeId));
-
-    return generalConditions && this.canPaySkillCostForLevel(skill, level);
-};
-
 //=============================================================================
 // Game_Battler
 //=============================================================================
@@ -2868,6 +2530,7 @@ TAA.skm.alias.GameBattler.onAllActionsEnd = Game_Battler.prototype.onAllActionsE
 Game_Battler.prototype.onAllActionsEnd = function(){
     TAA.skm.alias.GameBattler.onAllActionsEnd.call(this);
     this.processSkillUses();
+    this.resetSkillUseCounter();
 };
 
 Game_Battler.prototype.processSkillUses = function(){
@@ -2897,19 +2560,16 @@ Game_Battler.prototype.processSkillUses = function(){
                     default:
                         playAnim = false;
                 }
-                // show text on level up?
-                if(TAA.skm.Parameters.LvlUpMsg !== "" && (this.isActor() || (this.isEnemy() && TAA.skm.Parameters.EnemyLvlUpMsg))){
-                    var text = this.prepareSkillLvlUpText(id);
-                    BattleManager.skillLevelUpMsg(text);
-                }
                 if(playAnim && TAA.skm.Parameters.LvlUpAnimation > 0){
-                    let anim = TAA.skm.Parameters.LvlUpAnimation;
-                    if(this.isMaxLevelSkill(id) && TAA.skm.Parameters.MaxLvMsgEnabled && TAA.skm.Parameters.MaxLvAnimation > 0)
-                        anim = TAA.skm.Parameters.MaxLvAnimation;
                     if(Utils.RPGMAKER_NAME === 'MZ')
-                        $gameTemp.requestAnimation([this], anim, mirror);
+                        $gameTemp.requestAnimation([this], TAA.skm.Parameters.LvlUpAnimation, mirror);
                     else
-                        this.startAnimation(anim, mirror);
+                        this.startAnimation(TAA.skm.Parameters.LvlUpAnimation, mirror);
+                    // show text on level up?
+                    if(TAA.skm.Parameters.LvlUpMsg !== "" && (this.isActor() || (this.isEnemy() && TAA.skm.Parameters.EnemyLvlUpMsg))){
+                        var text = this.prepareSkillLvlUpText(id);
+                        BattleManager.skillLevelUpMsg(text);
+                    }
                 }
             }
         }
@@ -2920,12 +2580,7 @@ Game_Battler.prototype.processSkillUses = function(){
 
 Game_Battler.prototype.prepareSkillLvlUpText = function(skillId){
     if(skillId === undefined || skillId <= 0 || $dataSkills[skillId] === undefined) return "";
-
-    var msg = TAA.skm.Parameters.LvlUpMsg;
-    if(this.isMaxLevelSkill(skillId) && TAA.skm.Parameters.MaxLvMsgEnabled && TAA.skm.Parameters.MaxLvMsg !== "" && this.isActor())
-        msg = TAA.skm.Parameters.MaxLvMsg;
-
-    var text = msg.replace(/%1/g, $dataSkills[skillId].name);
+    var text = TAA.skm.Parameters.LvlUpMsg.replace(/%1/g, $dataSkills[skillId].name);
     text = text.replace(/%2/g, this.name());
     return text || "";
 };
@@ -3085,7 +2740,7 @@ Game_Action.prototype.applyItemUserEffect = function(target){
 Game_Action.prototype.applyCustomSkillEffects = function(target){
     var skill = this.item();
     var mods = $dataSkills[skill.id].customEffects(this.subject());
-    if(mods !== undefined && Array.isArray(mods) && mods.length > 0)
+    if(mods !== undefined && mods !== [])
         this.processCustomEffects(mods, target);
 };
 
@@ -3093,7 +2748,7 @@ Game_Action.prototype.applySkillModifiers = function(value, critical, target){
     var skill = this.item();
     var mods = $dataSkills[skill.id].damageMods(this.subject());
     
-    if(mods !== undefined && Array.isArray(mods) && mods.length > 0){
+    if(mods !== undefined && mods !== []){
         if(critical){
             return this.processDamageModifiers(0, mods, target);
         }
@@ -3299,7 +2954,7 @@ Game_Action.prototype.processCustomEffects = function(mods, target){
             $gameTroop._interpreter.setupReservedCommonEvent();
         }
         else if(mods[i].match(/(ON CRITICAL)?\s*SUMMON: e\[(v?[0-9]+)(?:,\s*(v?[0-9]+))?\]\s*(?:,\s*r\[v?[0-9]{1,3}\]|,\s*lv\[(?:\+|\-|v)?[0-9]+%?(?:,\s*(?:\+|\-|v)?[0-9]+%?)?\])*/i)){
-            if(TAA.enr === undefined || Object.keys(TAA.enr).length === 0 || a.isActor() || SceneManager._scene.addReinforcement === undefined) continue; // if TAA_EnemyReinforcements is not enabled, or subject is an actor, or is not battle scene
+            if(TAA.enr === undefined || TAA.enr === {} || a.isActor() || SceneManager._scene.addReinforcement === undefined) continue; // if TAA_EnemyReinforcements is not enabled, or subject is an actor, or is not battle scene
             if(RegExp.$1.toLowerCase() === "on critical" && !this._skmIsCritical)
                 continue;
             var enemyId = RegExp.$2;
@@ -3374,12 +3029,12 @@ Game_Action.prototype.processCustomEffects = function(mods, target){
                 else qtt = 0;
             }
             $gameTroop.saveAnsweredCalls(realCalls);
-            if(Object.keys(realCalls).length <= 0) this.makeSuccess(target);
+            if(realCalls !== {}) this.makeSuccess(target);
         }
     }
 };
 
-if(TAA.enr !== undefined && TAA.enr !== null){
+if(TAA.enr !== undefined && TAA.enr !== {}){
     TAA.skm.alias.GameAction.processReinforcementCalls = Game_Action.prototype.processReinforcementCalls;
     Game_Action.prototype.processReinforcementCalls = function(target){
         if(TAA.skm.Parameters.ERTag === false){
@@ -3479,8 +3134,6 @@ Game_Action.prototype.customEffectsTargets = function(text, target){
 Game_Action.prototype.clearModifiers = function(){
     this._skmCriticalModifier = undefined;
     this._skmIsCritical = false;
-    if(this.subject() && DataManager.isSkill(this.item()))
-        this.subject().clearSkillActingLevel(this.item().id);
 };
 
 TAA.skm.alias.GameAction.checkItemScope = Game_Action.prototype.checkItemScope;
@@ -3489,8 +3142,7 @@ Game_Action.prototype.checkItemScope = function(list){
     if(this.subject()._skillMastery === undefined || this.subject()._skillMastery[skillId] === undefined || this.item().leveledScope === undefined)
         return TAA.skm.alias.GameAction.checkItemScope.call(this, list);
     
-    var skillLevel = this.subject().getSkillActingLevel(skillId);
-    if(skillLevel <= 0) skillLevel = undefined;
+    var skillLevel = this.subject()._skillMastery[skillId].level;
     return list.contains(this.item().leveledScope(skillLevel));
 };
 
@@ -3581,7 +3233,6 @@ TAA.skm.alias.WindowBase = TAA.skm.alias.WindowBase || {};
 TAA.skm.alias.WindowBase.drawItemName = Window_Base.prototype.drawItemName;
 Window_Base.prototype.drawItemName = function(item, x, y, width){
     var drawSKMGauge = true;
-    width = width || 312;
     if((TAA.skm.Parameters.ShowGauge !== undefined && TAA.skm.Parameters.ShowGauge === false) || (DataManager.isSkill(item) && TAA.skm.Parameters.Unleveled.contains(item.id)))
         drawSKMGauge = false;
     if(drawSKMGauge && DataManager.isSkill(item)){
@@ -3592,6 +3243,7 @@ Window_Base.prototype.drawItemName = function(item, x, y, width){
             x += gWidth + 3;
         }
         
+        width = width || 312;
         if (item) {
             if(Utils.RPGMAKER_NAME === 'MZ')
                 var iconBoxWidth = ImageManager.iconWidth + 4;
@@ -3599,7 +3251,7 @@ Window_Base.prototype.drawItemName = function(item, x, y, width){
                 var iconBoxWidth = Window_Base._iconWidth + 4;
             this.resetTextColor();
             this.drawIcon(item.iconIndex, x + 2, y + 2);
-            var name = this.setupSkillMasteryName(item, this._actor.skillLevel(item.id));
+            var name = this.setupSkillMasteryName(item.name, this._actor.skillLevel(item.id));
             this.drawText(name, x + iconBoxWidth, y, width - iconBoxWidth);
         }
     }
@@ -3610,20 +3262,15 @@ Window_Base.prototype.drawItemName = function(item, x, y, width){
 Window_Base.prototype.drawSKMGauge = function(item, x, y, width, isVertical){
     var gX = x;
     var gY = y;
-    if(this._actor === undefined) return;
     var colors = this.getSKMGaugeColors(item);
     if(Utils.RPGMAKER_NAME === 'MZ'){
         var color1 = ColorManager.textColor(colors[0]);
         var color2 = ColorManager.textColor(colors[1]);
-        var backColor = ColorManager.textColor(TAA.skm.Parameters.GaugeBgColor);
-        var outlineColor = ColorManager.textColor(TAA.skm.Parameters.GaugeOutlineColor);
         var iconWidth = ImageManager.iconWidth;
     }
     else{
         var color1 = this.textColor(colors[0]);
         var color2 = this.textColor(colors[1]);
-        var backColor = this.textColor(TAA.skm.Parameters.GaugeBgColor);
-        var outlineColor = this.textColor(TAA.skm.Parameters.GaugeOutlineColor);
         var iconWidth = Window_Base._iconWidth;
     }
     var gHeight = !isNaN(TAA.skm.Parameters.GaugeHeight) ? TAA.skm.Parameters.GaugeHeight : 32;
@@ -3639,24 +3286,20 @@ Window_Base.prototype.drawSKMGauge = function(item, x, y, width, isVertical){
         gY = y + this.lineHeight() - gHeight;
     }
 
-    if(TAA.skm.Parameters.LockGaugeOnReqs === true && (!SkillManager.requirementsMet(item, this._actor.skillLevel(item.id), this._actor)) || (TAA.skm.Parameters.LockTraitSkills && !this._actor.isLearnedSkill(item.id)))
+    if(TAA.skm.Parameters.LockGaugeOnReqs === true && !SkillManager.requirementsMet(item, this._actor.skillLevel(item.id), this._actor))
         return this.drawLockedSKMGauge(item, gX, gY, gWidth, gHeight, isVertical);
-    if(isNaN(backColor) || backColor < 0){
-        if(Utils.RPGMAKER_NAME === 'MZ')
-            backColor = ColorManager.gaugeBackColor();
-        else
-            backColor = this.gaugeBackColor();
-    }
-    if(TAA.skm.Parameters.GaugeOutline === true && !isNaN(TAA.skm.Parameters.GaugeOutlineThickness) && TAA.skm.Parameters.GaugeOutlineThickness > 0){
-        this.contents.fillRect(gX, gY, gWidth, gHeight, outlineColor);
-        gWidth -= TAA.skm.Parameters.GaugeOutlineThickness * 2;
-        gHeight -= TAA.skm.Parameters.GaugeOutlineThickness * 2;
-        gX += TAA.skm.Parameters.GaugeOutlineThickness;
-        gY += TAA.skm.Parameters.GaugeOutlineThickness;
-    }
+    var backColor;
+    if(Utils.RPGMAKER_NAME === 'MZ')
+        backColor = ColorManager.gaugeBackColor();
+    else
+        backColor = this.gaugeBackColor();
     this.contents.fillRect(gX, gY, gWidth, gHeight, backColor);
     var masteryRate = this._actor.skillProgression(item.id);
     var rate = 0;
+    if(TAA.skm.Parameters.GaugeOutline === true){
+        gWidth -= 4;
+        gHeight -= 4; 
+    }
     if(isVertical === true){
         rate = Math.floor(gHeight * masteryRate);
         gY += gHeight - rate;
@@ -3667,6 +3310,11 @@ Window_Base.prototype.drawSKMGauge = function(item, x, y, width, isVertical){
         gWidth = rate;
     }
     
+    if(TAA.skm.Parameters.GaugeOutline === true){
+        gX += 2;
+        gY += 2;
+    }
+    
     this.contents.gradientFillRect(gX, gY, gWidth, gHeight, color1, color2, isVertical);
 };
 
@@ -3674,7 +3322,7 @@ Window_Base.prototype.getSKMGaugeColors = function(skill){
     var skillLevel = this._actor.getSkillLevel(skill.id);
     var color1 = !isNaN(TAA.skm.Parameters.GaugeColor1) ? TAA.skm.Parameters.GaugeColor1 : 12;
     var color2 = !isNaN(TAA.skm.Parameters.GaugeColor2) ? TAA.skm.Parameters.GaugeColor2 : 4;
-    if(TAA.skm.Parameters.CustomGaugeColors !== undefined && TAA.skm.Parameters.CustomGaugeColors.length > 0){
+    if(TAA.skm.Parameters.CustomGaugeColors !== undefined && TAA.skm.Parameters.CustomGaugeColors !== []){
         var i = 0;
         while(i < TAA.skm.Parameters.CustomGaugeColors.length){
             var custom = JSON.parse(TAA.skm.Parameters.CustomGaugeColors[i++]);
@@ -3702,467 +3350,19 @@ Window_Base.prototype.drawLockedSKMGauge = function(item, x, y, width, height, i
         else
             lockColor = this.textColor(10);
     }
-    var backColor = TAA.skm.Parameters.GaugeBgColor;
-    if(isNaN(backColor) || backColor < 0){
-        if(Utils.RPGMAKER_NAME === 'MZ')
-            backColor = ColorManager.gaugeBackColor();
-        else
-            backColor = this.gaugeBackColor();
-    }
-    var pad = !isNaN(TAA.skm.Parameters.LockedGaugeThickness) ? TAA.skm.Parameters.LockedGaugeThickness : 2;
+    var backColor;
+    if(Utils.RPGMAKER_NAME === 'MZ')
+        backColor = ColorManager.gaugeBackColor();
+    else
+        backColor = this.gaugeBackColor();
     this.contents.fillRect(x, y, width, height, lockColor);
-    this.contents.fillRect(x+pad, y+pad, width-(pad*2), height-(pad*2), backColor);
+    this.contents.fillRect(x+2, y+2, width-4, height-4, backColor);
 };
 
-Window_Base.prototype.setupSkillMasteryName = function(skill, level){
-    if(TAA.skm.Parameters.SkillName === undefined || TAA.skm.Parameters.SkillName === "") return skill.name;
-
-    let name = SkillManager.getName(skill, level);
+Window_Base.prototype.setupSkillMasteryName = function(name, level){
+    if(TAA.skm.Parameters.SkillName === undefined || TAA.skm.Parameters.SkillName === "") return name;
     var result = TAA.skm.Parameters.SkillName.replace(/%1/g, name);
     return result.replace(/%2/g, level);
-};
-
-//=============================================================================
-// Window_SkillList
-//=============================================================================
-
-TAA.skm.alias.Window_SkillList = TAA.skm.alias.Window_SkillList || {};
-TAA.skm.alias.Window_SkillList.drawSkillCost = Window_SkillList.prototype.drawSkillCost;
-Window_SkillList.prototype.drawSkillCost = function(skill, x, y, width){
-    if(!DataManager.isSkill(skill) && TAA.skm.Parameters.Unleveled.contains(skill.id))
-        TAA.skm.alias.Window_SkillList.drawSkillCost.call(this, skill, x, y, width);
-    else if(TAA.skm.Parameters.AllowLevelSelect && this._actor.skillLevel(skill.id) > 1){
-        if(Utils.RPGMAKER_NAME === 'MZ'){
-            this.changeTextColor(ColorManager.mpCostColor());
-        }
-        else{
-            this.changeTextColor(this.mpCostColor());
-        }
-        this.drawText(TAA.skm.Parameters.LevelSelectIndicator, x, y, width, "right");
-    }
-    else{
-        let tpCost = this._actor.skillTpCost(skill);
-        let mpCost = this._actor.skillMpCost(skill);
-        let tpCostTxt = "";
-        let mpCostTxt = "";
-        let align = 'right';
-        if(tpCost > 0 && mpCost > 0){
-            width -= this.textWidth(TAA.skm.Parameters.SkillCostSeparator) + this.costWidth();
-        }
-        if(tpCost > 0){
-            tpCostTxt = TAA.skm.Parameters.SkillCostDisplay.replace(/%1/g, tpCost + "");
-            tpCostTxt = tpCostTxt.replace(/%2/g, "TP");
-            if(Utils.RPGMAKER_NAME === 'MZ'){
-                this.changeTextColor(ColorManager.tpCostColor());
-            }
-            else{
-                this.changeTextColor(this.tpCostColor());
-            }
-            this.drawText(tpCostTxt, x, y, width, align);
-            if(mpCost > 0){
-                this.resetTextColor();
-                width += this.textWidth(TAA.skm.Parameters.SkillCostSeparator);
-                this.drawText(TAA.skm.Parameters.SkillCostSeparator, x, y, width, align);
-                width += this.costWidth();
-            }
-        }
-        if(mpCost > 0){
-            mpCostTxt = TAA.skm.Parameters.SkillCostDisplay.replace(/%1/g, mpCost + "");
-            mpCostTxt = mpCostTxt.replace(/%2/g, "MP");
-            if(Utils.RPGMAKER_NAME === 'MZ'){
-                this.changeTextColor(ColorManager.mpCostColor());
-            }
-            else{
-                this.changeTextColor(this.mpCostColor());
-            }
-            this.drawText(mpCostTxt, x, y, width, align);
-        }
-    }
-};
-
-TAA.skm.alias.Window_SkillList.costWidth = Window_SkillList.prototype.costWidth;
-Window_SkillList.prototype.costWidth = function() {
-    let pattern = TAA.skm.Parameters.SkillCostDisplay.replace(/%1/g, "000");
-    pattern = pattern.replace(/%2/g, "AA");
-    return this.textWidth(pattern);
-};
-
-//=============================================================================
-// Window_SkillLevelList
-//=============================================================================
-
-function Window_SkillLevelList() {
-    this.initialize.apply(this, arguments);
-};
-
-Window_SkillLevelList.prototype = Object.create(Window_Selectable.prototype);
-Window_SkillLevelList.prototype.constructor = Window_SkillLevelList;
-
-Window_SkillLevelList.prototype.initialize = function(width){
-    let w = Math.max(Math.round(Graphics.boxWidth/3), width);
-    let h = this.standardPadding() * 2;
-    if(Utils.RPGMAKER_NAME === 'MZ'){
-        var rect = new Rectangle(0, 0, w, h);
-        Window_Selectable.prototype.initialize.call(this, rect);
-    }
-    else
-        Window_Selectable.prototype.initialize.call(this, 0, 0, w, h);
-    this._actor = undefined;
-    this.setStandardOpacity();
-    this.clearData();
-    this.update();
-};
-
-Window_SkillLevelList.prototype.clearData = function(){
-    this._skill = null;
-    this._skillNameData = [];
-    this._skillCostData = [];
-    this._numOfLevels = 0;
-    this._scrollY = 0;
-};
-
-Window_SkillLevelList.prototype.setActor = function(actor) {
-    if (this._actor !== actor) {
-        this._actor = actor;
-        this.refresh();
-        this.resetScroll();
-    }
-};
-
-Window_SkillLevelList.prototype.maxCols = function() {
-    return 1;
-};
-
-Window_SkillLevelList.prototype.spacing = function() {
-    return 48;
-};
-
-Window_SkillLevelList.prototype.maxItems = function() {
-    return Math.min(TAA.skm.Parameters.SkillLevelWindow.MaxRows, this._numOfLevels);
-};
-
-Window_SkillLevelList.prototype.item = function() {
-    return this._data && this.index() >= 0 ? this._data[this.index() + 1] : null;
-};
-
-Window_SkillLevelList.prototype.selectLast = function() {
-    this.select(0);
-};
-
-Window_SkillLevelList.prototype.maxRows = function() {
-    return Math.max(Math.min(this.maxItems(), this._numOfLevels), 1);
-};
-
-Window_SkillLevelList.prototype.isEnabled = function(index) {
-    return this._actor && this._actor.meetsSkillConditionsForLevel(this._skill, (index+1));
-};
-
-Window_SkillLevelList.prototype.isCurrentItemEnabled = function() {
-    return this.isEnabled(this.index());
-};
-
-Window_SkillLevelList.prototype.drawAllItems = function() {
-    var topIndex = this.topIndex();
-    for (var i = 0; i < this.maxPageItems(); i++) {
-        var index = topIndex + i;
-        if (index < this.maxItems()) {
-            this.drawItem(index);
-        }
-        if(index+1 >= this._numOfLevels) break;
-    }
-};
-
-Window_SkillLevelList.prototype.drawItemName = function(text, x, y, width) {
-    width = width || 312;
-    if (text) {
-        this.resetTextColor();
-        this.drawText(text, x, y, width);
-    }
-};
-
-Window_SkillLevelList.prototype.drawItem = function(index) {
-    let realIndex = index + 1;
-    var name = this._skillNameData[realIndex];
-    var cost = this._skillCostData[realIndex];
-    var costWidth = this.costWidth();
-    var rect = this.itemRect(index);
-    rect.width -= this.textPadding();
-    this.changePaintOpacity(this.isEnabled(index));
-    this.drawItemName(name, rect.x, rect.y, rect.width - costWidth);
-    this.drawSkillCost(cost, rect.x, rect.y, rect.width);
-    this.changePaintOpacity(1);
-};
-
-Window_SkillLevelList.prototype.costWidth = function() {
-    return this.textWidth('000');
-};
-
-Window_SkillLevelList.prototype.drawSkillCost = function(cost, x, y, width) {
-    let costText = "";
-    if(!isNaN(cost.tp) && cost.tp > 0) {
-        costText = TAA.skm.Parameters.SkillCostDisplay.replace(/%1/g, cost.tp + "");
-        costText = costText.replace(/%2/g, "TP");
-        this.changeTextColor(this.hpGaugeColor1());
-        this.drawText(costText, x, y, width, 'right');
-    }
-    else if(!isNaN(cost.mp) && cost.mp > 0){
-        costText = TAA.skm.Parameters.SkillCostDisplay.replace(/%1/g, cost.mp + "");
-        costText = costText.replace(/%2/g, "MP");
-        this.changeTextColor(this.mpCostColor());
-        this.drawText(costText, x, y, width, 'right');
-    }
-};
-
-Window_SkillLevelList.prototype.updateHelp = function() {
-    let item = {description: SkillManager.getDescription(this._skill, this.index()) }
-    this.setHelpWindowItem(item);
-};
-
-Window_SkillLevelList.prototype.refresh = function() {
-    this.contents.clear();
-    this.createContents();
-    this.drawAllItems();
-};
-
-Window_SkillLevelList.prototype.standardWidth = function(){
-    return Math.round(Graphics.boxWidth / 3);
-};
-
-Window_SkillLevelList.prototype.relocateWindow = function(x, y, rect, pad){
-    let outOfBounds = false;
-    if((x + this.width) > Graphics.boxWidth){
-        this._maxWidth = x + this.standardWidth();
-        x -= rect.width + this.width;
-        if(x < 0) {
-            x = pad;
-            outOfBounds = true;
-        }
-    }
-    else{
-        this._maxWidth = Graphics.boxWidth;
-    }
-    this.x = x;
-    
-    if((y + this.windowHeight() > Graphics.boxHeight) || (outOfBounds && ((y + this.windowHeight() + rect.height) > Graphics.boxHeight))){
-        y = Math.max(0, y - this._numOfLevels * (this.lineHeight() - 1) - this.standardPadding());
-        if(outOfBounds)
-            y -= rect.height;
-    }
-    else if(outOfBounds)
-        y += rect.height;
-    
-    this.y = y;
-};
-
-Window_SkillLevelList.prototype.setSkillData = function(skill, level, rect, listY, pad){
-    if(!DataManager.isSkill(skill))
-        return;
-
-    let x = rect.x + rect.width + pad;
-    let y = rect.y + listY + pad;
-
-    this.clearData();
-    this._skill = skill;
-    this._numOfLevels = level;
-    this.height = this.windowHeight();
-    this.relocateWindow(x, y, rect, pad);
-
-    for(var i=1; i<=level; i++){
-        let name = TAA.skm.Parameters.SkillLevelWindow.SkillName.replace(/%1/g,SkillManager.getName(skill, i));
-        let mpCost = SkillManager.getMpCost(skill, i);
-        let tpCost = SkillManager.getTpCost(skill, i);
-        let cost = {mp:mpCost, tp:tpCost};
-        
-        this._skillNameData[i] = name.replace(/%2/g, i);
-        this._skillCostData[i] = cost;
-    }
-    this.refresh();
-};
-
-Window_SkillLevelList.prototype.standardPadding = function() {
-    return TAA.skm.Parameters.SkillLevelWindow.Padding;
-};
-
-Window_SkillLevelList.prototype.setStandardOpacity = function() {
-    var opacity = TAA.skm.Parameters.SkillLevelWindow.StandardOpacity;
-    if(opacity === undefined) opacity = 255;
-    this.opacity = opacity;
-};
-
-Window_SkillLevelList.prototype.standardBackOpacity = function(){
-    this._windowBackOpacity = TAA.skm.Parameters.SkillLevelWindow.BackOpacity;
-    return this._windowBackOpacity;
-};
-
-TAA.skm.alias.Window_SkillLevelList = {};
-TAA.skm.alias.Window_SkillLevelList.loadWindowskin = Window_SkillLevelList.prototype.loadWindowskin;
-Window_SkillLevelList.prototype.loadWindowskin = function(){
-    if(TAA.skm.Parameters.SkillLevelWindow.WindowSkin)
-        this.windowskin = ImageManager.loadSystem(TAA.skm.Parameters.SkillLevelWindow.WindowSkin);
-    else
-        TAA.skm.alias.Window_SkillLevelList.loadWindowskin.call(this);
-};
-
-Window_SkillLevelList.prototype.windowWidth = function(){
-    return this.width;
-};
-
-Window_SkillLevelList.prototype.windowHeight = function(){
-    return this._numOfLevels * this.lineHeight() + this.standardPadding() * 2;
-};
-
-Window_SkillLevelList.prototype.activate = function() {
-    Window_Selectable.prototype.activate.call(this);
-    this.select(0);
-    this.visible = true;
-    this.active = true;
-};
-
-Window_SkillLevelList.prototype.deactivate = function() {
-    Window_Selectable.prototype.deactivate.call(this);
-    this.visible = false;
-    this.active = false;
-};
-
-Window_SkillLevelList.prototype.currentSelection = function(){
-    let skillId = this._skill.id;
-    let level = this.index()+1;
-    return [skillId, level];
-};
-
-//=============================================================================
-// Scene_Skill
-//=============================================================================
-
-TAA.skm.alias.Scene_Skill = {};
-TAA.skm.alias.Scene_Skill.create = Scene_Skill.prototype.create;
-Scene_Skill.prototype.create = function() {
-    TAA.skm.alias.Scene_Skill.create.call(this);
-    this.createSkillLevelWindow();
-};
-
-Scene_Skill.prototype.createSkillLevelWindow = function(){
-    this._skillLevelWindow = new Window_SkillLevelList((Math.round(this._itemWindow.width/this._itemWindow.maxCols()) - this._itemWindow.standardPadding()));
-    this._skillLevelWindow.setHelpWindow(this._helpWindow);
-    this._skillLevelWindow.setHandler('ok', this.commandSkillLevel.bind(this));
-    this._skillLevelWindow.setHandler('cancel', this.onSkillLevelCancel.bind(this));
-    
-    var index = this.children.indexOf(this._windowLayer);
-    this.addChildAt(this._skillLevelWindow, index);
-};
-
-Scene_Skill.prototype.startSkillLevelWindow = function(){
-    let selectedSkill = this._itemWindow.item();
-    let selectedRect = this._itemWindow.itemRect(this._itemWindow.index());
-    let actor = this._itemWindow._actor;
-    this._skillLevelWindow.setActor(actor);
-    this._skillLevelWindow.setSkillData(selectedSkill, actor.skillLevel(selectedSkill.id), selectedRect, this._itemWindow.y, this._itemWindow.standardPadding());
-    this._skillLevelWindow.activate();
-};
-
-TAA.skm.alias.Scene_Skill.onItemOk = Scene_Skill.prototype.onItemOk;
-Scene_Skill.prototype.onItemOk = function() {
-    let selectedSkill = this._itemWindow.item();
-    let actor = this._itemWindow._actor;
-    let currentLevel = actor.skillLevel(selectedSkill.id);
-    if(TAA.skm.Parameters.AllowLevelSelect !== true || currentLevel < 2)
-        TAA.skm.alias.Scene_Skill.onItemOk.call(this);
-    else{
-        this.startSkillLevelWindow();
-    }
-};
-
-Scene_Skill.prototype.onItemCancel = function() {
-    this._itemWindow.deselect();
-    this._skillTypeWindow.activate();
-};
-
-Scene_Skill.prototype.commandSkillLevel = function() {
-    let actingLevel = this._skillLevelWindow.currentSelection();
-    this._actor.setSkillActingLevel(actingLevel[0], actingLevel[1]);
-    TAA.skm.alias.Scene_Skill.onItemOk.call(this);
-};
-
-Scene_Skill.prototype.onSkillLevelCancel = function() {
-    this._skillLevelWindow.deselect();
-    this._skillLevelWindow.deactivate();
-    this._itemWindow.activate();
-};
-
-TAA.skm.alias.Scene_Skill.useItem = Scene_Skill.prototype.useItem;
-Scene_Skill.prototype.useItem = function() {
-    TAA.skm.alias.Scene_Skill.useItem.call(this);
-    this._actor.clearSkillActingLevel(this.item().id);
-    this._statusWindow.refresh();
-    this._itemWindow.refresh();
-};
-
-TAA.skm.alias.Scene_Skill.refreshActor = Scene_Skill.prototype.refreshActor;
-Scene_Skill.prototype.refreshActor = function() {
-    TAA.skm.alias.Scene_Skill.refreshActor.call(this);
-    var actor = this.actor();
-    this._skillLevelWindow.setActor(actor);
-};
-
-//=============================================================================
-// Scene_Battle
-//=============================================================================
-
-TAA.skm.alias.Scene_Battle = {};
-TAA.skm.alias.Scene_Battle.createAllWindows = Scene_Battle.prototype.createAllWindows;
-Scene_Battle.prototype.createAllWindows = function() {
-    TAA.skm.alias.Scene_Battle.createAllWindows.call(this);
-    this.createSkillLevelWindow();
-};
-
-Scene_Battle.prototype.createSkillLevelWindow = function(){
-    this._skillLevelWindow = new Window_SkillLevelList((Math.round(this._itemWindow.width/this._itemWindow.maxCols()) - this._itemWindow.standardPadding()));
-    this._skillLevelWindow.setHelpWindow(this._helpWindow);
-    this._skillLevelWindow.setHandler('ok', this.commandSkillLevel.bind(this));
-    this._skillLevelWindow.setHandler('cancel', this.onSkillLevelCancel.bind(this));
-    
-    var index = this.children.indexOf(this._windowLayer);
-    this.addChildAt(this._skillLevelWindow, index);
-};
-
-TAA.skm.alias.Scene_Battle.changeInputWindow = Scene_Battle.prototype.changeInputWindow;
-Scene_Battle.prototype.changeInputWindow = function() {
-    if(!this._skillLevelWindow.active)
-        TAA.skm.alias.Scene_Battle.changeInputWindow.call(this);
-};
-
-Scene_Battle.prototype.startSkillLevelWindow = function(){
-    let selectedSkill = this._skillWindow.item();
-    let selectedRect = this._skillWindow.itemRect(this._skillWindow.index());
-    let actor = this._skillWindow._actor;
-    this._skillLevelWindow.setActor(actor);
-    this._skillLevelWindow.setSkillData(selectedSkill, actor.skillLevel(selectedSkill.id), selectedRect, this._skillWindow.y, this._skillWindow.standardPadding());
-    this._actorCommandWindow.deactivate();
-    this._skillLevelWindow.activate();
-};
-
-TAA.skm.alias.Scene_Battle.onSkillOk = Scene_Battle.prototype.onSkillOk;
-Scene_Battle.prototype.onSkillOk = function() {
-    let selectedSkill = this._skillWindow.item();
-    let actor = this._skillWindow._actor;
-    let currentLevel = actor.skillLevel(selectedSkill.id);
-    if(TAA.skm.Parameters.AllowLevelSelect !== true || currentLevel < 2)
-        TAA.skm.alias.Scene_Battle.onSkillOk.call(this);
-    else{
-        this.startSkillLevelWindow();
-    }
-};
-
-Scene_Battle.prototype.commandSkillLevel = function() {
-    let actingLevel = this._skillLevelWindow.currentSelection();
-    this._skillWindow._actor.setSkillActingLevel(actingLevel[0], actingLevel[1]);
-    TAA.skm.alias.Scene_Battle.onSkillOk.call(this);
-};
-
-Scene_Battle.prototype.onSkillLevelCancel = function() {
-    this._skillLevelWindow.deselect();
-    this._skillLevelWindow.deactivate();
-    this._skillWindow.activate();
 };
 
 //=============================================================================

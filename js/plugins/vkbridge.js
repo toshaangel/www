@@ -21,8 +21,25 @@ const getUserInfo = () => {
     });
 };
 
-// Вызов функции при загрузке страницы
+// Функция для авторизации и получения токена
+const authorize = () => {
+  vkBridge.send('VKWebAppGetAuthToken', {
+    app_id: YOUR_APP_ID, // Замените на ваш app_id
+    scope: 'friends,status'
+  })
+  .then(data => {
+    console.log("Auth Token: ", data.access_token);
+    // Сохраните токен для дальнейшего использования
+    const token = data.access_token;
+  })
+  .catch(error => {
+    console.error("Token request failed: ", error);
+  });
+};
+
+// Вызов функций при загрузке страницы
 window.onload = () => {
   console.log("Window loaded, getting user info.");
   getUserInfo();
+  authorize();
 };

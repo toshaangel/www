@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToshA Building System Card</title>
+    <style>
+        /* Используем твои цвета и шрифты */
+        @import url('https://fonts.googleapis.com/css?family=Kelly+Slab:400,400italic,700,700italic');
+        
+        body {
+            font-family: 'Kelly Slab', sans-serif;
+            background-color: transparent;
+            color: #222222;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+        
+        .card-container {
+            max-width: 100%;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .plugin-card {
+            background-color: #5b5b5b;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin-bottom: 20px;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+        
+        .card-front, .card-back {
+            width: 100%;
+            backface-visibility: hidden;
+        }
+        
+        .card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            transform: rotateY(180deg);
+            background-color: #4d4d4d;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .plugin-card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .plugin-header {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .plugin-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .plugin-card:hover .plugin-image {
+            transform: scale(1.05);
+        }
+        
+        .plugin-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+        }
+        
+        .plugin-title {
+            color: white;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .plugin-content {
+            padding: 20px;
+        }
+        
+        .plugin-description {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .plugin-features {
+            margin-bottom: 20px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .feature-icon {
+            margin-right: 10px;
+            color: #dd4d49;
+            font-size: 1.2em;
+        }
+        
+        .plugin-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px 20px;
+        }
+        
+        .plugin-price {
+            font-size: 1.5em;
+            color: #dd4d49;
+            font-weight: bold;
+        }
+        
+        .plugin-button {
+            padding: 10px 20px;
+            background-color: #dd4d49;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Kelly Slab', sans-serif;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .plugin-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .flip-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(221, 77, 73, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .flip-button:hover {
+            transform: scale(1.1);
+            background-color: #dd4d49;
+        }
+        
+        .back-content {
+            color: white;
+        }
+        
+        .back-title {
+            font-size: 1.8em;
+            color: #dd4d49;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .back-description {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .compatibility {
+            margin-bottom: 20px;
+        }
+        
+        .compatibility-title {
+            font-size: 1.2em;
+            color: #dd4d49;
+            margin-bottom: 10px;
+        }
+        
+        .compatibility-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .compatibility-item {
+            padding: 5px 10px;
+            background-color: #5b5b5b;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+        
+        .back-button {
+            align-self: center;
+            margin-top: 20px;
+        }
+        
+        /* Анимации */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .plugin-title {
+                font-size: 1.5em;
+            }
+            
+            .plugin-header {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="plugin-card" id="buildingSystemCard">
+            <div class="card-front">
+                <div class="flip-button" onclick="flipCard()">↺</div>
+                <div class="plugin-header">
+                    <img src="https://img.itch.zone/aW1nLzE5OTk5MjA5LnBuZw==/315x250%23c/9QlT7J.png" alt="Building System" class="plugin-image">
+                    <div class="plugin-overlay">
+                        <div class="plugin-title">ToshA Building System</div>
+                    </div>
+                </div>
+                <div class="plugin-content">
+                    <div class="plugin-description">
+                        Создавайте, размещайте и управляйте зданиями в вашей RPG Maker MZ игре с помощью мощной и гибкой системы строительства.
+                    </div>
+                    <div class="plugin-features">
+                        <div class="feature">
+                            <span class="feature-icon">🏠</span>
+                            <span>Гибкая система категорий и вариантов зданий</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">🔄</span>
+                            <span>Поворот и размещение зданий на сетке</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">🔍</span>
+                            <span>Интеграция с системой тумана войны</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="plugin-footer">
+                    <div class="plugin-price pulse-animation">$9.99</div>
+                    <button class="plugin-button">Предзаказ</button>
+                </div>
+            </div>
+            <div class="card-back">
+                <div class="flip-button" onclick="flipCard()">↺</div>
+                <div class="back-content">
+                    <div class="back-title">Технические детали</div>
+                    <div class="back-description">
+                        ToshA Building System - это комплексное решение для создания игр с элементами строительства и управления ресурсами на базе RPG Maker MZ.
+                    </div>
+                    <div class="compatibility">
+                        <div class="compatibility-title">Совместимость с плагинами:</div>
+                        <div class="compatibility-list">
+                            <div class="compatibility-item">ToshA_FogOfWar</div>
+                            <div class="compatibility-item">VisuMZ_CoreEngine</div>
+                            <div class="compatibility-item">ToshA_NPCfollow</div>
+                            <div class="compatibility-item">ToshA_DynamicWeatherTime</div>
+                        </div>
+                    </div>
+                    <button class="plugin-button back-button">Узнать больше</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function flipCard() {
+            const card = document.getElementById('buildingSystemCard');
+            card.classList.toggle('flipped');
+        }
+        
+        // Добавляем обработчик для кнопки "Предзаказ"
+        document.querySelector('.plugin-button').addEventListener('click', () => {
+            window.location.href = 'https://toshaangel.itch.io/';
+        });
+        
+        // Добавляем обработчик для кнопки "Узнать больше"
+        document.querySelector('.back-button').addEventListener('click', () => {
+            window.location.href = 'https://toshaangel.itch.io/';
+        });
+    </script>
+</body>
+</html> 

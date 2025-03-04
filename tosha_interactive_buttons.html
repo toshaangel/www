@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToshA Interactive Buttons</title>
+    <style>
+        /* Используем твои цвета и шрифты */
+        @import url('https://fonts.googleapis.com/css?family=Kelly+Slab:400,400italic,700,700italic');
+        
+        body {
+            font-family: 'Kelly Slab', sans-serif;
+            background-color: transparent;
+            color: #222222;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+        
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+        }
+        
+        .button {
+            position: relative;
+            width: 180px;
+            height: 60px;
+            background-color: #5b5b5b;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #dd4d49;
+            font-size: 1.2em;
+            text-decoration: none;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+        
+        .button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(221, 77, 73, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .button:hover:before {
+            left: 100%;
+        }
+        
+        .button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            background-color: #666666;
+        }
+        
+        .button-icon {
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+        
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #5b5b5b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #dd4d49;
+            font-size: 1.5em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .social-button:hover {
+            transform: scale(1.1);
+            background-color: #666666;
+        }
+        
+        .plugin-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .plugin-card {
+            width: 200px;
+            background-color: #5b5b5b;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .plugin-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+        
+        .plugin-image {
+            width: 100%;
+            height: 120px;
+            background-color: #4d4d4d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: #dd4d49;
+        }
+        
+        .plugin-info {
+            padding: 15px;
+        }
+        
+        .plugin-title {
+            font-size: 1.2em;
+            color: #dd4d49;
+            margin-bottom: 10px;
+        }
+        
+        .plugin-description {
+            font-size: 0.9em;
+            color: #222222;
+            margin-bottom: 15px;
+        }
+        
+        .plugin-price {
+            font-size: 1.1em;
+            color: #dd4d49;
+            font-weight: bold;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 1.8em;
+            color: #dd4d49;
+            margin: 30px 0 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Анимации */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="section-title">Что вы хотите сделать?</div>
+    
+    <div class="buttons-container">
+        <a href="https://toshaangel.itch.io/" class="button">
+            <span class="button-icon">🏠</span>
+            <span>Главная</span>
+        </a>
+        <a href="https://toshaangel.itch.io/#plugins" class="button">
+            <span class="button-icon">🔌</span>
+            <span>Плагины</span>
+        </a>
+        <a href="https://toshaangel.itch.io/#tutorials" class="button">
+            <span class="button-icon">📚</span>
+            <span>Туториалы</span>
+        </a>
+        <a href="https://toshaangel.itch.io/#contact" class="button">
+            <span class="button-icon">✉️</span>
+            <span>Контакты</span>
+        </a>
+    </div>
+    
+    <div class="section-title">Популярные плагины</div>
+    
+    <div class="plugin-cards">
+        <div class="plugin-card float-animation">
+            <div class="plugin-image">🌫️</div>
+            <div class="plugin-info">
+                <div class="plugin-title">ToshA_FogOfWar</div>
+                <div class="plugin-description">Динамический туман войны для стратегических игр</div>
+                <div class="plugin-price">$4.99</div>
+            </div>
+        </div>
+        
+        <div class="plugin-card float-animation" style="animation-delay: 0.5s;">
+            <div class="plugin-image">👥</div>
+            <div class="plugin-info">
+                <div class="plugin-title">PartySeparation</div>
+                <div class="plugin-description">Разделение партии с отдельными инвентарями</div>
+                <div class="plugin-price">$5.99</div>
+            </div>
+        </div>
+        
+        <div class="plugin-card float-animation" style="animation-delay: 1s;">
+            <div class="plugin-image">💬</div>
+            <div class="plugin-info">
+                <div class="plugin-title">NPC Dialogue</div>
+                <div class="plugin-description">Настраиваемые речевые пузыри для NPC</div>
+                <div class="plugin-price">$5.00</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section-title">Следите за новостями</div>
+    
+    <div class="social-buttons">
+        <a href="https://vk.com/lastkingdomrtlk" class="social-button">
+            <span>VK</span>
+        </a>
+        <a href="#" class="social-button">
+            <span>YT</span>
+        </a>
+        <a href="#" class="social-button">
+            <span>DC</span>
+        </a>
+    </div>
+    
+    <script>
+        // Добавляем интерактивность кнопкам
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                button.style.transform = 'translateY(-5px) scale(1.05)';
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = '';
+            });
+        });
+        
+        // Добавляем интерактивность карточкам плагинов
+        document.querySelectorAll('.plugin-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // Здесь можно добавить переход на страницу плагина
+                window.location.href = 'https://toshaangel.itch.io/';
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToshA Building System Announcement</title>
+    <style>
+        /* Используем твои цвета и шрифты */
+        @import url('https://fonts.googleapis.com/css?family=Kelly+Slab:400,400italic,700,700italic');
+        
+        body {
+            font-family: 'Kelly Slab', sans-serif;
+            background-color: #535353;
+            color: #222222;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+        
+        .announcement-container {
+            max-width: 100%;
+            padding: 20px;
+            border-radius: 30px;
+            background-color: #5b5b5b;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .announcement-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .announcement-title {
+            font-size: 2.5em;
+            color: #dd4d49;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .announcement-subtitle {
+            font-size: 1.5em;
+            color: #222222;
+            margin-bottom: 20px;
+        }
+        
+        .announcement-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 соотношение */
+            height: 0;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .features-container {
+            background-color: #4d4d4d;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .features-title {
+            font-size: 1.8em;
+            color: #dd4d49;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .features-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .feature-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #5b5b5b;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            transform: translateX(10px);
+            background-color: #666666;
+        }
+        
+        .feature-icon {
+            margin-right: 15px;
+            font-size: 1.5em;
+            color: #dd4d49;
+        }
+        
+        .cta-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #dd4d49;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .countdown-container {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .countdown-item {
+            background-color: #dd4d49;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            min-width: 60px;
+        }
+        
+        .countdown-value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .countdown-label {
+            font-size: 0.8em;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .announcement-title {
+                font-size: 2em;
+            }
+            
+            .announcement-subtitle {
+                font-size: 1.2em;
+            }
+            
+            .feature-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .feature-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="announcement-container">
+        <div class="announcement-header">
+            <div class="announcement-title">🏗️ ToshA Building System 🏗️</div>
+            <div class="announcement-subtitle">Создавай, строй и управляй в своей RPG Maker MZ игре!</div>
+        </div>
+        
+        <div class="announcement-content">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/I3jTW3rQ_fE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            
+            <div class="features-container">
+                <div class="features-title">Основные возможности:</div>
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <span class="feature-icon">🏠</span>
+                        <span>Гибкая система строительства с категориями и вариантами зданий</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🔄</span>
+                        <span>Поворот и размещение зданий на сетке</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🎮</span>
+                        <span>Удобное управление с клавиатуры и настраиваемые горячие клавиши</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🔍</span>
+                        <span>Интеграция с системой тумана войны (ToshA_FogOfWar)</span>
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">⚙️</span>
+                        <span>Расширяемая система с поддержкой плагинов</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="countdown-container">
+                <div>До выхода плагина осталось:</div>
+                <div class="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="days">00</div>
+                        <div class="countdown-label">Дней</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="hours">00</div>
+                        <div class="countdown-label">Часов</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="minutes">00</div>
+                        <div class="countdown-label">Минут</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="seconds">00</div>
+                        <div class="countdown-label">Секунд</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cta-container">
+                <a href="#" class="cta-button">Подписаться на обновления</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Устанавливаем дату выхода плагина (замени на свою)
+        const releaseDate = new Date('2023-12-31T23:59:59').getTime();
+        
+        // Обновляем счетчик каждую секунду
+        const countdown = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = releaseDate - now;
+            
+            // Расчет дней, часов, минут и секунд
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            // Обновляем элементы на странице
+            document.getElementById('days').innerHTML = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerHTML = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
+            
+            // Если время вышло
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.getElementById('days').innerHTML = '00';
+                document.getElementById('hours').innerHTML = '00';
+                document.getElementById('minutes').innerHTML = '00';
+                document.getElementById('seconds').innerHTML = '00';
+                
+                // Меняем кнопку на "Купить сейчас"
+                const ctaButton = document.querySelector('.cta-button');
+                ctaButton.innerHTML = 'Купить сейчас';
+                ctaButton.href = 'https://toshaangel.itch.io/';
+            }
+        }, 1000);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToshA Plugins - HTML Files</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Kelly+Slab:400,400italic,700,700italic');
+        
+        body {
+            font-family: 'Kelly Slab', sans-serif;
+            background-color: #535353;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            font-size: 16px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #4d4d4d;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #dd4d49;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .file-item {
+            background-color: #5b5b5b;
+            padding: 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .file-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            background-color: #666666;
+        }
+        
+        .file-title {
+            font-size: 1.5em;
+            color: #dd4d49;
+            margin-bottom: 10px;
+        }
+        
+        .file-description {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .file-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #dd4d49;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .file-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .instructions {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #5b5b5b;
+            border-radius: 15px;
+            line-height: 1.6;
+        }
+        
+        .instructions h2 {
+            color: #dd4d49;
+            margin-top: 0;
+        }
+        
+        code {
+            display: block;
+            background-color: #444;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HTML-файлы для твоей страницы на itch.io</h1>
+        
+        <div class="file-list">
+            <div class="file-item">
+                <div class="file-title">Анонс нового плагина</div>
+                <div class="file-description">
+                    HTML-файл с анонсом твоего нового плагина ToshA_BuildingSystem, включая видео, счетчик обратного отсчета и список возможностей.
+                </div>
+                <a href="building_system_announcement.html" class="file-link" target="_blank">Открыть</a>
+            </div>
+            
+            <div class="file-item">
+                <div class="file-title">Интерактивные кнопки</div>
+                <div class="file-description">
+                    HTML-файл с интерактивными кнопками и карточками плагинов для навигации по твоей странице.
+                </div>
+                <a href="tosha_interactive_buttons.html" class="file-link" target="_blank">Открыть</a>
+            </div>
+            
+            <div class="file-item">
+                <div class="file-title">Карточка плагина</div>
+                <div class="file-description">
+                    HTML-файл с интерактивной карточкой твоего нового плагина, которая переворачивается при нажатии.
+                </div>
+                <a href="building_system_card.html" class="file-link" target="_blank">Открыть</a>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2>Как использовать эти файлы на itch.io</h2>
+            <p>
+                Чтобы добавить эти HTML-файлы на твою страницу itch.io, тебе нужно:
+            </p>
+            <ol>
+                <li>Разместить эти файлы на веб-сервере (например, GitHub Pages)</li>
+                <li>Добавить iframe с ссылками на эти файлы в описание твоего профиля на itch.io</li>
+            </ol>
+            <p>Пример кода для вставки в описание профиля:</p>
+            <code>
+                &lt;!-- Анонс нового плагина Building System --&gt;<br>
+                &lt;iframe src="https://твой-домен.com/building_system_announcement.html" style="width:100%; height:680px; border:0; margin:0; padding:0"&gt;&lt;/iframe&gt;<br><br>
+                
+                &lt;!-- Интерактивные кнопки --&gt;<br>
+                &lt;iframe src="https://твой-домен.com/tosha_interactive_buttons.html" style="width:100%; height:400px; border:0; margin:0; padding:0"&gt;&lt;/iframe&gt;<br><br>
+                
+                &lt;!-- Карточка плагина --&gt;<br>
+                &lt;iframe src="https://твой-домен.com/building_system_card.html" style="width:100%; height:500px; border:0; margin:0; padding:0"&gt;&lt;/iframe&gt;
+            </code>
+            <p>
+                Замени "https://твой-домен.com/" на реальный URL, где ты разместишь эти файлы.
+            </p>
+        </div>
+    </div>
+</body>
+</html> 
